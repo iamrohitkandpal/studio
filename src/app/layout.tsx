@@ -25,7 +25,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark"> {/* Ensure dark mode is applied */}
+    // Ensure dark mode is applied to the html tag
+    <html lang="en" className="dark">
+      <head /> {/* Add explicit head tag */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}>
         <CustomCursor /> {/* Add the custom cursor */}
         {children}
