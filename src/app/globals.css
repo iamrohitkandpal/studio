@@ -93,7 +93,7 @@
     cursor: none; /* Hide default cursor */
   }
   /* Custom cursor styles - Enhanced Moonlight effect */
- .custom-cursor {
+  .custom-cursor-glaze {
     position: fixed;
     left: 0;
     top: 0;
@@ -102,17 +102,31 @@
     transform: translate(-50%, -50%);
     transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     z-index: 9999;
-    width: 60px; /* Increased size */
-    height: 60px; /* Increased size */
+    width: 80px; /* Increased size */
+    height: 80px; /* Increased size */
     /* Soft teal radial gradient for enhanced moonlight effect */
-    background: radial-gradient(circle, hsla(180, 100%, 70%, 0.1) 0%, hsla(180, 100%, 50%, 0) 70%); /* More pronounced center */
+    background: radial-gradient(circle, hsla(180, 100%, 70%, 0.15) 0%, hsla(180, 100%, 50%, 0) 75%); /* More pronounced center, fades out further */
     /* Enhanced, more diffused shadow for stronger light effect */
-    box-shadow: 0 0 45px 20px hsla(var(--primary) / 0.25), /* Stronger inner glow */
-                0 0 80px 35px hsla(var(--primary) / 0.15); /* Wider outer glow */
+    box-shadow: 0 0 60px 25px hsla(var(--primary) / 0.30), /* Stronger inner glow */
+                0 0 100px 45px hsla(var(--primary) / 0.20); /* Wider outer glow */
     mix-blend-mode: screen; /* Blend mode for light effect */
+    filter: blur(5px); /* Add blur for softer moonlight effect */
   }
 
-  /* Removed the cursor dot styles */
+  .custom-cursor-dot {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 8px; /* Smaller dot */
+    height: 8px; /* Smaller dot */
+    background-color: hsl(var(--primary)); /* Teal color */
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease-out; /* Slightly faster dot movement */
+    z-index: 10000; /* Ensure dot is above glaze */
+    box-shadow: 0 0 10px hsl(var(--primary)); /* Subtle glow for the dot */
+  }
 
    /* Glass-morphism effect for cards */
   .glass-card {

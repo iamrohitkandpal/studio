@@ -10,6 +10,8 @@ import TechnicalSkills from '@/components/sections/technical-skills';
 import Certifications from '@/components/sections/certifications';
 import Achievements from '@/components/sections/achievements';
 import Extracurricular from '@/components/sections/extracurricular';
+import ContactMe from '@/components/sections/contact-me'; // Import ContactMe
+import Footer from '@/components/footer'; // Import Footer
 import Navbar from '@/components/navbar';
 import StarfieldCanvas from '@/components/starfield-canvas';
 import { cn } from '@/lib/utils';
@@ -17,20 +19,25 @@ import { cn } from '@/lib/utils';
 // Define sections with their components and grid spans for Bento Box layout
 const sections = [
   // Row 1
-  { id: 'header', component: Header, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-5' }, // Wider header
+  { id: 'header', component: Header, gridSpan: 'col-span-12 lg:col-span-5' }, // Adjusted span
   { id: 'education', component: Education, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-3' },
-  { id: 'achievements', component: Achievements, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' }, // Moved up
+  { id: 'experience', component: Experience, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' }, // Moved Experience up
 
   // Row 2
-  { id: 'experience', component: Experience, gridSpan: 'col-span-12 lg:col-span-7' }, // Wider experience
-  { id: 'certifications', component: Certifications, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-5' },
+  { id: 'projects', component: Projects, gridSpan: 'col-span-12 lg:col-span-8' }, // Adjusted span
+  { id: 'certifications', component: Certifications, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' }, // Adjusted span
 
   // Row 3
-  { id: 'projects', component: Projects, gridSpan: 'col-span-12 lg:col-span-8' }, // Wider projects
+  { id: 'achievements', component: Achievements, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' }, // Moved Achievements down
   { id: 'extracurricular', component: Extracurricular, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' },
+  // Empty space or another small component could go here (lg:col-span-4)
 
   // Row 4 (Full width)
-  { id: 'skills', component: TechnicalSkills, gridSpan: 'col-span-12' }, // Full width skills
+  { id: 'skills', component: TechnicalSkills, gridSpan: 'col-span-12', disableTilt: true }, // Disable tilt for skills section container
+
+   // Row 5 (Full width Contact)
+   { id: 'contact', component: ContactMe, gridSpan: 'col-span-12', disableTilt: true }, // Add Contact Me section
+
 ];
 
 
@@ -48,48 +55,46 @@ const cardVariants = {
   },
 };
 
-// 3D Tilt Effect Component
-const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className }) => {
+// Subtle 3D Tilt Effect Component
+const TiltCard: React.FC<{ children: React.ReactNode; className?: string; applyTilt?: boolean }> = ({ children, className, applyTilt = true }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+  // Use smoother spring settings for subtle effect
+  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
+  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
 
-  // Increased tilt intensity slightly
+  // Reduced tilt intensity for subtlety
   const rotateX = useTransform(
     mouseYSpring,
     [-0.5, 0.5],
-    ["12deg", "-12deg"]
+    ["5deg", "-5deg"] // Reduced max rotation
   );
   const rotateY = useTransform(
     mouseXSpring,
     [-0.5, 0.5],
-    ["-12deg", "12deg"]
+    ["-5deg", "5deg"] // Reduced max rotation
   );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!applyTilt || !ref.current) return; // Only apply if enabled and ref exists
 
+    const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
-
-    // Calculate position relative to the card center
     const mouseX = e.clientX - rect.left - width / 2;
     const mouseY = e.clientY - rect.top - height / 2;
-
-    // Normalize position (adjust divisor for sensitivity)
-    const xPct = mouseX / (width / 2);
-    const yPct = mouseY / (height / 2);
+    const xPct = mouseX / (width / 1.5); // Slightly less sensitive
+    const yPct = mouseY / (height / 1.5); // Slightly less sensitive
 
     x.set(xPct);
     y.set(yPct);
   };
 
   const handleMouseLeave = () => {
+    if (!applyTilt) return;
     x.set(0);
     y.set(0);
   };
@@ -100,17 +105,15 @@ const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        rotateX,
-        rotateY,
+        rotateX: applyTilt ? rotateX : 0, // Apply rotation only if enabled
+        rotateY: applyTilt ? rotateY : 0, // Apply rotation only if enabled
         transformStyle: "preserve-3d",
-        // Perspective is set globally on body in globals.css
       }}
-      // Apply perspective-aware hover effect
-      whileHover={{ scale: 1.03, transition: { type: 'spring', stiffness: 350, damping: 20 } }} // Subtle scale on hover
-      className={cn("relative transform-gpu w-full h-full", className)} // Ensure it fills the grid cell
+      whileHover={applyTilt ? { scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } } : {}} // Subtle scale only if tilt enabled
+      className={cn("relative transform-gpu w-full h-full", className)}
     >
-      {/* Inner div to apply 3D transforms to content without distortion */}
-      <div style={{ transform: "translateZ(30px) scale(0.98)", transformStyle: "preserve-3d" }} className="h-full">
+      {/* Inner div for content projection - less extreme Z transform */}
+      <div style={{ transform: applyTilt ? "translateZ(20px) scale(0.99)" : "none", transformStyle: "preserve-3d" }} className="h-full">
         {children}
       </div>
     </motion.div>
@@ -141,21 +144,22 @@ export default function Home() {
             viewport={{ once: true, amount: 0.1 }} // Trigger when 10% is visible
             variants={cardVariants}
             className={cn(
-              "glass-card p-0 overflow-hidden", // Remove padding here, TiltCard handles content
+              "glass-card p-0 overflow-hidden", // Remove padding here
               section.gridSpan
             )}
-             // Apply layout prop for smooth resizing/reflowing if grid changes
-            layout
+            layout // Apply layout prop for smooth resizing
           >
-            {/* Wrap section content in TiltCard for 3D effect */}
-            <TiltCard className="flex flex-col h-full"> {/* Ensure TiltCard fills the motion.div */}
-              <div className="p-6 md:p-8 flex-grow"> {/* Add padding inside TiltCard's inner div */}
+             {/* Wrap section content in TiltCard, disable tilt where specified */}
+            <TiltCard className="flex flex-col h-full" applyTilt={!section.disableTilt}>
+              <div className="p-6 md:p-8 flex-grow overflow-auto"> {/* Add padding inside, allow scroll if needed */}
                 <section.component />
               </div>
             </TiltCard>
           </motion.div>
         ))}
       </main>
+      {/* Add Footer outside the main grid */}
+       <Footer />
     </div>
   );
 }

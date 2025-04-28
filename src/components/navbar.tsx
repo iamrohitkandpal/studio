@@ -1,11 +1,10 @@
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users } from 'lucide-react';
+import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users, Mail } from 'lucide-react'; // Added Mail
 
 const navItems = [
   { id: 'header', label: 'Home', icon: CodeXml },
@@ -16,6 +15,7 @@ const navItems = [
   { id: 'certifications', label: 'Certifications', icon: Award },
   { id: 'achievements', label: 'Achievements', icon: Star },
   { id: 'extracurricular', label: 'Extracurricular', icon: Users },
+  { id: 'contact', label: 'Contact', icon: Mail }, // Added Contact
 ];
 
 const Navbar: React.FC = () => {
@@ -83,7 +83,7 @@ const Navbar: React.FC = () => {
     >
       <div className="container mx-auto flex items-center justify-center px-4">
         {/* Slightly darker background for the inner pill */}
-        <ul className="flex space-x-1 sm:space-x-2 md:space-x-4 bg-card/50 backdrop-blur-md p-2 rounded-full border border-border/60 shadow-inner">
+        <ul className="flex space-x-1 sm:space-x-2 md:space-x-3 bg-card/50 backdrop-blur-md p-1.5 sm:p-2 rounded-full border border-border/60 shadow-inner">
           {navItems.map((item) => (
             <motion.li
               key={item.id}
@@ -104,13 +104,15 @@ const Navbar: React.FC = () => {
                    }
                  }}
                 className={cn(
-                  "flex items-center gap-1 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200", // Keep font-semibold (Weight 600) from heading font (Outfit)
+                  "flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200", // Keep font-semibold (Weight 600) from heading font (Outfit)
                   "hover:text-primary",
                   activeLink === item.id ? "text-primary" : "text-foreground/80"
                 )}
               >
                 <item.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" /> {/* Ensure icon doesn't shrink */}
-                <span className="hidden sm:inline whitespace-nowrap">{item.label}</span> {/* Prevent label wrapping */}
+                <span className="hidden md:inline whitespace-nowrap">{item.label}</span> {/* Show on medium+ */}
+                <span className="sm:hidden md:hidden whitespace-nowrap text-[10px]">{item.label.substring(0,4)}</span> {/* Shorter label for small */}
+
               </Link>
               {activeLink === item.id && (
                 <motion.div
@@ -126,7 +128,6 @@ const Navbar: React.FC = () => {
                  style={{ scaleX: 0 }}
                  transition={{ duration: 0.3, ease: "easeOut" }}
                  whileHover={{ scaleX: 1 }} // Animate on hover using Framer Motion
-                 // Ensure underline doesn't trigger layout shift if possible
                  initial={false} // Don't animate initially
                />
             </motion.li>
@@ -138,4 +139,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-
