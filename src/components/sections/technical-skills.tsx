@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -52,7 +53,7 @@ const SkillItem: React.FC<{ name: string; icon: React.ComponentType<{ className?
     <motion.div style={{ transform: 'translateZ(20px)' }}>
       <Icon className="w-7 h-7 sm:w-8 sm:h-8 text-foreground/80 group-hover:text-primary transition-colors" /> {/* Pass className for styling */}
     </motion.div>
-    {/* Skill name using body font (Inter/General Sans, 400-500) */}
+    {/* Skill name using body font (Inter, 400-500) */}
     <span className="mt-2 text-[10px] sm:text-xs font-body leading-tight">{name}</span>
      {/* Level indicator using caption font (Manrope, 400) */}
      {level && <span className="text-[9px] sm:text-[10px] font-caption text-foreground/60">({level})</span>}
@@ -61,8 +62,8 @@ const SkillItem: React.FC<{ name: string; icon: React.ComponentType<{ className?
 
 const SkillCategory: React.FC<SkillCategoryProps> = ({ title, skills }) => (
   <div className="mb-6 last:mb-0">
-    {/* Category title using subheading font (Neue Montreal, 500-600) */}
-    <h3 className="text-lg font-subheading font-medium mb-3 text-primary/90">{title}</h3>
+    {/* Category title using body font (Inter) with semibold weight (subheading style) */}
+    <h3 className="text-lg font-body font-semibold mb-3 text-primary/90">{title}</h3>
     {/* Adjusted grid columns for better density */}
     <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-3 md:gap-4">
       {skills.map((skill) => (
@@ -122,7 +123,7 @@ const TechnicalSkills: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col"> {/* Ensure full height */}
-      {/* Section title using heading font (Satoshi/Outfit, 600-700) */}
+      {/* Section title using heading font (Outfit, 600-700) */}
       <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
         <Wrench className="text-primary" /> Technical Skills
       </h2>

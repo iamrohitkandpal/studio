@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -74,7 +75,7 @@ const Navbar: React.FC = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading", // Apply heading font (Satoshi)
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading", // Apply heading font (Outfit)
         "transform-style:preserve-3d", // Enable 3D transforms for children
         isScrolled ? "py-2 glass-card backdrop-blur-lg shadow-lg" : "py-4"
       )}
@@ -103,7 +104,7 @@ const Navbar: React.FC = () => {
                    }
                  }}
                 className={cn(
-                  "flex items-center gap-1 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200", // Keep font-semibold (Weight 600) from heading font
+                  "flex items-center gap-1 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200", // Keep font-semibold (Weight 600) from heading font (Outfit)
                   "hover:text-primary",
                   activeLink === item.id ? "text-primary" : "text-foreground/80"
                 )}
@@ -137,3 +138,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+

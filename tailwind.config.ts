@@ -10,9 +10,9 @@ export default {
   theme: {
   	extend: {
       fontFamily: {
-        heading: ['var(--font-heading)', 'sans-serif'], // Updated: Satoshi/Outfit
-        subheading: ['var(--font-subheading)', 'sans-serif'], // Added: Neue Montreal
-        body: ['var(--font-body)', 'var(--font-body-alt)', 'sans-serif'], // Updated: Inter/General Sans
+        heading: ['var(--font-heading)', 'sans-serif'], // Updated: Outfit
+        // Subheading now uses font-body (Inter) - define via class in globals.css
+        body: ['var(--font-body)', 'sans-serif'], // Updated: Inter
         caption: ['var(--font-caption)', 'sans-serif'], // Kept: Manrope
       },
   		colors: {

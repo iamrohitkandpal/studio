@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -11,7 +12,7 @@ const Achievements: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col"> {/* Ensure full height for flex */}
-      {/* Section title using heading font (Satoshi/Outfit, 600-700) */}
+      {/* Section title using heading font (Outfit, 600-700) */}
       <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
         <Star className="text-primary" /> Achievements
       </h2>
@@ -20,7 +21,7 @@ const Achievements: React.FC = () => {
           <li key={index} className="flex items-start gap-3 glass-card p-4 rounded-lg border border-border/30 transition-shadow hover:shadow-primary/20 hover:shadow-md"> {/* Add hover effect */}
              <Star size={18} className="text-amber-400 mt-1 flex-shrink-0" />
             <div>
-                {/* Achievement text using body font (Inter/General Sans, 400-500) */}
+                {/* Achievement text using body font (Inter, 400-500) */}
                 <p className="font-body text-foreground/90 text-sm">{ach.text}</p>
                 {/* Year using caption font (Manrope, 400) */}
                 <p className="text-xs font-caption text-foreground/60 mt-1">({ach.year})</p>
@@ -33,3 +34,4 @@ const Achievements: React.FC = () => {
 };
 
 export default Achievements;
+

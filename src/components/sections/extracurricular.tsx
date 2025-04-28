@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -21,7 +22,7 @@ const Extracurricular: React.FC = () => {
 
   return (
     <div className="h-full flex flex-col"> {/* Ensure full height */}
-      {/* Section title using heading font (Satoshi/Outfit, 600-700) */}
+      {/* Section title using heading font (Outfit, 600-700) */}
       <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
         <Users className="text-primary" /> Extracurricular Activities
       </h2>
@@ -29,15 +30,15 @@ const Extracurricular: React.FC = () => {
         {activities.map((activity, index) => (
            // Added hover effect
           <div key={index} className="glass-card p-4 rounded-lg border border-border/30 transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30 hover:-translate-y-1">
-            {/* Role using subheading font (Neue Montreal, 500-600) */}
-            <h3 className="text-lg font-subheading font-medium text-primary">{activity.role}</h3>
-            {/* Organization using body font, slightly bolder (Inter/General Sans, 500) */}
+            {/* Role using body font (Inter) with semibold weight (subheading style) */}
+            <h3 className="text-lg font-body font-semibold text-primary">{activity.role}</h3>
+            {/* Organization using body font, slightly bolder (Inter, 500) */}
             <p className="text-md font-body font-medium text-foreground/80 mb-1">
                 {activity.organization}
                  {/* Year using caption font (Manrope, 400) */}
                 <span className="font-caption text-foreground/60 ml-1">({activity.year})</span>
             </p>
-            {/* Description using body font (Inter/General Sans, 400) */}
+            {/* Description using body font (Inter, 400) */}
             <p className="text-sm font-body text-foreground/70">{activity.description}</p>
           </div>
         ))}
@@ -47,3 +48,4 @@ const Extracurricular: React.FC = () => {
 };
 
 export default Extracurricular;
+

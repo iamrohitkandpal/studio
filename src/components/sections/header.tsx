@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -18,12 +19,12 @@ const Header: React.FC = () => {
           priority // Prioritize loading the profile picture
         />
       </div>
-      {/* Name using heading font (Satoshi/Outfit, 700-900) */}
+      {/* Name using heading font (Outfit, 700-900) */}
       <h1 className="text-3xl md:text-4xl font-heading font-bold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-primary via-teal-400 to-cyan-500">
         Rohit Navinchandra Kandpal
       </h1>
-      {/* Title using subheading font (Neue Montreal, 500-600) */}
-      <p className="text-lg md:text-xl font-subheading font-medium text-foreground/80 mb-4 px-2"> {/* Added padding for wrapping */}
+      {/* Title using body font (Inter) with semibold weight (subheading style) */}
+      <p className="text-lg md:text-xl font-body font-semibold text-foreground/80 mb-4 px-2"> {/* Added padding for wrapping */}
         B.Tech in Computer Science & Engineering (Cyber Security) <br className="hidden sm:block" /> {/* Line break on small screens */}
         Silver Oak College of Engineering & Technology
       </p>

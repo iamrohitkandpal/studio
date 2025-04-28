@@ -40,11 +40,12 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
 
-    /* Font Variables */
-    --font-heading: "Satoshi", "Outfit", sans-serif; /* Updated Heading Font */
-    --font-subheading: "Neue Montreal", "Inter", sans-serif; /* Added Subheading Font */
-    --font-body: "Inter", "General Sans", sans-serif; /* Updated Body Font */
+    /* Font Variables - Updated based on available Google Fonts */
+    --font-heading: "Outfit", sans-serif; /* Updated Heading Font */
+    --font-body: "Inter", sans-serif; /* Updated Body Font */
     --font-caption: "Manrope", sans-serif; /* Caption Font */
+     /* --font-subheading removed, will use font-body (Inter) with appropriate weight via Tailwind */
+     /* --font-body-alt removed */
   }
 
   /* Ensure dark mode is the default */
@@ -127,12 +128,12 @@
 
   /* Apply heading font to h1, h2, h3, h4, h5, h6 by default */
  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold; /* Use font-heading variable */
+    @apply font-heading font-semibold; /* Use font-heading variable (Outfit) */
   }
 
-  /* Specific application of subheading font */
+   /* Define subheading style using font-body (Inter) with specific weight */
   .subheading {
-     @apply font-subheading font-medium; /* Use font-subheading variable */
+     @apply font-body font-semibold; /* Use font-body (Inter), make it semibold (weight 600) */
   }
 }
 

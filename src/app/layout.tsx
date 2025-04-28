@@ -1,35 +1,24 @@
+
 import type {Metadata} from 'next';
-import { Satoshi, Neue_Montreal, Inter, General_Sans, Manrope } from 'next/font/google'; // Add Satoshi, Neue Montreal, General Sans
+// Removed Satoshi, Neue_Montreal, General_Sans as they are not standard Google Fonts
+import { Inter, Manrope, Outfit } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import CustomCursor from '@/components/custom-cursor';
 import { cn } from '@/lib/utils';
 
-// Define fonts with specific weights and subsets
-const fontSatoshi = Satoshi({ // Added Satoshi
+// Define fonts with specific weights and subsets available via Google Fonts
+const fontOutfit = Outfit({ // Use Outfit for headings (alternative to Satoshi)
   subsets: ['latin'],
-  weight: ['700', '900'], // Use appropriate weights (e.g., Bold, Black)
+  weight: ['600', '700'], // Semi-bold, Bold
   variable: '--font-heading', // CSS variable for headings
 });
 
-const fontNeueMontreal = Neue_Montreal({ // Added Neue Montreal
+const fontInter = Inter({ // Keep Inter for body and potentially subheadings
   subsets: ['latin'],
-  weight: ['500', '700'], // Medium, Bold
-  variable: '--font-subheading', // CSS variable for subheadings
-});
-
-const fontInter = Inter({ // Keep Inter as a primary body font
-  subsets: ['latin'],
-  weight: ['400', '500'], // Regular, Medium
+  weight: ['400', '500', '600'], // Regular, Medium, Semi-bold
   variable: '--font-body', // CSS variable for body text
 });
-
-const fontGeneralSans = General_Sans({ // Added General Sans as alternative body
-  subsets: ['latin'],
-  weight: ['400', '500'],
-  variable: '--font-body-alt', // Optional alternative body font variable
-});
-
 
 const fontManrope = Manrope({ // Keep Manrope for captions
   subsets: ['latin'],
@@ -56,11 +45,9 @@ export default function RootLayout({
       <body
        className={cn(
           "antialiased relative",
-          fontSatoshi.variable,
-          fontNeueMontreal.variable,
-          fontInter.variable,
-          fontGeneralSans.variable, // Add variable if needed
-          fontManrope.variable,
+          fontOutfit.variable, // Use Outfit variable
+          fontInter.variable,  // Use Inter variable
+          fontManrope.variable, // Use Manrope variable
           "font-body" // Set Inter as the default body font via Tailwind class
         )}
        >
@@ -71,3 +58,4 @@ export default function RootLayout({
     </html>
   );
 }
+
