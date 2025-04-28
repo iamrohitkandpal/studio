@@ -2,7 +2,7 @@ import type {Metadata} from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import CustomCursor from '@/components/custom-cursor'; // Import the new CustomCursor component
+import CustomCursor from '@/components/custom-cursor';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -23,13 +23,12 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>): JSX.Element {
   return (
-    // Ensure dark mode is applied to the html tag
     <html lang="en" className="dark">
-      <head /> {/* Add explicit head tag */}
+      <head />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}>
-        <CustomCursor /> {/* Add the custom cursor */}
+        <CustomCursor />
         {children}
         <Toaster />
       </body>
