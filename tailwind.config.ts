@@ -10,9 +10,10 @@ export default {
   theme: {
   	extend: {
       fontFamily: {
-        heading: ['var(--font-heading)', 'sans-serif'], // Use CSS variable
-        body: ['var(--font-body)', 'sans-serif'],       // Use CSS variable
-        caption: ['var(--font-caption)', 'sans-serif'], // Use CSS variable
+        heading: ['var(--font-heading)', 'sans-serif'], // Updated: Satoshi/Outfit
+        subheading: ['var(--font-subheading)', 'sans-serif'], // Added: Neue Montreal
+        body: ['var(--font-body)', 'var(--font-body-alt)', 'sans-serif'], // Updated: Inter/General Sans
+        caption: ['var(--font-caption)', 'sans-serif'], // Kept: Manrope
       },
   		colors: {
   			background: 'hsl(var(--background))',
@@ -83,16 +84,16 @@ export default {
   				to: { height: '0' }
   			},
         'fade-in': {
-          from: { opacity: '0' },
-          to: { opacity: '1' },
+          from: { opacity: '0', transform: 'scale(0.98)' }, // Added subtle scale
+          to: { opacity: '1', transform: 'scale(1)' },
         },
         'slide-up': {
-           from: { transform: 'translateY(20px)', opacity: '0'},
+           from: { transform: 'translateY(30px)', opacity: '0'}, // Increased Y distance
            to: { transform: 'translateY(0)', opacity: '1'},
         },
-        'bounce-subtle': {
-           '0%, 100%': { transform: 'translateY(0)' },
-           '50%': { transform: 'translateY(-5px)' },
+        'bounce-subtle': { // Renamed to icon-bounce
+           '0%, 100%': { transform: 'translateY(0) rotate(0)' }, // Added rotate reset
+           '50%': { transform: 'translateY(-6px) rotate(5deg)' }, // Increased Y and added slight rotate
          }
   		},
   		animation: {
@@ -100,7 +101,7 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in': 'fade-in 0.5s ease-out forwards',
         'slide-up': 'slide-up 0.6s ease-out forwards',
-        'bounce-subtle': 'bounce-subtle 0.4s ease-in-out'
+        'icon-bounce': 'bounce-subtle 0.5s ease-in-out' // Updated animation name and duration
   		}
   	}
   },

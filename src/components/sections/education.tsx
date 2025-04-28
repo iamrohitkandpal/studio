@@ -2,21 +2,21 @@
 
 import React from 'react';
 import { GraduationCap } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // Use Card components for structure if desired, or just divs
 
 const Education: React.FC = () => {
   return (
-    <div>
-      {/* Section title using heading font */}
-      <h2 className="text-2xl font-heading font-semibold mb-6 flex items-center gap-2">
+    <div className="h-full flex flex-col"> {/* Ensure full height */}
+      {/* Section title using heading font (Satoshi/Outfit, 600-700) */}
+      <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
         <GraduationCap className="text-primary" /> Education
       </h2>
-      <div className="glass-card p-6 rounded-lg shadow-lg border border-border/30">
-          {/* Degree title using body font (could be heading too, depends on visual hierarchy preference) */}
-          <h3 className="text-xl font-body font-medium text-primary">Bachelor of Technology, CSE (Cyber Security)</h3>
-          {/* University using body font */}
-          <p className="text-md font-body text-foreground/80 mb-1">Silver Oak College of Engineering & Technology, Ahmedabad, Gujarat</p>
-          {/* Details using caption font */}
+      {/* Added hover effect */}
+      <div className="glass-card p-6 rounded-lg shadow-lg border border-border/30 flex-grow transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30 hover:-translate-y-1">
+          {/* Degree title using subheading font (Neue Montreal, 500-600) */}
+          <h3 className="text-xl font-subheading font-medium text-primary mb-1">Bachelor of Technology, CSE (Cyber Security)</h3>
+          {/* University using body font (Inter/General Sans, 400-500) */}
+          <p className="text-md font-body text-foreground/80 mb-2">Silver Oak College of Engineering & Technology, Ahmedabad, Gujarat</p>
+          {/* Details using caption font (Manrope, 400) */}
           <p className="text-sm font-caption text-foreground/60">2022 – Present · CGPA: 8.91</p>
       </div>
     </div>

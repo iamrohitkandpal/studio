@@ -41,9 +41,10 @@
     --chart-5: 27 87% 67%;
 
     /* Font Variables */
-    --font-heading: "Outfit", sans-serif; /* Fallback */
-    --font-body: "Inter", sans-serif; /* Fallback */
-    --font-caption: "Manrope", sans-serif; /* Fallback */
+    --font-heading: "Satoshi", "Outfit", sans-serif; /* Updated Heading Font */
+    --font-subheading: "Neue Montreal", "Inter", sans-serif; /* Added Subheading Font */
+    --font-body: "Inter", "General Sans", sans-serif; /* Updated Body Font */
+    --font-caption: "Manrope", sans-serif; /* Caption Font */
   }
 
   /* Ensure dark mode is the default */
@@ -85,12 +86,12 @@
   }
   body {
     @apply bg-background text-foreground;
-    /* Default body font set via Tailwind class in layout.tsx */
-    /* font-family: var(--font-body); */ /* Can be set here or via Tailwind */
+    /* Apply perspective for 3D transforms */
+    perspective: 1000px;
     /* Apply custom cursor */
-    /* cursor: none;  Hide default cursor */
+    cursor: none; /* Hide default cursor */
   }
-  /* Custom cursor styles */
+  /* Custom cursor styles - Enhanced Moonlight effect */
  .custom-cursor {
     position: fixed;
     left: 0;
@@ -98,40 +99,40 @@
     pointer-events: none;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     z-index: 9999;
-    width: 30px;
-    height: 30px;
-    background-color: hsla(var(--primary) / 0.2);
-    box-shadow: 0 0 10px hsla(var(--primary) / 0.5), 0 0 20px hsla(var(--primary) / 0.3);
+    width: 60px; /* Increased size */
+    height: 60px; /* Increased size */
+    /* Soft teal radial gradient for enhanced moonlight effect */
+    background: radial-gradient(circle, hsla(180, 100%, 70%, 0.1) 0%, hsla(180, 100%, 50%, 0) 70%); /* More pronounced center */
+    /* Enhanced, more diffused shadow for stronger light effect */
+    box-shadow: 0 0 45px 20px hsla(var(--primary) / 0.25), /* Stronger inner glow */
+                0 0 80px 35px hsla(var(--primary) / 0.15); /* Wider outer glow */
+    mix-blend-mode: screen; /* Blend mode for light effect */
   }
 
-  .custom-cursor-dot {
-     position: fixed;
-     left: 0;
-     top: 0;
-     width: 6px;
-     height: 6px;
-     background-color: hsl(var(--primary));
-     border-radius: 50%;
-     pointer-events: none;
-     transform: translate(-50%, -50%);
-     z-index: 9999;
-   }
+  /* Removed the cursor dot styles */
 
    /* Glass-morphism effect for cards */
   .glass-card {
     background: rgba(30, 30, 40, 0.25); /* Charcoal with alpha */
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px); /* Slightly increased blur */
+    -webkit-backdrop-filter: blur(15px);
     border-radius: var(--radius);
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+    /* Add transform-style for 3D children */
+    transform-style: preserve-3d;
   }
 
   /* Apply heading font to h1, h2, h3, h4, h5, h6 by default */
  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold; /* Use font-heading variable, adjust weight as needed */
+    @apply font-heading font-semibold; /* Use font-heading variable */
+  }
+
+  /* Specific application of subheading font */
+  .subheading {
+     @apply font-subheading font-medium; /* Use font-subheading variable */
   }
 }
 
