@@ -15,8 +15,10 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, de
    <div className="mb-4 last:mb-0 glass-card p-4 rounded-lg shadow-lg border border-border/30">
      <div className="flex justify-between items-start">
        <div>
-          <h3 className="text-lg font-medium text-primary">{title}</h3>
-          <p className="text-sm font-semibold text-foreground/80 mb-1">{issuer}</p>
+          {/* Certification title using body font (could be heading) */}
+          <h3 className="text-lg font-body font-medium text-primary">{title}</h3>
+          {/* Issuer using body font */}
+          <p className="text-sm font-body font-semibold text-foreground/80 mb-1">{issuer}</p>
        </div>
         {link && (
           <Button variant="ghost" size="icon" asChild className="ml-2 flex-shrink-0">
@@ -26,7 +28,8 @@ const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, de
           </Button>
         )}
      </div>
-     <p className="text-sm text-foreground/70">{description}</p>
+     {/* Description using body font */}
+     <p className="text-sm font-body text-foreground/70">{description}</p>
    </div>
 );
 
@@ -54,7 +57,8 @@ const Certifications: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+      {/* Section title using heading font */}
+      <h2 className="text-2xl font-heading font-semibold mb-6 flex items-center gap-2">
         <Award className="text-primary" /> Certifications
       </h2>
       <div>

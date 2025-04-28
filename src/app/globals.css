@@ -39,6 +39,11 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    /* Font Variables */
+    --font-heading: "Outfit", sans-serif; /* Fallback */
+    --font-body: "Inter", sans-serif; /* Fallback */
+    --font-caption: "Manrope", sans-serif; /* Fallback */
   }
 
   /* Ensure dark mode is the default */
@@ -80,7 +85,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-geist-sans), sans-serif;
+    /* Default body font set via Tailwind class in layout.tsx */
+    /* font-family: var(--font-body); */ /* Can be set here or via Tailwind */
     /* Apply custom cursor */
     /* cursor: none;  Hide default cursor */
   }
@@ -122,7 +128,13 @@
     border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
+
+  /* Apply heading font to h1, h2, h3, h4, h5, h6 by default */
+ h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold; /* Use font-heading variable, adjust weight as needed */
+  }
 }
+
 
 /* Add styles for the canvas background */
 #starfield-canvas {

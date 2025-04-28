@@ -9,6 +9,11 @@ export default {
   ],
   theme: {
   	extend: {
+      fontFamily: {
+        heading: ['var(--font-heading)', 'sans-serif'], // Use CSS variable
+        body: ['var(--font-body)', 'sans-serif'],       // Use CSS variable
+        caption: ['var(--font-caption)', 'sans-serif'], // Use CSS variable
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

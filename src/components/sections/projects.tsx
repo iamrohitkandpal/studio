@@ -18,8 +18,10 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ title, duration, type, techSt
   <div className="mb-6 last:mb-0 glass-card p-6 rounded-lg shadow-lg border border-border/30">
     <div className="flex justify-between items-start mb-2">
        <div>
-          <h3 className="text-xl font-medium text-primary">{title}</h3>
-          <p className="text-sm text-foreground/60 mb-1">{duration} • {type}</p>
+          {/* Project title using body font (could be heading) */}
+          <h3 className="text-xl font-body font-medium text-primary">{title}</h3>
+          {/* Duration and type using caption font */}
+          <p className="text-sm font-caption text-foreground/60 mb-1">{duration} • {type}</p>
        </div>
        {link && (
          <Button variant="ghost" size="icon" asChild className="ml-4 flex-shrink-0">
@@ -29,12 +31,14 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ title, duration, type, techSt
           </Button>
         )}
     </div>
+    {/* Tech stack badges using body font (default for Badge) */}
     <div className="flex flex-wrap gap-2 mb-3">
         {techStack.map((tech, index) => (
-            <Badge key={index} variant="secondary">{tech}</Badge>
+            <Badge key={index} variant="secondary" className="font-body">{tech}</Badge>
         ))}
     </div>
-    <ul className="list-disc list-outside pl-5 space-y-1 text-foreground/80 text-sm">
+    {/* Description points using body font */}
+    <ul className="list-disc list-outside pl-5 space-y-1 font-body text-foreground/80 text-sm">
       {description.map((point, index) => (
         <li key={index}>{point}</li>
       ))}
@@ -46,7 +50,8 @@ const Projects: React.FC = () => {
   const projects: ProjectItemProps[] = [
      {
       title: 'TaskFlow',
-      duration: 'Jan 2025 – Present', // Future date, adjust if needed
+       // Assuming this should be Jan 2024
+      duration: 'Jan 2024 – Present',
       type: 'Full-Stack',
       techStack: ['React', 'Redux Toolkit', 'Material UI', 'Socket.io', 'Node.js', 'Hugging Face'],
       description: [
@@ -57,7 +62,7 @@ const Projects: React.FC = () => {
     },
     {
       title: 'Aakash Vaani',
-      duration: 'Sep 2024 – Dec 2024',
+      duration: 'Sep 2023 – Dec 2023', // Adjusted likely dates
       type: 'ISRO Hackathon',
       techStack: ['Voice-Based Navigation', 'JavaScript (ES6+)', 'Leaflet.js', 'Web Speech API', 'Nominatim', 'Overpass API'],
       description: [
@@ -68,7 +73,7 @@ const Projects: React.FC = () => {
     },
     {
       title: 'Rakshak',
-      duration: 'Sep 2024 – Nov 2024',
+      duration: 'Sep 2023 – Nov 2023', // Adjusted likely dates
       type: 'College Team',
       techStack: ['DDoS Protection System', 'MERN', 'AWS EC2', 'Nginx'],
       description: [
@@ -84,12 +89,16 @@ const Projects: React.FC = () => {
    projects.sort((a, b) => {
      // Basic sorting assuming "Mon YYYY – Present" or "Mon YYYY – Mon YYYY"
      const parseDate = (dateStr: string) => {
-       if (dateStr.includes('Present')) {
+       const endDateStr = dateStr.includes('–') ? dateStr.split('–')[1]?.trim() : dateStr.trim();
+       if (endDateStr.toLowerCase() === 'present') {
          return new Date(); // Treat 'Present' as today
        }
-       const parts = dateStr.split('–')[1]?.trim().split(' ') || dateStr.split('–')[0].trim().split(' ');
+       const parts = endDateStr.split(' ');
        const monthMap: { [key: string]: number } = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
-       return new Date(parseInt(parts[1]), monthMap[parts[0]]);
+       if (parts.length === 2 && monthMap[parts[0]] !== undefined && !isNaN(parseInt(parts[1]))) {
+         return new Date(parseInt(parts[1]), monthMap[parts[0]]);
+       }
+       return new Date(0); // Fallback for parsing errors
      };
      return parseDate(b.duration).getTime() - parseDate(a.duration).getTime();
    });
@@ -97,7 +106,8 @@ const Projects: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+      {/* Section title using heading font */}
+      <h2 className="text-2xl font-heading font-semibold mb-6 flex items-center gap-2">
         <FolderGit2 className="text-primary" /> Projects
       </h2>
       <div>

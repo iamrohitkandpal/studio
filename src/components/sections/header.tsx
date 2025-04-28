@@ -18,14 +18,17 @@ const Header: React.FC = () => {
           priority // Prioritize loading the profile picture
         />
       </div>
-      <h1 className="text-3xl md:text-4xl font-bold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-primary via-teal-400 to-cyan-500">
+      {/* Use heading font and bold weight for the name */}
+      <h1 className="text-3xl md:text-4xl font-heading font-bold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-primary via-teal-400 to-cyan-500">
         Rohit Navinchandra Kandpal
       </h1>
-      <p className="text-lg md:text-xl text-foreground/80 mb-4">
+      {/* Use body font and medium weight for the title */}
+      <p className="text-lg md:text-xl font-body font-medium text-foreground/80 mb-4">
         B.Tech in Computer Science & Engineering (Cyber Security) <br />
         Silver Oak College of Engineering & Technology
       </p>
-      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mb-6 text-foreground/70 text-sm">
+      {/* Use caption font for contact details */}
+      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mb-6 text-foreground/70 text-sm font-caption">
         <a href="tel:+917567054535" className="flex items-center gap-2 hover:text-primary transition-colors">
           <Phone size={16} />
           +91-7567054535

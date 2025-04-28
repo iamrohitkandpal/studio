@@ -53,19 +53,19 @@ const Navbar: React.FC = () => {
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading", // Apply heading font
         isScrolled ? "py-2 glass-card backdrop-blur-lg" : "py-4"
       )}
     >
       <div className="container mx-auto flex items-center justify-center px-4">
         <ul className="flex space-x-1 sm:space-x-2 md:space-x-4 bg-card/30 backdrop-blur-sm p-2 rounded-full border border-border/50">
           {navItems.map((item) => (
-            <li key={item.id} className="relative">
+            <li key={item.id} className="relative group"> {/* Added group for hover effect */}
               <Link
                 href={`#${item.id}`}
                 onClick={() => setActiveLink(item.id)}
                 className={cn(
-                  "flex items-center gap-1 px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors duration-200",
+                  "flex items-center gap-1 px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200", // Use font-semibold for NavBar Titles (600-700)
                   "hover:text-primary",
                   activeLink === item.id ? "text-primary" : "text-foreground/80"
                 )}

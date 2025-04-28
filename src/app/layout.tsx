@@ -1,18 +1,29 @@
 import type {Metadata} from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Outfit, Inter, Manrope } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import CustomCursor from '@/components/custom-cursor';
+import { cn } from '@/lib/utils';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+// Define fonts with specific weights and subsets
+const fontOutfit = Outfit({
   subsets: ['latin'],
+  weight: ['600', '700'],
+  variable: '--font-heading', // CSS variable for headings
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const fontInter = Inter({
   subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-body', // CSS variable for body and subheadings
 });
+
+const fontManrope = Manrope({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-caption', // CSS variable for captions
+});
+
 
 export const metadata: Metadata = {
   title: 'Rohit Kandpal | Portfolio',
@@ -27,7 +38,16 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <head />
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}>
+      {/* Apply font variables to the body */}
+      <body
+       className={cn(
+          "antialiased relative",
+          fontOutfit.variable,
+          fontInter.variable,
+          fontManrope.variable,
+          "font-body" // Set Inter as the default body font via Tailwind class
+        )}
+       >
         <CustomCursor />
         {children}
         <Toaster />
