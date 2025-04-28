@@ -53,7 +53,7 @@
      /* Keep the same variables as :root for default dark mode */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 240 4% 10% / 0.1;
+    --card: 240 4% 10% / 0.1; /* Adjusted alpha for glass effect */
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
@@ -63,7 +63,7 @@
     --secondary-foreground: 0 0% 98%;
     --muted: 240 4% 15%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 180 100% 25% / 0.1;
+    --accent: 180 100% 25% / 0.1; /* Adjusted alpha */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
@@ -75,6 +75,16 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+     /* Define sidebar colors for potential future use */
+    --sidebar-background: 240 6% 10%; /* Slightly different dark shade */
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 180 90% 40%; /* Slightly brighter teal for sidebar */
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 180 100% 25% / 0.2; /* More prominent accent */
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 4% 25%; /* Slightly lighter border for sidebar */
+    --sidebar-ring: 180 100% 45%;
   }
 }
 
@@ -89,30 +99,11 @@
     @apply bg-background text-foreground;
     /* Apply perspective for 3D transforms */
     perspective: 1000px;
-    /* Apply custom cursor */
+    /* Apply custom cursor dot only */
     cursor: none; /* Hide default cursor */
   }
-  /* Custom cursor styles - Enhanced Moonlight effect */
-  .custom-cursor-glaze {
-    position: fixed;
-    left: 0;
-    top: 0;
-    pointer-events: none;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    z-index: 9999;
-    width: 80px; /* Increased size */
-    height: 80px; /* Increased size */
-    /* Soft teal radial gradient for enhanced moonlight effect */
-    background: radial-gradient(circle, hsla(180, 100%, 70%, 0.15) 0%, hsla(180, 100%, 50%, 0) 75%); /* More pronounced center, fades out further */
-    /* Enhanced, more diffused shadow for stronger light effect */
-    box-shadow: 0 0 60px 25px hsla(var(--primary) / 0.30), /* Stronger inner glow */
-                0 0 100px 45px hsla(var(--primary) / 0.20); /* Wider outer glow */
-    mix-blend-mode: screen; /* Blend mode for light effect */
-    filter: blur(5px); /* Add blur for softer moonlight effect */
-  }
 
+  /* Custom cursor dot styles - Keeping this */
   .custom-cursor-dot {
     position: fixed;
     left: 0;
@@ -124,18 +115,19 @@
     pointer-events: none;
     transform: translate(-50%, -50%);
     transition: transform 0.1s ease-out; /* Slightly faster dot movement */
-    z-index: 10000; /* Ensure dot is above glaze */
+    z-index: 10000; /* Ensure dot is above everything else */
     box-shadow: 0 0 10px hsl(var(--primary)); /* Subtle glow for the dot */
   }
 
    /* Glass-morphism effect for cards */
   .glass-card {
-    background: rgba(30, 30, 40, 0.25); /* Charcoal with alpha */
-    backdrop-filter: blur(15px); /* Slightly increased blur */
-    -webkit-backdrop-filter: blur(15px);
+    /* Slightly more opaque background for better readability */
+    background: rgba(30, 30, 40, 0.45); /* Adjusted alpha */
+    backdrop-filter: blur(12px); /* Adjusted blur */
+    -webkit-backdrop-filter: blur(12px);
     border-radius: var(--radius);
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); /* Slightly stronger shadow */
+    border: 1px solid hsla(var(--border)/ 0.5); /* Use border color with alpha */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.25); /* Adjusted shadow */
     /* Add transform-style for 3D children */
     transform-style: preserve-3d;
   }
@@ -160,4 +152,12 @@
   width: 100%;
   height: 100%;
   z-index: -1; /* Ensure it's behind everything */
+}
+
+/* Improve Project Modal Styling */
+.project-modal-content {
+  background: rgba(20, 20, 30, 0.6) !important; /* Darker, more opaque background for modal */
+  backdrop-filter: blur(20px) !important; /* Stronger blur for modal */
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid hsla(var(--border) / 0.6) !important;
 }

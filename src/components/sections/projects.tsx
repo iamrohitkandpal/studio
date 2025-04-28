@@ -25,10 +25,10 @@ interface ProjectItemProps {
 const ProjectItem: React.FC<ProjectItemProps & { onExpand: () => void }> = ({ title, duration, type, techStack, description, onExpand }) => (
   // Added hover effect, pointer cursor, and onClick handler
   <motion.div
-    layout // Enable layout animation
+    layout // Enable layout animation for smoother resizing/positioning
     onClick={onExpand}
-    className="mb-6 last:mb-0 glass-card p-4 sm:p-6 rounded-lg shadow-lg border border-border/30 transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30 hover:-translate-y-1 cursor-pointer"
-    whileHover={{ scale: 1.03 }}
+    className="group mb-6 last:mb-0 glass-card p-4 sm:p-6 rounded-lg shadow-lg border border-border/30 transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30 hover:-translate-y-1 cursor-pointer"
+    whileHover={{ scale: 1.02 }} // Slightly reduced scale on hover
     transition={{ type: 'spring', stiffness: 400, damping: 15 }}
   >
     <div className="flex justify-between items-start mb-2">
@@ -38,8 +38,8 @@ const ProjectItem: React.FC<ProjectItemProps & { onExpand: () => void }> = ({ ti
           {/* Duration and type using caption font (Manrope, 400) */}
           <p className="text-xs sm:text-sm font-caption text-foreground/60 mb-1">{duration} • {type}</p>
        </div>
-        {/* Indicate expandability */}
-        <Maximize2 size={18} className="text-foreground/50 flex-shrink-0 ml-2 mt-1 opacity-70 group-hover:opacity-100 transition-opacity" />
+        {/* Indicate expandability - subtly fades in on hover */}
+        <Maximize2 size={18} className="text-foreground/50 flex-shrink-0 ml-2 mt-1 opacity-50 group-hover:opacity-100 transition-opacity duration-200" />
     </div>
      {/* Short description */}
      <p className="text-sm font-body text-foreground/80 mb-3 line-clamp-2">
@@ -105,19 +105,21 @@ const Projects: React.FC = () => {
     }
   ];
 
-   // Sort projects (no change needed here if already sorted)
+   // Sort projects (most recent first based on end date/present)
    projects.sort((a, b) => {
      const parseDate = (duration: string) => {
        const endDateStr = duration.includes('–') ? duration.split('–')[1]?.trim() : duration.trim();
        if (endDateStr.toLowerCase() === 'present') {
-         return new Date();
+         return new Date(); // Use current date for "Present"
        }
        const parts = endDateStr.split(' ');
        const monthMap: { [key: string]: number } = { Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5, Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11 };
+       // Ensure parts[0] is a valid month and parts[1] is a number
        if (parts.length === 2 && monthMap[parts[0]] !== undefined && !isNaN(parseInt(parts[1]))) {
-         return new Date(parseInt(parts[1]), monthMap[parts[0]]);
+         // Create date for the last day of the month for consistent comparison
+         return new Date(parseInt(parts[1]), monthMap[parts[0]] + 1, 0);
        }
-       return new Date(0);
+       return new Date(0); // Fallback for invalid dates
      };
      return parseDate(b.duration).getTime() - parseDate(a.duration).getTime();
    });
@@ -138,8 +140,10 @@ const Projects: React.FC = () => {
       <AnimatePresence>
         {selectedProject && (
           <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-            <DialogContent className="sm:max-w-3xl max-h-[90vh] flex flex-col glass-card p-0">
-               <DialogHeader className="p-6 pb-4">
+            {/* Added custom class for better styling */}
+            <DialogContent className="sm:max-w-3xl max-h-[90vh] flex flex-col project-modal-content p-0 overflow-hidden">
+               {/* Non-scrolling Header */}
+               <DialogHeader className="p-6 pb-4 border-b border-border/20 flex-shrink-0">
                  <DialogTitle className="text-2xl font-heading text-primary">{selectedProject.title}</DialogTitle>
                  <DialogDescription className="text-sm font-caption text-foreground/70">
                    {selectedProject.duration} • {selectedProject.type}
@@ -147,7 +151,7 @@ const Projects: React.FC = () => {
                </DialogHeader>
 
                {/* Scrollable Content Area */}
-               <div className="flex-grow overflow-y-auto px-6 pb-6 space-y-4 custom-scrollbar">
+               <div className="flex-grow overflow-y-auto px-6 py-4 space-y-4 custom-scrollbar">
                  {/* Image Placeholder */}
                  {selectedProject.imageUrl && (
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border/50 shadow-lg mb-4">
@@ -156,7 +160,7 @@ const Projects: React.FC = () => {
                         alt={`${selectedProject.title} screenshot`}
                         layout="fill"
                         objectFit="cover"
-                        className="transition-transform duration-300 group-hover:scale-105"
+                        className="transition-transform duration-300 group-hover:scale-105" // Keep hover effect if desired
                     />
                   </div>
                  )}
@@ -174,15 +178,15 @@ const Projects: React.FC = () => {
 
                  {/* Detailed Description */}
                  <div>
-                   <h4 className="text-md font-body font-semibold mb-2 text-foreground/90">Description:</h4>
-                    <p className="text-sm font-body text-foreground/80 whitespace-pre-line">
-                      {selectedProject.longDescription || selectedProject.description.join('\n')}
+                   <h4 className="text-md font-body font-semibold mb-2 text-foreground/90">Details:</h4>
+                    <p className="text-sm font-body text-foreground/80 whitespace-pre-line leading-relaxed">
+                      {selectedProject.longDescription || selectedProject.description.join('\n\n')}
                     </p>
                  </div>
                </div>
 
-               {/* Footer with Links */}
-               <DialogFooter className="p-6 pt-4 border-t border-border/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+               {/* Non-scrolling Footer */}
+               <DialogFooter className="p-6 pt-4 border-t border-border/20 flex flex-col sm:flex-row justify-between items-center gap-3 flex-shrink-0">
                   <div className="flex gap-3">
                     {selectedProject.githubLink && (
                       <Button variant="outline" size="sm" asChild>
@@ -200,13 +204,13 @@ const Projects: React.FC = () => {
                     )}
                     {selectedProject.comingSoon && !selectedProject.liveLink && (
                         <Button variant="secondary" size="sm" disabled>
-                          Live Demo Coming Soon
+                         <ExternalLink size={16} className="mr-1.5" /> Live Demo Coming Soon
                         </Button>
                     )}
                   </div>
                   <DialogClose asChild>
                       <Button type="button" variant="ghost" size="sm">
-                          Close
+                           <X size={16} className="mr-1.5" /> Close
                       </Button>
                   </DialogClose>
                </DialogFooter>
@@ -215,24 +219,6 @@ const Projects: React.FC = () => {
         )}
       </AnimatePresence>
 
-       {/* Add custom scrollbar styles if needed */}
-      <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: hsl(var(--border));
-          border-radius: 10px;
-          border: 3px solid transparent;
-        }
-         .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: hsl(var(--border)) transparent;
-         }
-      `}</style>
     </div>
   );
 };

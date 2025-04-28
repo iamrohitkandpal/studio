@@ -10,8 +10,8 @@ import TechnicalSkills from '@/components/sections/technical-skills';
 import Certifications from '@/components/sections/certifications';
 import Achievements from '@/components/sections/achievements';
 import Extracurricular from '@/components/sections/extracurricular';
-import ContactMe from '@/components/sections/contact-me'; // Import ContactMe
-import Footer from '@/components/footer'; // Import Footer
+import ContactMe from '@/components/sections/contact-me';
+import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
 import StarfieldCanvas from '@/components/starfield-canvas';
 import { cn } from '@/lib/utils';
@@ -19,38 +19,37 @@ import { cn } from '@/lib/utils';
 // Define sections with their components and grid spans for Bento Box layout
 const sections = [
   // Row 1
-  { id: 'header', component: Header, gridSpan: 'col-span-12 lg:col-span-5' }, // Adjusted span
+  { id: 'header', component: Header, gridSpan: 'col-span-12 lg:col-span-5' },
   { id: 'education', component: Education, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-3' },
-  { id: 'experience', component: Experience, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' }, // Moved Experience up
+  { id: 'experience', component: Experience, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' },
 
   // Row 2
-  { id: 'projects', component: Projects, gridSpan: 'col-span-12 lg:col-span-8' }, // Adjusted span
-  { id: 'certifications', component: Certifications, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' }, // Adjusted span
+  { id: 'projects', component: Projects, gridSpan: 'col-span-12 lg:col-span-8' },
+  { id: 'certifications', component: Certifications, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' },
 
-  // Row 3
-  { id: 'achievements', component: Achievements, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' }, // Moved Achievements down
+  // Row 3 - Adjusted distribution
+  { id: 'achievements', component: Achievements, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' },
   { id: 'extracurricular', component: Extracurricular, gridSpan: 'col-span-12 md:col-span-6 lg:col-span-4' },
   // Empty space or another small component could go here (lg:col-span-4)
 
-  // Row 4 (Full width)
+  // Row 4 (Full width Skills)
   { id: 'skills', component: TechnicalSkills, gridSpan: 'col-span-12', disableTilt: true }, // Disable tilt for skills section container
 
    // Row 5 (Full width Contact)
-   { id: 'contact', component: ContactMe, gridSpan: 'col-span-12', disableTilt: true }, // Add Contact Me section
-
+   { id: 'contact', component: ContactMe, gridSpan: 'col-span-12', disableTilt: true },
 ];
 
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 50, scale: 0.95 }, // Added slight scale down
+  hidden: { opacity: 0, y: 50, scale: 0.95 }, // Start slightly below and scaled down
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1, // Scale back to normal
+    scale: 1, // Animate to normal position and scale
     transition: {
       duration: 0.6,
       ease: "easeOut",
-      staggerChildren: 0.1, // Optional: stagger children animation
+      staggerChildren: 0.1, // Optional: stagger children animation if needed
     },
   },
 };
@@ -62,32 +61,33 @@ const TiltCard: React.FC<{ children: React.ReactNode; className?: string; applyT
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  // Use smoother spring settings for subtle effect
-  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
-  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
+  // Smoother spring for subtle effect
+  const mouseXSpring = useSpring(x, { stiffness: 350, damping: 40 }); // Adjusted stiffness/damping
+  const mouseYSpring = useSpring(y, { stiffness: 350, damping: 40 }); // Adjusted stiffness/damping
 
-  // Reduced tilt intensity for subtlety
+  // Reduced tilt intensity
   const rotateX = useTransform(
     mouseYSpring,
     [-0.5, 0.5],
-    ["5deg", "-5deg"] // Reduced max rotation
+    ["4deg", "-4deg"] // Reduced max rotation further
   );
   const rotateY = useTransform(
     mouseXSpring,
     [-0.5, 0.5],
-    ["-5deg", "5deg"] // Reduced max rotation
+    ["-4deg", "4deg"] // Reduced max rotation further
   );
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!applyTilt || !ref.current) return; // Only apply if enabled and ref exists
+    if (!applyTilt || !ref.current) return;
 
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
     const mouseX = e.clientX - rect.left - width / 2;
     const mouseY = e.clientY - rect.top - height / 2;
-    const xPct = mouseX / (width / 1.5); // Slightly less sensitive
-    const yPct = mouseY / (height / 1.5); // Slightly less sensitive
+    // Adjusted sensitivity for a more subtle response
+    const xPct = mouseX / (width / 1.2);
+    const yPct = mouseY / (height / 1.2);
 
     x.set(xPct);
     y.set(yPct);
@@ -105,15 +105,16 @@ const TiltCard: React.FC<{ children: React.ReactNode; className?: string; applyT
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        rotateX: applyTilt ? rotateX : 0, // Apply rotation only if enabled
-        rotateY: applyTilt ? rotateY : 0, // Apply rotation only if enabled
+        rotateX: applyTilt ? rotateX : 0,
+        rotateY: applyTilt ? rotateY : 0,
         transformStyle: "preserve-3d",
       }}
-      whileHover={applyTilt ? { scale: 1.02, transition: { type: 'spring', stiffness: 400, damping: 25 } } : {}} // Subtle scale only if tilt enabled
-      className={cn("relative transform-gpu w-full h-full", className)}
+       // Reduced hover scale for less "junky" feel
+      whileHover={applyTilt ? { scale: 1.015, transition: { type: 'spring', stiffness: 300, damping: 20 } } : {}}
+      className={cn("relative transform-gpu w-full h-full", className)} // Ensure transform-gpu for performance
     >
-      {/* Inner div for content projection - less extreme Z transform */}
-      <div style={{ transform: applyTilt ? "translateZ(20px) scale(0.99)" : "none", transformStyle: "preserve-3d" }} className="h-full">
+      {/* Inner div for content projection - reduced Z transform */}
+      <div style={{ transform: applyTilt ? "translateZ(15px) scale(0.98)" : "none", transformStyle: "preserve-3d" }} className="h-full">
         {children}
       </div>
     </motion.div>
@@ -144,14 +145,15 @@ export default function Home() {
             viewport={{ once: true, amount: 0.1 }} // Trigger when 10% is visible
             variants={cardVariants}
             className={cn(
-              "glass-card p-0 overflow-hidden", // Remove padding here
-              section.gridSpan
+              "glass-card p-0 overflow-hidden", // Remove padding here, ensure overflow hidden for card shape
+              section.gridSpan // Apply the specific grid span for Bento layout
             )}
-            layout // Apply layout prop for smooth resizing
+            layout // Enable smooth layout changes if grid spans change dynamically
           >
              {/* Wrap section content in TiltCard, disable tilt where specified */}
             <TiltCard className="flex flex-col h-full" applyTilt={!section.disableTilt}>
-              <div className="p-6 md:p-8 flex-grow overflow-auto"> {/* Add padding inside, allow scroll if needed */}
+               {/* Add padding inside TiltCard's inner div, allow scroll if needed */}
+              <div className="p-6 md:p-8 flex-grow overflow-auto custom-scrollbar">
                 <section.component />
               </div>
             </TiltCard>
@@ -160,6 +162,25 @@ export default function Home() {
       </main>
       {/* Add Footer outside the main grid */}
        <Footer />
+       {/* Add custom scrollbar styles globally if needed, or scope them */}
+       <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background-color: hsl(var(--border) / 0.5); /* Semi-transparent border color */
+          border-radius: 10px;
+          border: 3px solid transparent;
+        }
+         .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: hsl(var(--border) / 0.5) transparent;
+         }
+      `}</style>
     </div>
   );
 }
