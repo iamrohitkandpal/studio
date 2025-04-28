@@ -1,0 +1,69 @@
+'use client';
+
+import React from 'react';
+import { Award, ExternalLink } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+interface CertificationItemProps {
+  title: string;
+  issuer: string;
+  description: string;
+  link?: string; // Optional verification link
+}
+
+const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, description, link }) => (
+   <div className="mb-4 last:mb-0 glass-card p-4 rounded-lg shadow-lg border border-border/30">
+     <div className="flex justify-between items-start">
+       <div>
+          <h3 className="text-lg font-medium text-primary">{title}</h3>
+          <p className="text-sm font-semibold text-foreground/80 mb-1">{issuer}</p>
+       </div>
+        {link && (
+          <Button variant="ghost" size="icon" asChild className="ml-2 flex-shrink-0">
+             <a href={link} target="_blank" rel="noopener noreferrer" aria-label={`Verify ${title}`}>
+               <ExternalLink size={16} />
+             </a>
+          </Button>
+        )}
+     </div>
+     <p className="text-sm text-foreground/70">{description}</p>
+   </div>
+);
+
+const Certifications: React.FC = () => {
+  const certifications: CertificationItemProps[] = [
+    {
+      title: 'Frontend Domination',
+      issuer: 'Sheryians Coding School',
+      description: 'Advanced web application development focusing on modern frontend techniques and complex animations.',
+      // link: '#' // Add verification link
+    },
+    {
+      title: 'Software Engineering Job Simulation',
+      issuer: 'J.P. Morgan Chase & Co.',
+      description: 'Completed tasks including fixing repository issues and performing live data visualization using Python.',
+      // link: '#'
+    },
+     {
+      title: 'Agile Job Simulation',
+      issuer: 'JPMorgan Chase & Co.',
+      description: 'Practiced Agile methodologies: drafted user stories, led stand-ups, and participated in sprint reviews.',
+      // link: '#'
+    },
+  ];
+
+  return (
+    <div>
+      <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
+        <Award className="text-primary" /> Certifications
+      </h2>
+      <div>
+        {certifications.map((cert, index) => (
+          <CertificationItem key={index} {...cert} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Certifications;

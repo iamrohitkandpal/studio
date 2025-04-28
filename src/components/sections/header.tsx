@@ -1,0 +1,54 @@
+'use client';
+
+import React from 'react';
+import Image from 'next/image';
+import { Github, Linkedin, Mail, Phone } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+const Header: React.FC = () => {
+  return (
+    <div className="flex flex-col items-center text-center">
+      <div className="mb-4">
+        <Image
+          src="https://picsum.photos/150/150" // Placeholder image
+          alt="Rohit Kandpal"
+          width={150}
+          height={150}
+          className="rounded-full border-4 border-primary/50 shadow-lg"
+          priority // Prioritize loading the profile picture
+        />
+      </div>
+      <h1 className="text-3xl md:text-4xl font-bold mb-1 text-transparent bg-clip-text bg-gradient-to-r from-primary via-teal-400 to-cyan-500">
+        Rohit Navinchandra Kandpal
+      </h1>
+      <p className="text-lg md:text-xl text-foreground/80 mb-4">
+        B.Tech in Computer Science & Engineering (Cyber Security) <br />
+        Silver Oak College of Engineering & Technology
+      </p>
+      <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 mb-6 text-foreground/70 text-sm">
+        <a href="tel:+917567054535" className="flex items-center gap-2 hover:text-primary transition-colors">
+          <Phone size={16} />
+          +91-7567054535
+        </a>
+        <a href="mailto:iamrohitkandpal@gmail.com" className="flex items-center gap-2 hover:text-primary transition-colors">
+          <Mail size={16} />
+          iamrohitkandpal@gmail.com
+        </a>
+      </div>
+      <div className="flex justify-center gap-4">
+        <Button variant="outline" size="icon" asChild>
+          <a href="https://github.com/iRohitKandpal" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+            <Github size={20} />
+          </a>
+        </Button>
+        <Button variant="outline" size="icon" asChild>
+          <a href="https://linkedin.com/in/irohitkandpal" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+            <Linkedin size={20} />
+          </a>
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+export default Header;
