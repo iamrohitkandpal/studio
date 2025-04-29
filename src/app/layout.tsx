@@ -7,8 +7,7 @@ import { Inter, Manrope, Outfit } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
-import LenisWrapper from '@/components/lenis-wrapper'; // Import LenisWrapper
-// import CustomCursor from '@/components/custom-cursor'; // Custom cursor removed
+// import LenisWrapper from '@/components/lenis-wrapper'; // Lenis removed
 
 // Define fonts with specific weights and subsets available via Google Fonts
 const fontOutfit = Outfit({ // Heading font (alternative to Satoshi)
@@ -60,10 +59,8 @@ export default function RootLayout({
           "font-body" // Set Inter as the default body font via Tailwind class
         )}
        >
-        {/* <CustomCursor /> */} {/* Custom cursor removed */}
-        <LenisWrapper> {/* Wrap children with Lenis */}
-           {children}
-        </LenisWrapper>
+         {/* Removed LenisWrapper */}
+         {children}
         <Toaster />
       </body>
     </html>

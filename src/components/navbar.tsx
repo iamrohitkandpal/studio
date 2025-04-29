@@ -32,21 +32,12 @@ const Navbar: React.FC = () => {
       // Active section detection logic (simplified for vertical layout)
       let currentSection = 'header';
       const sections = document.querySelectorAll<HTMLElement>('div[id]'); // Target divs with IDs
-      let closestSectionDistance = Infinity;
-      const offset = 100; // Pixels from top to consider active
+      const offset = window.innerHeight * 0.4; // 40% of viewport height as offset
 
       sections.forEach(section => {
         const rect = section.getBoundingClientRect();
-        const elementTop = rect.top + window.scrollY; // Absolute top position of the section
-        const viewTop = window.scrollY + offset; // Adjusted viewport top
-
-         // Check if the section is the closest one at or above the offset line
-        if (elementTop <= viewTop) {
-          const distance = viewTop - elementTop;
-          if (distance < closestSectionDistance) {
-             closestSectionDistance = distance;
+        if (rect.top <= offset && rect.bottom >= offset) {
              currentSection = section.id;
-          }
         }
       });
 
@@ -56,7 +47,7 @@ const Navbar: React.FC = () => {
          if (lastSection) {
              currentSection = lastSection.id;
          }
-      } else if (window.scrollY < offset) { // If very close to the top
+      } else if (window.scrollY < offset / 2) { // If very close to the top
          currentSection = 'header';
       }
 
@@ -72,11 +63,12 @@ const Navbar: React.FC = () => {
   }, []);
 
   const scrollToSection = (sectionId: string) => {
-      setActiveLink(sectionId);
+      // No need to setActiveLink manually here, handleScroll will do it.
       const element = document.getElementById(sectionId);
       if (element) {
         const yOffset = -80; // Adjust offset for fixed navbar height
         const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+        // Use native smooth scroll
         window.scrollTo({ top: y, behavior: 'smooth' });
       }
       setIsMobileMenuOpen(false); // Close mobile menu after clicking a link
@@ -85,8 +77,8 @@ const Navbar: React.FC = () => {
 
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
      <ul className={cn(
-        "flex overflow-x-auto sm:overflow-x-visible", // Allow horizontal scroll on very small screens
-        isMobile ? "flex-col space-y-4 p-4" : "space-x-1 sm:space-x-1 md:space-x-2 lg:space-x-3 items-center" // Adjusted spacing for different breakpoints
+        "flex overflow-x-auto sm:overflow-x-visible hide-scrollbar", // Allow horizontal scroll on very small screens, hide scrollbar
+        isMobile ? "flex-col space-y-4 p-4" : "space-x-1 md:space-x-1 lg:space-x-2 items-center flex-wrap justify-center" // Allow wrapping on larger screens
       )}>
         {navItems.map((item) => (
           <motion.li
@@ -99,14 +91,14 @@ const Navbar: React.FC = () => {
               variant="ghost"
               onClick={() => scrollToSection(item.id)}
               className={cn(
-                "flex items-center gap-1.5 px-1.5 py-1.5 sm:px-2 md:px-2.5 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start sm:justify-center", // Adjusted padding and justification
+                "flex items-center gap-1.5 px-1.5 py-1.5 sm:px-2 md:px-2.5 lg:px-3 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start sm:justify-center", // Adjusted padding and justification
                 "hover:text-primary hover:bg-primary/10", // Consistent hover style
                 activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80"
               )}
             >
               <item.icon className="h-4 w-4 flex-shrink-0" />
-              {/* Show label on medium screens and up */}
-              <span className={cn("hidden md:inline whitespace-nowrap")}>{item.label}</span>
+              {/* Show label on large screens and up */}
+              <span className={cn("hidden lg:inline whitespace-nowrap")}>{item.label}</span>
             </Button>
              {/* Active indicator for desktop */}
             {!isMobile && (
@@ -143,7 +135,7 @@ const Navbar: React.FC = () => {
         </Button>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center"> {/* Center items vertically */}
+        <div className="hidden md:flex flex-1 justify-center items-center overflow-hidden mx-4"> {/* Allow flex grow and center, hide overflow */}
            <NavLinks />
         </div>
 
