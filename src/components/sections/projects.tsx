@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -12,7 +13,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose // Keep DialogClose import if needed elsewhere, but remove explicit button
+  // DialogClose removed as it's handled by default X button in DialogContent
 } from '@/components/ui/dialog';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
 import { motion, AnimatePresence } from 'framer-motion';
@@ -261,8 +262,7 @@ const Projects: React.FC = () => {
                         </Button>
                     )}
                   </div>
-                  {/* Removed explicit DialogClose button from footer */}
-                  {/* <DialogClose asChild><Button type="button" variant="ghost" size="sm">Close</Button></DialogClose> */}
+                  {/* Explicit DialogClose button removed from footer */}
                </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -296,3 +296,4 @@ const Projects: React.FC = () => {
 };
 
 export default Projects;
+
