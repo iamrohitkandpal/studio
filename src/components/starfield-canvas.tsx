@@ -53,6 +53,7 @@ const StarfieldCanvas: React.FC = () => {
         // Draw star with opacity and subtle glow
         ctx.beginPath();
         const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius * 2);
+        // Use the primary orange color (hsl(25 95% 55%)) for the gradient
         gradient.addColorStop(0, `hsla(25, 95%, 55%, ${star.opacity})`); // Center color with opacity
         gradient.addColorStop(1, `hsla(25, 95%, 55%, 0)`); // Fade to transparent
 
@@ -64,8 +65,8 @@ const StarfieldCanvas: React.FC = () => {
         // ctx.beginPath();
         // ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         // ctx.shadowBlur = star.radius * 2; // Smaller glow
-        // ctx.shadowColor = glowColor;
-        // ctx.fillStyle = `hsla(25, 95%, 55%, ${star.opacity})`;
+        // ctx.shadowColor = glowColor; // Use orange glow color
+        // ctx.fillStyle = `hsla(25, 95%, 55%, ${star.opacity})`; // Use orange star color
         // ctx.fill();
       });
 
