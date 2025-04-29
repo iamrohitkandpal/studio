@@ -42,10 +42,10 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
     transition={{ duration: 0.5 }}
     className="group flex flex-col h-full" // Ensure card takes full height if needed in grid
   >
-    <Card className="bg-card border-border/30 shadow-md hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col flex-grow h-full overflow-hidden">
+    <Card className="bg-card/50 border-border/30 shadow-md hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col flex-grow h-full overflow-hidden">
       {/* Optional Image Header */}
        {imageUrl && (
-        <div className="relative w-full h-48 overflow-hidden">
+        <div className="relative w-full h-48 overflow-hidden border-b border-border/20"> {/* Added border */}
           <Image
             src={imageUrl}
             alt={`${title} preview`}
@@ -53,10 +53,12 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
             style={{ objectFit: 'cover' }} // Cover maintains aspect ratio
             className="transition-transform duration-300 group-hover:scale-105"
           />
+           {/* Subtle overlay on hover */}
+           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
         </div>
       )}
 
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-3 pt-4 px-5"> {/* Adjusted padding */}
         <CardTitle className="text-xl font-heading text-primary flex justify-between items-center">
            <span>{title}</span>
            {/* Subtle Expand Icon */}
@@ -67,28 +69,36 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex-grow mb-4 px-6 pt-0">
+      <CardContent className="flex-grow mb-4 px-5 pt-0"> {/* Adjusted padding */}
         {/* Short description */}
         <p className="text-sm font-body text-foreground/80 mb-3 line-clamp-3">
            {description.join(' ')}
         </p>
          {/* Tech stack badges */}
-        <div className="flex flex-wrap gap-1.5">
-          {techStack.slice(0, 5).map((tech, index) => (
-              <Badge key={index} variant="secondary" className="font-body text-[10px] px-2 py-0.5">{tech}</Badge>
+        <div className="flex flex-wrap gap-2"> {/* Increased gap */}
+          {techStack.slice(0, 4).map((tech, index) => ( // Show 4 initially
+              <Badge
+                 key={index}
+                 variant="outline" // Use outline variant
+                 className="font-body text-xs px-2.5 py-0.5 border-primary/30 text-primary/80 hover:bg-primary/10 transition-colors cursor-default" // Improved styling
+              >
+                 {tech}
+              </Badge>
           ))}
-          {techStack.length > 5 && (
-             <Badge variant="outline" className="font-body text-[10px] px-2 py-0.5">+{techStack.length - 5}</Badge>
+          {techStack.length > 4 && ( // Adjust threshold
+             <Badge
+                 variant="outline"
+                 className="font-body text-xs px-2.5 py-0.5 border-border/50 text-foreground/60 hover:bg-accent/50 transition-colors cursor-default" // Different style for "+more"
+             >
+                +{techStack.length - 4}
+             </Badge>
           )}
         </div>
       </CardContent>
 
-      <CardFooter className="px-6 pb-5 pt-0 mt-auto flex justify-end gap-2">
+      <CardFooter className="px-5 pb-5 pt-0 mt-auto flex justify-end gap-2"> {/* Adjusted padding */}
          {/* Links (optional here, main in modal) */}
-         {/* {githubLink && ( ... )} */}
-         {/* {liveLink && ( ... )} */}
-         {/* {comingSoon && ( ... )} */}
-          <Button variant="link" size="sm" className="text-primary hover:text-primary/80" onClick={onExpand}>
+          <Button variant="link" size="sm" className="text-primary hover:text-primary/80 px-0" onClick={onExpand}>
              Learn More <ExternalLink size={14} className="ml-1" />
           </Button>
       </CardFooter>
@@ -211,10 +221,16 @@ const Projects: React.FC = () => {
 
                  {/* Tech Stack */}
                   <div>
-                    <h4 className="text-lg font-body font-semibold mb-2 text-foreground/90">Technologies Used:</h4>
-                    <div className="flex flex-wrap gap-2">
+                    <h4 className="text-lg font-body font-semibold mb-3 text-foreground/90">Technologies Used:</h4> {/* Adjusted margin */}
+                    <div className="flex flex-wrap gap-2"> {/* Use consistent gap */}
                         {selectedProject.techStack.map((tech, index) => (
-                            <Badge key={index} variant="secondary" className="font-body text-xs">{tech}</Badge>
+                             <Badge
+                                key={index}
+                                variant="outline" // Use outline variant
+                                className="font-body text-xs px-2.5 py-0.5 border-primary/30 text-primary/80 hover:bg-primary/10 transition-colors cursor-default" // Consistent styling
+                             >
+                                {tech}
+                             </Badge>
                         ))}
                     </div>
                   </div>
@@ -268,13 +284,16 @@ const Projects: React.FC = () => {
           background: hsl(var(--card)); /* Match modal background */
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: hsl(var(--border) / 0.7); /* Semi-transparent border color */
+          background-color: hsla(var(--primary-hsl), 0.5); /* Use primary color with transparency */
           border-radius: 10px;
           border: 2px solid hsl(var(--card)); /* Add padding */
         }
+         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+           background-color: hsla(var(--primary-hsl), 0.7); /* More opaque on hover */
+        }
          .custom-scrollbar {
             scrollbar-width: thin;
-            scrollbar-color: hsl(var(--border) / 0.7) hsl(var(--card));
+            scrollbar-color: hsla(var(--primary-hsl), 0.5) hsl(var(--card)); /* thumb color track color */
          }
       `}</style>
 
