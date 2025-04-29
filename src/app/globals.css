@@ -93,20 +93,12 @@
     @apply border-border;
   }
   html {
-      scroll-behavior: smooth;
+      scroll-behavior: smooth; /* Ensure smooth scrolling */
   }
   body {
     @apply bg-background text-foreground;
-    /* Remove perspective and custom cursor */
     /* perspective: 1000px; */
-    /* cursor: none; Hide default cursor */
   }
-
-  /* REMOVE Custom cursor dot styles */
-  /* .custom-cursor-dot { ... } */
-
-   /* REMOVE Glass-morphism effect */
-  /* .glass-card { ... } */
 
   /* Apply heading font to h1, h2, h3, h4, h5, h6 by default */
  h1, h2, h3, h4, h5, h6 {
@@ -120,8 +112,17 @@
 }
 
 
-/* REMOVE styles for the canvas background */
-/* #starfield-canvas { ... } */
+/* Styles for the starfield canvas */
+#starfield-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10; /* Place behind all other content */
+  pointer-events: none; /* Allow clicks to pass through */
+}
 
-/* REMOVE Project Modal Styling override (let ShadCN handle it with theme) */
+/* Project Modal Styling override (let ShadCN handle it with theme) */
 /* .project-modal-content { ... } */
+

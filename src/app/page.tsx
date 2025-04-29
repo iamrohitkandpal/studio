@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import Header from '@/components/sections/header'; // Renamed to Hero potentially
+import Header from '@/components/sections/header';
 import Education from '@/components/sections/education';
 import Experience from '@/components/sections/experience';
 import Projects from '@/components/sections/projects';
@@ -13,13 +13,13 @@ import Extracurricular from '@/components/sections/extracurricular';
 import ContactMe from '@/components/sections/contact-me';
 import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
-// import StarfieldCanvas from '@/components/starfield-canvas'; // Removed
+import StarfieldCanvas from '@/components/starfield-canvas'; // Import the StarfieldCanvas
 import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator'; // Import Separator
+import { Separator } from '@/components/ui/separator';
 
-// Define section data - components remain the same for now
+// Define section data
 const sections = [
-  { id: 'header', component: Header, title: 'Hero' }, // Use header as Hero
+  { id: 'header', component: Header, title: 'Hero' },
   { id: 'skills', component: TechnicalSkills, title: 'Skills' },
   { id: 'projects', component: Projects, title: 'Projects' },
   { id: 'experience', component: Experience, title: 'Experience' },
@@ -42,7 +42,6 @@ const sectionVariants = {
   },
 };
 
-// REMOVED TiltCard component
 
 export default function Home() {
   useEffect(() => {
@@ -52,7 +51,7 @@ export default function Home() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      {/* <StarfieldCanvas /> */} {/* Removed */}
+      <StarfieldCanvas /> {/* Add the Starfield Canvas here */}
       <Navbar />
       {/* Main content area with vertical sections */}
       <main className="container mx-auto px-4 py-24 pt-32 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
@@ -64,11 +63,9 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }} // Trigger when 10% is visible
             variants={sectionVariants}
-            // Use standard card styling or just layout flow
+            // Using standard layout flow, not explicit cards for sections anymore
             className={cn(
-              "w-full", // Take full width
-              // Add padding and potentially a border/background if needed for separation
-              // "bg-card p-6 md:p-8 rounded-lg border border-border/50 shadow-md" // Example card style
+              "w-full relative z-10", // Ensure content is above canvas
             )}
           >
             {/* Render the section component directly */}
@@ -82,7 +79,7 @@ export default function Home() {
         ))}
       </main>
       <Footer />
-      {/* REMOVED custom scrollbar styles */}
+       {/* No custom scrollbar needed */}
     </div>
   );
 }
