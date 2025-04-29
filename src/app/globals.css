@@ -42,7 +42,7 @@
     --chart-4: 45 90% 55%; /* Yellow */
     --chart-5: 300 75% 60%; /* Purple */
 
-    /* Font Variables - Keep existing, seem suitable */
+    /* Font Variables - Use Google Fonts */
     --font-heading: "Outfit", sans-serif;
     --font-body: "Inter", sans-serif;
     --font-caption: "Manrope", sans-serif;
@@ -136,10 +136,9 @@
   ::-webkit-scrollbar-thumb:hover {
     background-color: hsl(var(--primary) / 0.7); /* Use primary color on hover */
   }
-  /* Removed extra closing brace here */
 }
 
-/* Remove specific canvas styles, handled in component */
+/* Canvas styles */
 #starfield-canvas {
     position: fixed;
     top: 0;
@@ -148,4 +147,9 @@
     height: 100%;
     z-index: -1; /* Ensure it's behind content */
     pointer-events: none; /* Allow interactions with elements below */
+}
+
+/* Ensure project modal content scrolls nicely */
+.project-modal-content > div:nth-child(2) { /* Target the scrollable div */
+   @apply custom-scrollbar; /* Apply custom scrollbar styling */
 }
