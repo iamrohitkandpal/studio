@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose
+  DialogClose // Keep DialogClose import if needed elsewhere, but remove explicit button
 } from '@/components/ui/dialog';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
 import { motion, AnimatePresence } from 'framer-motion';
@@ -195,13 +195,7 @@ const Projects: React.FC = () => {
                  <DialogDescription className="text-sm font-caption text-foreground/70">
                    {selectedProject.duration} • {selectedProject.type}
                  </DialogDescription>
-                  {/* Close button inside header for better positioning */}
-                  <DialogClose asChild>
-                       <Button type="button" variant="ghost" size="icon" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                           <X size={18} />
-                           <span className="sr-only">Close</span>
-                       </Button>
-                   </DialogClose>
+                  {/* Default Close button provided by DialogContent is in the top-right */}
                </DialogHeader>
 
                {/* Scrollable Content */}
@@ -267,7 +261,7 @@ const Projects: React.FC = () => {
                         </Button>
                     )}
                   </div>
-                  {/* Keep close button in footer as alternative */}
+                  {/* Removed explicit DialogClose button from footer */}
                   {/* <DialogClose asChild><Button type="button" variant="ghost" size="sm">Close</Button></DialogClose> */}
                </DialogFooter>
             </DialogContent>

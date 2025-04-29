@@ -4,12 +4,13 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users, Mail, Home as HomeIcon, Menu, X } from 'lucide-react'; // Use HomeIcon for clarity, add Menu and X
+import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users, Mail, Home as HomeIcon, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet'; // Import Sheet components
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'; // Import Tooltip components
 
 const navItems = [
-  { id: 'header', label: 'Home', icon: HomeIcon }, // Use HomeIcon
+  { id: 'header', label: 'Home', icon: HomeIcon },
   { id: 'skills', label: 'Skills', icon: Wrench },
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
   { id: 'experience', label: 'Experience', icon: Briefcase },
@@ -87,19 +88,32 @@ const Navbar: React.FC = () => {
             whileHover={!isMobile ? { y: -2 } : {}}
             transition={{ duration: 0.2 }}
           >
-            <Button
-              variant="ghost"
-              onClick={() => scrollToSection(item.id)}
-              className={cn(
-                "flex items-center gap-1.5 px-1.5 py-1.5 sm:px-2 md:px-2.5 lg:px-3 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start sm:justify-center", // Adjusted padding and justification
-                "hover:text-primary hover:bg-primary/10", // Consistent hover style
-                activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80"
-              )}
-            >
-              <item.icon className="h-4 w-4 flex-shrink-0" />
-              {/* Show label on large screens and up */}
-              <span className={cn("hidden lg:inline whitespace-nowrap")}>{item.label}</span>
-            </Button>
+             {/* Use TooltipProvider at the root, but Tooltip here */}
+            <Tooltip>
+               <TooltipTrigger asChild>
+                   <Button
+                    variant="ghost"
+                    onClick={() => scrollToSection(item.id)}
+                    className={cn(
+                      "flex items-center gap-1.5 px-1.5 py-1.5 sm:px-2 md:px-2.5 lg:px-3 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start", // Left align for mobile
+                      !isMobile && "sm:justify-center", // Center on desktop
+                      "hover:text-primary hover:bg-primary/10", // Consistent hover style
+                      activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80"
+                    )}
+                  >
+                    {/* Responsive Icon Size */}
+                    <item.icon className={cn("h-4 w-4 flex-shrink-0", !isMobile && "md:h-5 md:w-5 lg:h-5 lg:w-5")} />
+                     {/* Show label ONLY on mobile */}
+                     <span className={cn(isMobile ? "inline" : "hidden", "whitespace-nowrap")}>{item.label}</span>
+                  </Button>
+               </TooltipTrigger>
+               {/* Tooltip Content - only shown on desktop */}
+               {!isMobile && (
+                 <TooltipContent side="bottom" align="center">
+                   <p>{item.label}</p>
+                 </TooltipContent>
+               )}
+            </Tooltip>
              {/* Active indicator for desktop */}
             {!isMobile && (
               <motion.span
@@ -116,52 +130,58 @@ const Navbar: React.FC = () => {
 
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading",
-        // Increased vertical padding slightly when scrolled
-        isScrolled ? "py-3 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent"
-      )}
-    >
-      <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8"> {/* Added lg:px-8 */}
-        {/* Logo or Name on the left */}
-        <Button variant="link" className="p-0 h-auto" onClick={() => scrollToSection('header')}>
-             <span className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-               Rohit K.
-             </span>
-        </Button>
+     <TooltipProvider delayDuration={100}> {/* Add TooltipProvider here */}
+        <motion.nav
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className={cn(
+            "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading",
+            // Increased vertical padding slightly when scrolled
+            isScrolled ? "py-3 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent"
+          )}
+        >
+          <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8"> {/* Added lg:px-8 */}
+            {/* Logo or Name on the left */}
+            <Button variant="link" className="p-0 h-auto" onClick={() => scrollToSection('header')}>
+                 <span className="text-xl font-bold text-foreground hover:text-primary transition-colors">
+                   Rohit K.
+                 </span>
+            </Button>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden md:flex flex-1 justify-center items-center overflow-hidden mx-4"> {/* Allow flex grow and center, hide overflow */}
-           <NavLinks />
-        </div>
+            {/* Desktop Navigation Links */}
+            <div className="hidden md:flex flex-1 justify-center items-center overflow-hidden mx-4"> {/* Allow flex grow and center, hide overflow */}
+               <NavLinks />
+            </div>
 
-        {/* Mobile Hamburger Menu */}
-        <div className="md:hidden">
-           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[250px] p-0 bg-background/95 border-l border-border/50">
-               <SheetHeader className="p-4 border-b border-border/30">
-                <SheetTitle className="text-primary text-lg font-heading">Menu</SheetTitle>
-                 <SheetClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                    <X className="h-4 w-4" />
-                    <span className="sr-only">Close</span>
-                  </SheetClose>
-              </SheetHeader>
-              <NavLinks isMobile={true} />
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
-    </motion.nav>
+            {/* Mobile Hamburger Menu */}
+            <div className="md:hidden">
+               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <Menu className="h-6 w-6" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[250px] p-0 bg-background/95 border-l border-border/50">
+                   <SheetHeader className="p-4 border-b border-border/30">
+                    <SheetTitle className="text-primary text-lg font-heading">Menu</SheetTitle>
+                     {/* SheetClose is automatically added by SheetContent, or can be placed explicitly. Ensure only one visible close mechanism */}
+                     {/* The default X button provided by SheetContent is usually sufficient */}
+                     {/* Explicit SheetClose (if needed, ensure default is hidden or styled):
+                       <SheetClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                         <X className="h-4 w-4" />
+                         <span className="sr-only">Close</span>
+                       </SheetClose>
+                     */}
+                  </SheetHeader>
+                  <NavLinks isMobile={true} />
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
+        </motion.nav>
+      </TooltipProvider>
   );
 };
 
