@@ -30,14 +30,16 @@ const sections = [
   { id: 'contact', component: ContactMe, title: 'Contact' },
 ];
 
+// Smoother animation variants
 const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0, y: 60 }, // Slightly increased initial distance
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: "easeOut",
+      duration: 0.7, // Slightly longer duration
+      ease: [0.6, 0.01, -0.05, 0.95], // Custom cubic-bezier for smoother feel
+      staggerChildren: 0.1, // Add subtle stagger if section has animated children
     },
   },
 };
@@ -54,6 +56,7 @@ export default function Home() {
       <StarfieldCanvas /> {/* Add the Starfield Canvas here */}
       <Navbar />
       {/* Main content area with vertical sections */}
+      {/* Apply custom scrollbar styling via global CSS */}
       <main className="container mx-auto px-4 py-24 pt-32 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
         {sections.map((section, index) => (
           <motion.div
@@ -61,7 +64,7 @@ export default function Home() {
             id={section.id} // Keep ID for navigation
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }} // Trigger when 10% is visible
+            viewport={{ once: true, amount: 0.15 }} // Trigger when 15% is visible for smoother appearance
             variants={sectionVariants}
             // Using standard layout flow, not explicit cards for sections anymore
             className={cn(
@@ -79,7 +82,7 @@ export default function Home() {
         ))}
       </main>
       <Footer />
-       {/* No custom scrollbar needed */}
     </div>
   );
 }
+```

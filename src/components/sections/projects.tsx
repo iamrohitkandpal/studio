@@ -36,10 +36,11 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
   title, duration, type, techStack, description, onExpand, imageUrl, githubLink, liveLink, comingSoon
 }) => (
   <motion.div
-    layout
-    initial={{ opacity: 0, y: 20 }}
+    layout // Enable layout animation
+    initial={{ opacity: 0, y: 30 }} // Slightly increased distance
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
+    exit={{ opacity: 0, y: -20 }} // Add exit animation
+    transition={{ duration: 0.5, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother ease
     className="group flex flex-col h-full" // Ensure card takes full height if needed in grid
   >
     <Card className="bg-card border-border/30 shadow-md hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col flex-grow h-full overflow-hidden">
@@ -177,15 +178,17 @@ const Projects: React.FC = () => {
       <AnimatePresence>
         {selectedProject && (
           <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-             {/* Standard Dialog Content, adjusted padding */}
-            <DialogContent className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden bg-card border-border/50">
+             {/* Adjusted Dialog Content for better scroll and padding */}
+            <DialogContent
+              className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden bg-card border-border/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%]" // Use standard animation
+            >
                {/* Header */}
                <DialogHeader className="p-6 pb-4 border-b border-border/30 flex-shrink-0 bg-card sticky top-0 z-10">
                  <DialogTitle className="text-2xl font-heading text-primary">{selectedProject.title}</DialogTitle>
                  <DialogDescription className="text-sm font-caption text-foreground/70">
                    {selectedProject.duration} • {selectedProject.type}
                  </DialogDescription>
-                  {/* Close button inside header for better positioning */}
+                  {/* Close button inside header */}
                   <DialogClose asChild>
                        <Button type="button" variant="ghost" size="icon" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
                            <X size={18} />
@@ -194,8 +197,8 @@ const Projects: React.FC = () => {
                    </DialogClose>
                </DialogHeader>
 
-               {/* Scrollable Content */}
-               <div className="flex-grow overflow-y-auto px-6 py-4 space-y-6 custom-scrollbar">
+               {/* Scrollable Content Area */}
+               <div className="flex-grow overflow-y-auto px-6 py-4 space-y-6 custom-scrollbar"> {/* Apply custom scrollbar class */}
                  {/* Image */}
                  {selectedProject.imageUrl && (
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border/50 shadow-md mb-4">
@@ -251,35 +254,19 @@ const Projects: React.FC = () => {
                         </Button>
                     )}
                   </div>
-                  {/* Keep close button in footer as alternative */}
-                  {/* <DialogClose asChild><Button type="button" variant="ghost" size="sm">Close</Button></DialogClose> */}
+                  {/* Removed explicit close button from footer, using header one */}
                </DialogFooter>
             </DialogContent>
           </Dialog>
         )}
       </AnimatePresence>
 
-       {/* Add custom scrollbar styles locally if needed */}
-       <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: hsl(var(--card)); /* Match modal background */
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: hsl(var(--border) / 0.7); /* Semi-transparent border color */
-          border-radius: 10px;
-          border: 2px solid hsl(var(--card)); /* Add padding */
-        }
-         .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: hsl(var(--border) / 0.7) hsl(var(--card));
-         }
-      `}</style>
+       {/* Add custom scrollbar styles locally if needed (covered globally now) */}
+       {/* <style jsx global>{` ... `}</style> */}
 
     </div>
   );
 };
 
 export default Projects;
+```

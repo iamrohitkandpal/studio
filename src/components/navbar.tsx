@@ -73,7 +73,7 @@ const Navbar: React.FC = () => {
     <motion.nav
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
+      transition={{ duration: 0.6, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother animation
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading",
         isScrolled ? "py-2 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent" // ChaiCode style: background appears on scroll
@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
               key={item.id}
               className="relative group"
               whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }} // Slightly faster hover
             >
               <Link
                 href={`#${item.id}`}
@@ -123,7 +123,7 @@ const Navbar: React.FC = () => {
                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-center" // Center origin
                  style={{ scaleX: activeLink === item.id ? 1 : 0 }} // Show if active
                  animate={{ scaleX: activeLink === item.id ? 1 : 0 }}
-                 transition={{ duration: 0.3, ease: "easeOut" }}
+                 transition={{ duration: 0.35, ease: "easeOut" }} // Smoother underline transition
                  // whileHover={{ scaleX: 1 }} // Optionally add back hover underline
                  initial={false}
                />
@@ -136,3 +136,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+```

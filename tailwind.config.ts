@@ -105,5 +105,6 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")], // Keep animate plugin for ShadCN components
 } satisfies Config;
+```

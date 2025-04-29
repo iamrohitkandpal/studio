@@ -38,9 +38,15 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
-        "md:max-w-2xl lg:max-w-4xl", // Keep responsive width adjustments
-        // Removed "project-modal-content" class
+        "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200", // Base styles
+        // Use smoother animation matching page sections
+        "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%]",
+        // Responsive width adjustments
+        "sm:max-w-lg md:max-w-2xl lg:max-w-4xl",
+        // Rounded corners
+        "sm:rounded-lg",
+        // Custom class for potential further styling (like scrollbar)
+        "project-modal-content",
         className
       )}
       {...props}
@@ -123,3 +129,4 @@ export {
   DialogTitle,
   DialogDescription,
 }
+```

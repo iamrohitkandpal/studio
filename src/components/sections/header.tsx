@@ -13,9 +13,9 @@ const Header: React.FC = () => {
 
        {/* Left Column (Image & Socials) */}
       <motion.div
-        initial={{ opacity: 0, x: -50 }}
+        initial={{ opacity: 0, x: -60 }} // Slightly increased distance
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.7, ease: 'easeOut' }}
+        transition={{ duration: 0.8, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother animation
         className="flex flex-col items-center md:items-start"
       >
         <div className="mb-6">
@@ -54,9 +54,9 @@ const Header: React.FC = () => {
 
       {/* Right Column (Text & CTA) */}
       <motion.div
-         initial={{ opacity: 0, y: 50 }}
+         initial={{ opacity: 0, y: 60 }} // Slightly increased distance
          animate={{ opacity: 1, y: 0 }}
-         transition={{ duration: 0.7, delay: 0.2, ease: 'easeOut' }}
+         transition={{ duration: 0.8, delay: 0.2, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother animation
         className="flex flex-col items-center md:items-start max-w-2xl"
       >
         {/* Name */}
@@ -91,3 +91,4 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+```
