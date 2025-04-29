@@ -1,10 +1,10 @@
 
 import type {Metadata} from 'next';
-// Removed Satoshi, Neue_Montreal, General_Sans as they are not standard Google Fonts
+// Use Google Fonts that are close to the suggestion
 import { Inter, Manrope, Outfit } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
-import CustomCursor from '@/components/custom-cursor';
+// import CustomCursor from '@/components/custom-cursor'; // Removed
 import { cn } from '@/lib/utils';
 
 // Define fonts with specific weights and subsets available via Google Fonts
@@ -14,9 +14,9 @@ const fontOutfit = Outfit({ // Use Outfit for headings (alternative to Satoshi)
   variable: '--font-heading', // CSS variable for headings
 });
 
-const fontInter = Inter({ // Keep Inter for body and potentially subheadings
+const fontInter = Inter({ // Keep Inter for body text (alternative to General Sans)
   subsets: ['latin'],
-  weight: ['400', '500', '600'], // Regular, Medium, Semi-bold
+  weight: ['400', '500', '600'], // Regular, Medium, Semi-bold (covers Subheadings too)
   variable: '--font-body', // CSS variable for body text
 });
 
@@ -45,17 +45,16 @@ export default function RootLayout({
       <body
        className={cn(
           "antialiased relative",
-          fontOutfit.variable, // Use Outfit variable
-          fontInter.variable,  // Use Inter variable
-          fontManrope.variable, // Use Manrope variable
+          fontOutfit.variable,
+          fontInter.variable,
+          fontManrope.variable,
           "font-body" // Set Inter as the default body font via Tailwind class
         )}
        >
-        <CustomCursor />
+        {/* <CustomCursor /> */} {/* Removed */}
         {children}
         <Toaster />
       </body>
     </html>
   );
 }
-

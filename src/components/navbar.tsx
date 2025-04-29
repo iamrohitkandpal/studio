@@ -4,18 +4,19 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users, Mail } from 'lucide-react'; // Added Mail
+import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users, Mail, Home as HomeIcon } from 'lucide-react'; // Use HomeIcon for clarity
 
 const navItems = [
-  { id: 'header', label: 'Home', icon: CodeXml },
-  { id: 'education', label: 'Education', icon: GraduationCap },
-  { id: 'experience', label: 'Experience', icon: Briefcase },
-  { id: 'projects', label: 'Projects', icon: FolderGit2 },
+  { id: 'header', label: 'Home', icon: HomeIcon }, // Use HomeIcon
   { id: 'skills', label: 'Skills', icon: Wrench },
-  { id: 'certifications', label: 'Certifications', icon: Award },
-  { id: 'achievements', label: 'Achievements', icon: Star },
-  { id: 'extracurricular', label: 'Extracurricular', icon: Users },
-  { id: 'contact', label: 'Contact', icon: Mail }, // Added Contact
+  { id: 'projects', label: 'Projects', icon: FolderGit2 },
+  { id: 'experience', label: 'Experience', icon: Briefcase },
+  { id: 'education', label: 'Education', icon: GraduationCap },
+  // Optional sections (can be added back if desired)
+  // { id: 'certifications', label: 'Certs', icon: Award },
+  // { id: 'achievements', label: 'Achieve', icon: Star },
+  // { id: 'extracurricular', label: 'Extra', icon: Users },
+  { id: 'contact', label: 'Contact', icon: Mail },
 ];
 
 const Navbar: React.FC = () => {
@@ -25,44 +26,43 @@ const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50);
+      setIsScrolled(scrollPosition > 50); // Detect scroll past 50px
 
-      // Determine active section based on scroll position
+      // Active section detection logic (simplified for vertical layout)
       let currentSection = 'header';
-      const sections = document.querySelectorAll<HTMLElement>('section[id], div[id]'); // Include divs for motion.div IDs
-      let closestSection: { id: string; top: number } | null = null;
-      const offset = 150; // Adjust offset (pixels from top to consider 'active')
+      const sections = document.querySelectorAll<HTMLElement>('div[id]'); // Target divs with IDs
+      let closestSectionDistance = Infinity;
+      const offset = 150; // Pixels from top to consider active
 
       sections.forEach(section => {
         const rect = section.getBoundingClientRect();
-        const topDistance = Math.abs(rect.top - offset); // Use absolute distance from offset
+        const elementTop = rect.top + window.scrollY; // Absolute top position of the section
+        const viewTop = window.scrollY + offset; // Adjusted viewport top
 
-         // Check if the top of the section is within a reasonable range of the offset
-         // and the section is at least partially visible
-        if (rect.top < window.innerHeight - offset && rect.bottom >= offset) {
-            if (!closestSection || topDistance < closestSection.top) {
-                closestSection = { id: section.id, top: topDistance };
-            }
+         // Check if the section is the closest one at or above the offset line
+        if (elementTop <= viewTop) {
+          const distance = viewTop - elementTop;
+          if (distance < closestSectionDistance) {
+             closestSectionDistance = distance;
+             currentSection = section.id;
+          }
         }
       });
 
-       // Handle edge case: scrolled to the bottom of the page
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) { // 50px buffer
+       // Handle edge case: scrolled near the bottom of the page
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) { // 100px buffer from bottom
          const lastSection = navItems[navItems.length - 1];
-          if(lastSection) {
-              currentSection = lastSection.id;
-          }
-       } else if (closestSection) {
-          currentSection = closestSection.id;
-       } else if (window.scrollY < 200) { // Fallback for top of page
+         if (lastSection) {
+             currentSection = lastSection.id;
+         }
+      } else if (window.scrollY < offset) { // If very close to the top
          currentSection = 'header';
       }
-
 
       setActiveLink(currentSection);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true }); // Use passive listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial check
 
     return () => window.removeEventListener('scroll', handleScroll);
@@ -75,60 +75,57 @@ const Navbar: React.FC = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading", // Apply heading font (Outfit)
-        "transform-style:preserve-3d", // Enable 3D transforms for children
-        isScrolled ? "py-2 glass-card backdrop-blur-lg shadow-lg" : "py-4"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading",
+        isScrolled ? "py-2 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent" // ChaiCode style: background appears on scroll
       )}
-       style={{ perspective: '1000px' }} // Apply perspective for 3D effect
     >
-      <div className="container mx-auto flex items-center justify-center px-4">
-        {/* Slightly darker background for the inner pill */}
-        <ul className="flex space-x-1 sm:space-x-2 md:space-x-3 bg-card/50 backdrop-blur-md p-1.5 sm:p-2 rounded-full border border-border/60 shadow-inner">
+      <div className="container mx-auto flex items-center justify-between px-4">
+        {/* Optional: Logo or Name on the left */}
+        <Link href="#header" className="text-xl font-bold text-foreground hover:text-primary transition-colors">
+          Rohit K.
+        </Link>
+
+        {/* Navigation Links centered or on the right */}
+        <ul className="flex space-x-1 sm:space-x-2 md:space-x-4">
           {navItems.map((item) => (
             <motion.li
               key={item.id}
               className="relative group"
-              whileHover={{ y: -2, transition: { duration: 0.2 } }} // Subtle lift on hover
+              whileHover={{ y: -2 }}
+              transition={{ duration: 0.2 }}
             >
               <Link
                 href={`#${item.id}`}
                  onClick={(e) => {
-                   // Smooth scroll logic
-                   e.preventDefault(); // Prevent default jump
+                   e.preventDefault();
                    setActiveLink(item.id);
                    const element = document.getElementById(item.id);
                    if (element) {
-                       const yOffset = -100; // Adjust offset for fixed navbar
-                       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                       const yOffset = -80; // Adjust offset for fixed navbar height
+                       const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
                        window.scrollTo({top: y, behavior: 'smooth'});
                    }
                  }}
                 className={cn(
-                  "flex items-center gap-1 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200", // Keep font-semibold (Weight 600) from heading font (Outfit)
+                  "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors duration-200",
                   "hover:text-primary",
-                  activeLink === item.id ? "text-primary" : "text-foreground/80"
+                  activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80" // Simple active style
                 )}
               >
-                <item.icon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" /> {/* Ensure icon doesn't shrink */}
-                <span className="hidden md:inline whitespace-nowrap">{item.label}</span> {/* Show on medium+ */}
-                <span className="sm:hidden md:hidden whitespace-nowrap text-[10px]">{item.label.substring(0,4)}</span> {/* Shorter label for small */}
-
+                <item.icon className="h-4 w-4 flex-shrink-0" />
+                <span className="hidden md:inline whitespace-nowrap">{item.label}</span>
+                {/* Keep short label for small screens if needed */}
+                 {/* <span className="sm:hidden md:hidden whitespace-nowrap text-[10px]">{item.label.substring(0,4)}</span> */}
               </Link>
-              {activeLink === item.id && (
-                <motion.div
-                  layoutId="active-nav-item"
-                  className="absolute inset-0 bg-primary/10 rounded-full -z-10"
-                  transition={{ type: 'spring', stiffness: 350, damping: 30 }}
-                  style={{ originX: 0.5, originY: 0.5 }} // Scale from center
-                />
-              )}
-               {/* On-hover underline animation */}
+              {/* Removed layoutId animation for active item background */}
+               {/* Keep simple underline on hover */}
                <motion.span
-                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-left"
-                 style={{ scaleX: 0 }}
+                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-center" // Center origin
+                 style={{ scaleX: activeLink === item.id ? 1 : 0 }} // Show if active
+                 animate={{ scaleX: activeLink === item.id ? 1 : 0 }}
                  transition={{ duration: 0.3, ease: "easeOut" }}
-                 whileHover={{ scaleX: 1 }} // Animate on hover using Framer Motion
-                 initial={false} // Don't animate initially
+                 // whileHover={{ scaleX: 1 }} // Optionally add back hover underline
+                 initial={false}
                />
             </motion.li>
           ))}

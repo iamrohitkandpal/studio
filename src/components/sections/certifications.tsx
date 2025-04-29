@@ -1,38 +1,36 @@
-
 'use client';
 
 import React from 'react';
 import { Award, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
 
 interface CertificationItemProps {
   title: string;
   issuer: string;
   description: string;
-  link?: string; // Optional verification link
+  link?: string;
 }
 
 const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, description, link }) => (
-   // Added hover effect
-   <div className="mb-4 last:mb-0 glass-card p-4 rounded-lg shadow-lg border border-border/30 transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30 hover:-translate-y-1">
-     <div className="flex justify-between items-start">
+   <Card className="bg-card/50 border-border/30 shadow-sm transition-shadow hover:shadow-md hover:border-primary/30">
+     <CardHeader className="flex flex-row items-start justify-between pb-2">
        <div>
-          {/* Certification title using body font (Inter) with semibold weight (subheading style) */}
-          <h3 className="text-lg font-body font-semibold text-primary">{title}</h3>
-          {/* Issuer using body font, slightly bolder (Inter, 500) */}
-          <p className="text-sm font-body font-medium text-foreground/80 mb-1">{issuer}</p>
+          <CardTitle className="text-lg font-body font-semibold text-primary">{title}</CardTitle>
+          <CardDescription className="text-sm font-body font-medium text-foreground/80 pt-1">{issuer}</CardDescription>
        </div>
         {link && (
-          <Button variant="ghost" size="icon" asChild className="ml-2 flex-shrink-0 text-foreground/70 hover:text-primary">
+          <Button variant="ghost" size="icon" asChild className="ml-2 flex-shrink-0 text-foreground/60 hover:text-primary -mt-1">
              <a href={link} target="_blank" rel="noopener noreferrer" aria-label={`Verify ${title}`}>
                <ExternalLink size={16} />
              </a>
           </Button>
         )}
-     </div>
-     {/* Description using body font (Inter, 400) */}
-     <p className="text-sm font-body text-foreground/70">{description}</p>
-   </div>
+     </CardHeader>
+     <CardContent>
+        <p className="text-sm font-body text-foreground/70">{description}</p>
+     </CardContent>
+   </Card>
 );
 
 const Certifications: React.FC = () => {
@@ -40,30 +38,32 @@ const Certifications: React.FC = () => {
     {
       title: 'Frontend Domination',
       issuer: 'Sheryians Coding School',
-      description: 'Advanced web application development focusing on modern frontend techniques and complex animations.',
-      // link: '#' // Add verification link
+      description: 'Advanced web development focusing on modern frontend techniques and animations.',
+      // link: '#'
     },
     {
-      title: 'Software Engineering Job Simulation',
+      title: 'Software Engineering Simulation',
       issuer: 'J.P. Morgan Chase & Co.',
-      description: 'Completed tasks including fixing repository issues and performing live data visualization using Python.',
+      description: 'Tasks included repository fixes and live data visualization using Python.',
       // link: '#'
     },
      {
-      title: 'Agile Job Simulation',
+      title: 'Agile Simulation',
       issuer: 'JPMorgan Chase & Co.',
-      description: 'Practiced Agile methodologies: drafted user stories, led stand-ups, and participated in sprint reviews.',
+      description: 'Practiced Agile methodologies: drafted user stories, led stand-ups, participated in reviews.',
       // link: '#'
     },
   ];
 
   return (
-    <div className="h-full flex flex-col"> {/* Ensure full height */}
-      {/* Section title using heading font (Outfit, 600-700) */}
-      <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
-        <Award className="text-primary" /> Certifications
+    <div className="space-y-12"> {/* Add spacing */}
+      {/* Section Title */}
+      <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
+        <Award className="w-8 h-8" /> Certifications
       </h2>
-      <div className="flex-grow space-y-4"> {/* Allow content to grow and add spacing */}
+
+      {/* Certifications Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto"> {/* Adjust grid */}
         {certifications.map((cert, index) => (
           <CertificationItem key={index} {...cert} />
         ))}

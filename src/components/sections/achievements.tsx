@@ -1,8 +1,8 @@
-
 'use client';
 
 import React from 'react';
 import { Star } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Use Card
 
 const Achievements: React.FC = () => {
   const achievements = [
@@ -11,27 +11,33 @@ const Achievements: React.FC = () => {
   ];
 
   return (
-    <div className="h-full flex flex-col"> {/* Ensure full height for flex */}
-      {/* Section title using heading font (Outfit, 600-700) */}
-      <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
-        <Star className="text-primary" /> Achievements
+    <div className="space-y-12"> {/* Add spacing */}
+      {/* Section Title */}
+      <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
+        <Star className="w-8 h-8" /> Achievements
       </h2>
-      <ul className="space-y-3 flex-grow"> {/* Allow list to grow */}
-        {achievements.map((ach, index) => (
-          <li key={index} className="flex items-start gap-3 glass-card p-4 rounded-lg border border-border/30 transition-shadow hover:shadow-primary/20 hover:shadow-md"> {/* Add hover effect */}
-             <Star size={18} className="text-amber-400 mt-1 flex-shrink-0" />
-            <div>
-                {/* Achievement text using body font (Inter, 400-500) */}
-                <p className="font-body text-foreground/90 text-sm">{ach.text}</p>
-                {/* Year using caption font (Manrope, 400) */}
-                <p className="text-xs font-caption text-foreground/60 mt-1">({ach.year})</p>
-            </div>
-          </li>
-        ))}
-      </ul>
+
+      {/* Achievements List within a Card */}
+      <Card className="bg-card/50 border-border/30 shadow-md max-w-3xl mx-auto">
+        <CardHeader>
+           <CardTitle className="text-xl font-body font-semibold text-foreground/90">Key Accomplishments</CardTitle>
+        </CardHeader>
+        <CardContent>
+           <ul className="space-y-4">
+            {achievements.map((ach, index) => (
+              <li key={index} className="flex items-start gap-3 border-l-2 border-primary pl-4 py-1">
+                 <Star size={18} className="text-amber-400 mt-1 flex-shrink-0" />
+                <div>
+                    <p className="font-body text-foreground/90 text-sm">{ach.text}</p>
+                    <p className="text-xs font-caption text-foreground/60 mt-1">({ach.year})</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   );
 };
 
 export default Achievements;
-

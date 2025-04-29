@@ -1,8 +1,8 @@
-
 'use client';
 
 import React from 'react';
 import { Briefcase } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card components
 
 interface ExperienceItemProps {
   company: string;
@@ -13,21 +13,21 @@ interface ExperienceItemProps {
 }
 
 const ExperienceItem: React.FC<ExperienceItemProps> = ({ company, role, duration, location, description }) => (
-   // Added hover effect
-  <div className="mb-6 last:mb-0 glass-card p-6 rounded-lg shadow-lg border border-border/30 transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30 hover:-translate-y-1">
-    {/* Company name using body font (Inter) with semibold weight (subheading style) */}
-    <h3 className="text-xl font-body font-semibold text-primary">{company}</h3>
-    {/* Role using body font, slightly bolder (Inter, 500) */}
-    <p className="text-md font-body font-medium text-foreground/90 mt-1">{role}</p>
-    {/* Duration and location using caption font (Manrope, 400) */}
-    <p className="text-sm font-caption text-foreground/60 mb-3">{duration} ({location})</p>
-    {/* Description points using body font (Inter, 400) */}
-    <ul className="list-disc list-outside pl-5 space-y-1.5 font-body text-foreground/80 text-sm">
-      {description.map((point, index) => (
-        <li key={index}>{point}</li>
-      ))}
-    </ul>
-  </div>
+  <Card className="bg-card/50 border-border/30 shadow-md transition-shadow hover:shadow-lg hover:border-primary/40">
+    <CardHeader className="pb-3">
+      <CardTitle className="text-xl font-body font-semibold text-primary">{company}</CardTitle>
+      <CardDescription className="text-sm font-caption text-foreground/70 pt-1">
+        {role} • {duration} ({location})
+      </CardDescription>
+    </CardHeader>
+    <CardContent>
+      <ul className="list-disc list-outside pl-5 space-y-1.5 font-body text-foreground/80 text-sm">
+        {description.map((point, index) => (
+          <li key={index}>{point}</li>
+        ))}
+      </ul>
+    </CardContent>
+  </Card>
 );
 
 const Experience: React.FC = () => {
@@ -38,26 +38,25 @@ const Experience: React.FC = () => {
       duration: 'Jun 2024 – Jul 2024',
       location: 'Remote – Mumbai',
       description: [
-        'Developed 4–5 front-end projects using modern web technologies.',
-        'Gained hands-on experience in UI/UX best practices, responsive design, and version control.',
-        'Collaborated with senior developers to refine coding techniques and workflows.'
+        'Developed multiple front-end projects using modern web technologies.',
+        'Gained hands-on experience in UI/UX best practices and responsive design.',
+        'Collaborated effectively using version control (Git).', // Simplified
       ]
     },
     {
       company: 'CodTech IT Solutions Pvt. Ltd.',
       role: 'Full Stack Developer Intern',
-      duration: 'Dec 2023 – Jan 2024', // Corrected dates
+      duration: 'Dec 2023 – Jan 2024',
       location: 'Remote – Hyderabad',
       description: [
-        'Built 9 full-stack applications (chat app, Next.js weather app, productivity browser extension).',
-        'Integrated OAuth using Clerk for a fully working blog platform.',
-        'Strengthened end-to-end software development, deployment, and RESTful API expertise.'
+        'Built several full-stack applications (chat app, weather app, browser extension).',
+        'Integrated OAuth authentication using Clerk for a blog platform.',
+        'Strengthened skills in end-to-end development, deployment, and RESTful APIs.'
       ]
     }
-    // Add other experiences here if any
   ];
 
-  // Sort experiences chronologically (most recent first)
+  // Sorting logic remains the same
   experiences.sort((a, b) => {
     const parseDate = (duration: string) => {
       const startDateStr = duration.split('–')[0].trim();
@@ -66,19 +65,21 @@ const Experience: React.FC = () => {
       if (parts.length === 2 && monthMap[parts[0]] !== undefined && !isNaN(parseInt(parts[1]))) {
         return new Date(parseInt(parts[1]), monthMap[parts[0]]);
       }
-      return new Date(0); // Fallback
+      return new Date(0);
     };
     return parseDate(b.duration).getTime() - parseDate(a.duration).getTime();
   });
 
 
   return (
-    <div className="h-full flex flex-col"> {/* Ensure full height */}
-      {/* Section title using heading font (Outfit, 600-700) */}
-      <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
-        <Briefcase className="text-primary" /> Experience
-      </h2>
-      <div className="flex-grow space-y-4 overflow-y-auto pr-2"> {/* Allow scrolling if content overflows */}
+     <div className="space-y-12"> {/* Add spacing */}
+       {/* Section Title */}
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
+          <Briefcase className="w-8 h-8" /> Experience
+        </h2>
+
+       {/* Experience Items - using a simple grid or flex layout */}
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto"> {/* Adjust max-width and columns */}
         {experiences.map((exp, index) => (
           <ExperienceItem key={index} {...exp} />
         ))}
@@ -88,4 +89,3 @@ const Experience: React.FC = () => {
 };
 
 export default Experience;
-

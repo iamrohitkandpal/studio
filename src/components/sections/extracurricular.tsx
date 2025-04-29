@@ -1,8 +1,8 @@
-
 'use client';
 
 import React from 'react';
 import { Users } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
 
 const Extracurricular: React.FC = () => {
   const activities = [
@@ -10,37 +10,37 @@ const Extracurricular: React.FC = () => {
       role: 'Manager & Designer',
       organization: 'Radiance Club (College Cultural Club)',
       year: 2023,
-      description: 'Led the organization of cultural events, designed promotional flyers and posters, and managed club meetings effectively.',
+      description: 'Led event organization, designed promotional materials, managed club meetings.',
     },
     {
       role: 'Member',
       organization: 'IEEE Club',
       year: 2021,
-      description: 'Actively participated in technical events and workshops, gaining valuable knowledge in emerging technologies and networking with peers.',
+      description: 'Actively participated in technical events and workshops, gaining knowledge in emerging tech.',
     },
   ];
 
   return (
-    <div className="h-full flex flex-col"> {/* Ensure full height */}
-      {/* Section title using heading font (Outfit, 600-700) */}
-      <h2 className="text-2xl font-heading font-semibold mb-4 flex items-center gap-2">
-        <Users className="text-primary" /> Extracurricular Activities
-      </h2>
-      <div className="space-y-4 flex-grow"> {/* Allow content to grow */}
-        {activities.map((activity, index) => (
-           // Added hover effect
-          <div key={index} className="glass-card p-4 rounded-lg border border-border/30 transition-all duration-300 hover:shadow-primary/20 hover:border-primary/30 hover:-translate-y-1">
-            {/* Role using body font (Inter) with semibold weight (subheading style) */}
-            <h3 className="text-lg font-body font-semibold text-primary">{activity.role}</h3>
-            {/* Organization using body font, slightly bolder (Inter, 500) */}
-            <p className="text-md font-body font-medium text-foreground/80 mb-1">
-                {activity.organization}
-                 {/* Year using caption font (Manrope, 400) */}
-                <span className="font-caption text-foreground/60 ml-1">({activity.year})</span>
-            </p>
-            {/* Description using body font (Inter, 400) */}
-            <p className="text-sm font-body text-foreground/70">{activity.description}</p>
-          </div>
+     <div className="space-y-12"> {/* Add spacing */}
+       {/* Section Title */}
+        <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
+          <Users className="w-8 h-8" /> Extracurricular Activities
+        </h2>
+
+       {/* Activities Grid */}
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+         {activities.map((activity, index) => (
+          <Card key={index} className="bg-card/50 border-border/30 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+            <CardHeader className="pb-2">
+               <CardTitle className="text-lg font-body font-semibold text-primary">{activity.role}</CardTitle>
+               <CardDescription className="text-sm font-body font-medium text-foreground/80 pt-1">
+                  {activity.organization} <span className="font-caption text-foreground/60">({activity.year})</span>
+               </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm font-body text-foreground/70">{activity.description}</p>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
@@ -48,4 +48,3 @@ const Extracurricular: React.FC = () => {
 };
 
 export default Extracurricular;
-
