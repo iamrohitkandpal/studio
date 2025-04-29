@@ -14,9 +14,11 @@
     --popover: 220 20% 8%;
     --popover-foreground: 0 0% 98%;
 
-    /* --primary: 25 95% 55%;  Orange */
-    --primary: 180 100% 25%; /* Teal */
-    --primary-foreground: 0 0% 98%; /* White text on teal */
+    --primary: 25 95% 55%;  /* Orange */
+    /* --primary: 180 100% 25%; Teal */
+    --primary-foreground: 25 95% 15%; /* Darker Orange for text on primary */
+    /* --primary-foreground: 0 0% 98%; White text on teal */
+
 
     --secondary: 220 15% 25%; /* Dark muted blue/gray */
     --secondary-foreground: 0 0% 98%;
@@ -24,25 +26,27 @@
     --muted: 220 15% 25%;
     --muted-foreground: 0 0% 63.9%; /* Lighter gray */
 
-    /* --accent: 25 95% 55% / 0.1; Orange accent with low opacity */
-    --accent: 180 100% 25% / 0.1; /* Teal accent with low opacity */
-    /* --accent-foreground: 25 95% 65%; Lighter Orange */
-    --accent-foreground: 180 100% 35%; /* Slightly lighter Teal */
+    /* Using explicit hsla for the accent background */
+    --accent-hsl: 25 95% 55%;
+    --accent: hsla(var(--accent-hsl), 0.1);
+    /* --accent: 180 100% 25% / 0.1; Teal accent with low opacity */
+    --accent-foreground: 25 95% 65%; /* Lighter Orange */
+    /* --accent-foreground: 180 100% 35%; Slightly lighter Teal */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
     --border: 220 15% 30%; /* Muted border color */
     --input: 220 15% 25%;
-    /* --ring: 25 95% 60%; Orange for rings */
-    --ring: 180 100% 30%; /* Teal for rings */
+    --ring: 25 95% 60%; /* Orange for rings */
+    /* --ring: 180 100% 30%; Teal for rings */
 
 
     --radius: 0.5rem;
 
     /* Chart colors (adjust if needed, using primary/secondary palette) */
-    /* --chart-1: 25 95% 55%; Orange */
-    --chart-1: 180 100% 25%; /* Teal */
+    --chart-1: 25 95% 55%; /* Orange */
+    /* --chart-1: 180 100% 25%; Teal */
     --chart-2: 210 80% 60%; /* Blue */
     --chart-3: 30 90% 55%; /* Yellow */
     --chart-4: 300 75% 60%; /* Purple */
@@ -64,20 +68,21 @@
     --card-foreground: 0 0% 98%;
     --popover: 220 20% 8%;
     --popover-foreground: 0 0% 98%;
-    --primary: 180 100% 25%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 25 95% 55%;
+    --primary-foreground: 25 95% 15%;
     --secondary: 220 15% 25%;
     --secondary-foreground: 0 0% 98%;
     --muted: 220 15% 25%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 180 100% 25% / 0.1;
-    --accent-foreground: 180 100% 35%;
+    --accent-hsl: 25 95% 55%;
+    --accent: hsla(var(--accent-hsl), 0.1);
+    --accent-foreground: 25 95% 65%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 15% 30%;
     --input: 220 15% 25%;
-    --ring: 180 100% 30%;
-    --chart-1: 180 100% 25%;
+    --ring: 25 95% 60%;
+    --chart-1: 25 95% 55%;
     --chart-2: 210 80% 60%;
     --chart-3: 30 90% 55%;
     --chart-4: 300 75% 60%;
@@ -90,19 +95,33 @@
     @apply border-border;
   }
   html {
-      scroll-behavior: smooth !important;
-      /* For Firefox - Hide scrollbar */
-      scrollbar-width: none;
+    scroll-behavior: smooth !important;
+    /* For Firefox - aesthetic scrollbar */
+    scrollbar-width: thin;
+    /* Set scrollbar color: thumb and track - using hsla for thumb alpha */
+    scrollbar-color: hsla(var(--primary), 0.5) transparent;
   }
   body {
     @apply bg-background text-foreground font-body; /* Default to Inter */
-    /* For Webkit browsers - Hide scrollbar */
-    &::-webkit-scrollbar {
-        display: none;
-    }
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    /* IE and Edge - Hide scrollbar */
+    -ms-overflow-style: none;
   }
+
+  /* For Webkit browsers - aesthetic scrollbar - using hsla for thumb alpha */
+  body::-webkit-scrollbar {
+    width: 6px; /* Width of the scrollbar */
+  }
+
+  body::-webkit-scrollbar-track {
+    background: transparent; /* Make track transparent */
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: hsla(var(--primary), 0.5); /* Color of the thumb (primary orange, semi-transparent) */
+    border-radius: 10px; /* Roundness of the thumb */
+    /* border: 1px solid hsl(var(--background)); Creates padding around thumb */
+  }
+
 
  h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-semibold; /* Outfit */
@@ -112,10 +131,6 @@
      @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
   }
 }
-
-
-/* Remove the previous scrollbar utility layer */
-/* @layer utilities { ... } */
 
 
 /* Canvas styles */
@@ -129,21 +144,24 @@
     pointer-events: none; /* Allow interactions with elements below */
 }
 
-/* Ensure project modal content scrolls nicely AND hides scrollbar */
-.project-modal-content > div:nth-child(2) { /* Target the scrollable div */
-   /* Hide scrollbar */
-   -ms-overflow-style: none;  /* IE and Edge */
-   scrollbar-width: none;  /* Firefox */
-   &::-webkit-scrollbar {
-        display: none; /* Webkit */
-   }
+/* Ensure project modal content scrolls nicely - Using hsla */
+/* Target the scrollable div inside the modal content */
+.project-modal-content > div:nth-child(2) {
+   /* Firefox */
+   scrollbar-width: thin;
+   scrollbar-color: hsla(var(--primary), 0.7) hsla(var(--card), 0.5);
 }
 
-/* Glassmorphism Card Style */
-.glassmorphism-card {
-  background: hsla(var(--card), 0.5); /* Semi-transparent card background */
-  backdrop-filter: blur(10px); /* Blur effect */
-  -webkit-backdrop-filter: blur(10px); /* Safari support */
-  border: 1px solid hsla(var(--border), 0.2); /* Subtle border */
-  box-shadow: 0 8px 32px 0 hsla(var(--background), 0.1); /* Subtle shadow */
+.project-modal-content > div:nth-child(2)::-webkit-scrollbar {
+    width: 6px;
+}
+
+.project-modal-content > div:nth-child(2)::-webkit-scrollbar-track {
+    background: hsla(var(--card), 0.5);
+}
+
+.project-modal-content > div:nth-child(2)::-webkit-scrollbar-thumb {
+    background-color: hsla(var(--primary), 0.7);
+    border-radius: 8px;
+    border: 1px solid hsla(var(--card), 0.5);
 }
