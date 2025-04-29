@@ -4,103 +4,108 @@
 
 @layer base {
   :root {
-    /* Dark Theme - Orange Accent */
-    --background: 220 20% 8%; /* Very dark blue/black */
+    /* Theme: Dark Mode with Orange Accent */
+    --background: 220 20% 5%; /* Dark Blue-Gray */
     --foreground: 0 0% 98%; /* White */
 
-    --card: 220 20% 12%; /* Slightly lighter dark blue/black */
-    --card-foreground: 0 0% 98%;
+    --card: 220 15% 12%; /* Slightly lighter Blue-Gray */
+    --card-foreground: 0 0% 95%;
 
     --popover: 220 20% 8%;
-    --popover-foreground: 0 0% 98%;
+    --popover-foreground: 0 0% 95%;
 
-    --primary: 25 95% 55%; /* Orange HSL */
-    --primary-foreground: 220 20% 10%; /* Dark text on orange */
+    /* Use Orange (HSL: 25 95% 55%) for primary/accent */
+    --primary-hsl: 25 95% 55%;
+    --primary: hsl(var(--primary-hsl));
+    --primary-foreground: 0 0% 10%; /* Dark text on Orange */
 
-    --secondary: 220 15% 25%; /* Dark muted blue/gray */
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 220 10% 20%; /* Muted Blue-Gray */
+    --secondary-foreground: 0 0% 90%;
 
-    --muted: 220 15% 25%;
-    --muted-foreground: 0 0% 63.9%; /* Lighter gray */
+    --muted: 220 10% 18%;
+    --muted-foreground: 0 0% 60%; /* Lighter gray */
 
-    /* Use static HSLA for accent */
-    --accent-hsl: 25 95% 55%; /* Orange HSL for reference */
-    --accent: hsla(25, 95%, 55%, 0.1); /* Static HSLA - Orange */
-    --accent-foreground: 25 95% 65%; /* Slightly lighter Orange */
+    /* Accent color using the Orange HSL */
+    --accent-hsl: 25 95% 55%;
+    --accent: hsla(var(--accent-hsl) / 0.1); /* Orange with alpha */
+    --accent-foreground: hsl(var(--accent-hsl)); /* Full Orange for foreground */
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 70% 50%; /* Red */
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 30%; /* Muted border color */
-    --input: 220 15% 25%;
-    --ring: 25 95% 60%; /* Orange for rings */
+    --border: 220 10% 25%; /* Muted border color */
+    --input: 220 10% 18%;
+    --ring: 25 80% 60%; /* Lighter Orange for rings */
 
-    --radius: 0.5rem;
+    --radius: 0.75rem; /* Slightly more rounded */
 
-    /* Chart colors (adjust if needed) */
-    --chart-1: 25 95% 55%; /* Orange */
+    /* Chart colors (adjust if needed, using analogous/complementary) */
+    --chart-1: var(--primary-hsl); /* Orange */
     --chart-2: 210 80% 60%; /* Blue */
-    --chart-3: 120 70% 45%; /* Green */
+    --chart-3: 45 90% 50%; /* Yellow-Orange */
     --chart-4: 300 75% 60%; /* Purple */
-    --chart-5: 60 85% 50%; /* Yellow */
+    --chart-5: 180 70% 45%; /* Teal */
 
-    /* Font Variables - Using Google Fonts */
-    --font-heading: "Outfit", sans-serif; /* Headings */
+    /* Font Variables */
+    --font-heading: "Outfit", sans-serif; /* Headings (Satoshi fallback) */
     --font-subheading: "Neue Montreal", sans-serif; /* Subheadings */
-    --font-body: "Inter", sans-serif; /* Body Text */
+    --font-body: "Inter", sans-serif; /* Body Text (General Sans fallback) */
     --font-caption: "Manrope", sans-serif; /* Captions */
   }
 
   /* Ensure dark mode is the default */
   .dark {
      /* Keep the same variables as :root for default dark mode */
-    --background: 220 20% 8%;
+    --background: 220 20% 5%;
     --foreground: 0 0% 98%;
-    --card: 220 20% 12%;
-    --card-foreground: 0 0% 98%;
+    --card: 220 15% 12%;
+    --card-foreground: 0 0% 95%;
     --popover: 220 20% 8%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 25 95% 55%; /* Orange */
-    --primary-foreground: 220 20% 10%;
-    --secondary: 220 15% 25%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 220 15% 25%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent-hsl: 25 95% 55%; /* Kept for reference */
-    --accent: hsla(25, 95%, 55%, 0.1); /* Static HSLA - Orange */
-    --accent-foreground: 25 95% 65%;
-    --destructive: 0 62.8% 30.6%;
+    --popover-foreground: 0 0% 95%;
+    --primary: hsl(var(--primary-hsl)); /* Orange */
+    --primary-foreground: 0 0% 10%;
+    --secondary: 220 10% 20%;
+    --secondary-foreground: 0 0% 90%;
+    --muted: 220 10% 18%;
+    --muted-foreground: 0 0% 60%;
+    --accent: hsla(var(--accent-hsl) / 0.1); /* Orange with alpha */
+    --accent-foreground: hsl(var(--accent-hsl));
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 15% 30%;
-    --input: 220 15% 25%;
-    --ring: 25 95% 60%; /* Orange for rings */
-    --chart-1: 25 95% 55%;
+    --border: 220 10% 25%;
+    --input: 220 10% 18%;
+    --ring: 25 80% 60%; /* Lighter Orange for rings */
+    --chart-1: var(--primary-hsl);
     --chart-2: 210 80% 60%;
-    --chart-3: 120 70% 45%;
+    --chart-3: 45 90% 50%;
     --chart-4: 300 75% 60%;
-    --chart-5: 60 85% 50%;
+    --chart-5: 180 70% 45%;
   }
 }
 
 @layer base {
   * {
     @apply border-border box-border; /* Added box-sizing */
-    /* Removed custom scrollbar styles to fix potential parsing error */
+    /* scroll-behavior: smooth; /* Apply smooth scrolling globally */
   }
   html {
-    /* Ensure smooth scrolling is handled by CSS if JS fails */
-    scroll-behavior: smooth !important;
-    /* Remove custom scrollbar width/height styles */
-    /* overflow: overlay; /* Consider if needed, might cause layout shifts */
+    @apply scroll-smooth; /* Apply smooth scrolling using Tailwind */
+    /* overflow: overlay; /* Potential issue: removed */
+    /* scrollbar-gutter: stable; Prevent layout shift */
+
+    /* TEMPORARILY COMMENTED OUT SCROLLBAR STYLES TO FIX PARSING ERROR */
+    /* scrollbar-width: thin;
+       scrollbar-color: hsl(var(--border) / 0.6) hsl(var(--background)); /* thumb color track color */
+       /* scrollbar-color: hsla(var(--primary), 0.5) transparent; */
+       /* scrollbar-color: hsla(25, 95%, 55%, 0.5) transparent; /* Simplified static value */
   }
   body {
     @apply bg-background text-foreground font-body; /* Default to Inter */
     min-height: 100vh; /* Ensure body takes full height */
-    /* Remove custom scrollbar styles */
-    /* overflow-x: hidden; Prevent horizontal scroll */
+    overflow-x: hidden; /* Prevent horizontal scroll */
   }
 
- h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-semibold; /* Outfit */
   }
 
@@ -108,36 +113,32 @@
      @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
   }
 
- /* Commenting out custom scrollbar styles to fix parsing error */
- /* ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-  }
+  /* TEMPORARILY COMMENTED OUT SCROLLBAR STYLES TO FIX PARSING ERROR */
+  /* Custom Scrollbar Styles */
+  /* ::-webkit-scrollbar {
+     width: 8px;
+     height: 8px;
+   }
 
-  ::-webkit-scrollbar-track {
-     background: transparent;
-     border-radius: 10px;
-  }
+   ::-webkit-scrollbar-track {
+     background: hsl(var(--background)); /* Use background color for track */
+     /* border-radius: 10px; */ /* Optional: round the track */
+  /* }
 
-  ::-webkit-scrollbar-thumb {
-    background-color: hsla(var(--primary), 0.5);
-    border-radius: 10px;
-    border: 2px solid transparent;
-    background-clip: content-box;
-  }
+   ::-webkit-scrollbar-thumb {
+     background-color: hsl(var(--primary) / 0.5); /* Use accent color with alpha */
+     /* background-color: hsla(25 95% 55% / 0.5); /* Simplified static value */
+     /* border-radius: 10px;
+     border: 2px solid hsl(var(--background)); /* Creates padding around thumb */
+     /* background-clip: padding-box; /* Ensures border color doesn't overlap thumb */
+  /* }
 
-  ::-webkit-scrollbar-thumb:hover {
-     background-color: hsla(var(--primary), 0.8);
-  }
-
-  /* Firefox Scrollbar */
-  /* html {
-      scrollbar-width: thin;
-       /* Use static color to test parsing issue */
-      /* scrollbar-color: hsla(25, 95%, 55%, 0.5) transparent; /* thumb track */
+   ::-webkit-scrollbar-thumb:hover {
+      background-color: hsl(var(--primary) / 0.7); /* Darken/lighten on hover */
+      /* background-color: hsla(25 95% 55% / 0.7); /* Simplified static value */
   /* } */
-}
 
+}
 
 /* Canvas styles */
 #starfield-canvas {
@@ -146,8 +147,62 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Ensure it's behind content */
+    z-index: -10; /* Ensure it's behind everything */
     pointer-events: none; /* Allow interactions with elements below */
 }
 
-/* Removed Project modal scrollbar styles */
+/* Glassmorphism for Navbar when scrolled */
+.navbar-glass {
+    background: hsla(var(--background), 0.6); /* Use background color with alpha */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border-bottom: 1px solid hsla(var(--border), 0.3);
+}
+
+/* Base card styles (can be applied with Tailwind or specific class) */
+.base-card {
+  @apply bg-card/80 border border-border/30 rounded-lg shadow-md backdrop-blur-sm;
+  /* Add transition for hover effects if needed */
+  @apply transition-all duration-300;
+}
+
+/* Style for section wrappers - can replace direct styling on motion.div */
+.section-wrapper {
+  @apply mb-16 md:mb-24 relative z-10; /* Spacing and positioning */
+}
+
+/* Project Modal specific scrollbar (if needed) */
+.project-modal-content .overflow-y-auto {
+  /* Add custom scrollbar styling here if default browser scrollbar is undesirable */
+  /* Example (using WebKit prefixes): */
+  /*
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary-hsl) / 0.4);
+    border-radius: 6px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary-hsl) / 0.6);
+  }
+  */
+  /* Example (Firefox): */
+  /* scrollbar-width: thin; */
+  /* scrollbar-color: hsl(var(--primary-hsl) / 0.4) transparent; */
+}
+
+
+/* Add smooth transition for layout changes if needed */
+.smooth-layout-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Additional chai code theme styles if necessary */
+/* Example: Specific button style */
+.chai-button {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-2 px-4 rounded-md transition-colors duration-300;
+}
