@@ -2,15 +2,15 @@
 import type {Metadata} from 'next';
 // Use Google Fonts that match the suggestions
 import { Inter, Manrope, Outfit } from 'next/font/google';
-// Assuming Neue Montreal is not on Google Fonts, it would need local setup or a fallback.
-// Using Outfit for headings, Inter for body, Manrope for captions as before.
+// Neue Montreal is not available via next/font/google.
+// Assuming it's loaded via @font-face or similar.
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 // import CustomCursor from '@/components/custom-cursor'; // Custom cursor removed as requested
 
 // Define fonts with specific weights and subsets available via Google Fonts
-const fontOutfit = Outfit({ // Heading font
+const fontOutfit = Outfit({ // Heading font (alternative to Satoshi)
   subsets: ['latin'],
   weight: ['600', '700'], // Semi-bold, Bold
   variable: '--font-heading', // CSS variable for headings
@@ -21,7 +21,7 @@ const fontOutfit = Outfit({ // Heading font
 // If not available, Tailwind will fall back to sans-serif.
 const fontNeueMontrealVariable = { variable: '--font-subheading' }; // Placeholder variable definition
 
-const fontInter = Inter({ // Body font
+const fontInter = Inter({ // Body font (alternative to General Sans)
   subsets: ['latin'],
   weight: ['400', '500'], // Regular, Medium
   variable: '--font-body', // CSS variable for body text
@@ -45,8 +45,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   return (
-    // Apply dark mode directly to HTML tag
-    <html lang="en" className="dark" suppressHydrationWarning>
+    // Apply dark mode directly to HTML tag and enable smooth scrolling
+    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head />
       {/* Apply font variables to the body */}
       <body

@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users, Mail, Home as HomeIcon } from 'lucide-react'; // Use HomeIcon for clarity
+import { CodeXml, GraduationCap, Briefcase, FolderGit2, Wrench, Award, Star, Users, Mail, Home as HomeIcon, Menu, X } from 'lucide-react'; // Use HomeIcon for clarity, add Menu and X
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from '@/components/ui/sheet'; // Import Sheet components
 
 const navItems = [
   { id: 'header', label: 'Home', icon: HomeIcon }, // Use HomeIcon
@@ -12,19 +14,18 @@ const navItems = [
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'education', label: 'Education', icon: GraduationCap },
-  // Optional sections (can be added back if desired)
-  // { id: 'certifications', label: 'Certs', icon: Award },
-  // { id: 'achievements', label: 'Achieve', icon: Star },
-  // { id: 'extracurricular', label: 'Extra', icon: Users },
+  { id: 'certifications', label: 'Certifications', icon: Award },
+  { id: 'achievements', label: 'Achievements', icon: Star },
+  { id: 'extracurricular', label: 'Extracurricular', icon: Users },
   { id: 'contact', label: 'Contact', icon: Mail },
 ];
 
 const Navbar: React.FC = () => {
   const [activeLink, setActiveLink] = useState<string>('header');
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
+  const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsScrolled(scrollPosition > 50); // Detect scroll past 50px
 
@@ -32,7 +33,7 @@ const Navbar: React.FC = () => {
       let currentSection = 'header';
       const sections = document.querySelectorAll<HTMLElement>('div[id]'); // Target divs with IDs
       let closestSectionDistance = Infinity;
-      const offset = 150; // Pixels from top to consider active
+      const offset = 100; // Pixels from top to consider active
 
       sections.forEach(section => {
         const rect = section.getBoundingClientRect();
@@ -51,7 +52,7 @@ const Navbar: React.FC = () => {
 
        // Handle edge case: scrolled near the bottom of the page
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) { // 100px buffer from bottom
-         const lastSection = navItems[navItems.length - 1];
+         const lastSection = sections[sections.length - 1]; // Get the actual last section div
          if (lastSection) {
              currentSection = lastSection.id;
          }
@@ -62,11 +63,63 @@ const Navbar: React.FC = () => {
       setActiveLink(currentSection);
     };
 
+
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial check
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToSection = (sectionId: string) => {
+      setActiveLink(sectionId);
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const yOffset = -80; // Adjust offset for fixed navbar height
+        const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+      setIsMobileMenuOpen(false); // Close mobile menu after clicking a link
+    };
+
+
+  const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
+     <ul className={cn(
+        "flex",
+        isMobile ? "flex-col space-y-4 p-4" : "space-x-1 sm:space-x-2 md:space-x-4 items-center"
+      )}>
+        {navItems.map((item) => (
+          <motion.li
+            key={item.id}
+            className={cn("relative group", isMobile ? "w-full" : "")}
+            whileHover={!isMobile ? { y: -2 } : {}}
+            transition={{ duration: 0.2 }}
+          >
+            <Button
+              variant="ghost"
+              onClick={() => scrollToSection(item.id)}
+              className={cn(
+                "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start",
+                "hover:text-primary hover:bg-primary/10", // Consistent hover style
+                activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80"
+              )}
+            >
+              <item.icon className="h-4 w-4 flex-shrink-0" />
+              <span className={cn(isMobile ? "" : "hidden md:inline whitespace-nowrap")}>{item.label}</span>
+            </Button>
+             {/* Active indicator for desktop */}
+            {!isMobile && (
+              <motion.span
+                className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-center" // Center origin
+                animate={{ scaleX: activeLink === item.id ? 1 : 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                initial={false}
+              />
+            )}
+          </motion.li>
+        ))}
+      </ul>
+  );
 
 
   return (
@@ -80,56 +133,39 @@ const Navbar: React.FC = () => {
       )}
     >
       <div className="container mx-auto flex items-center justify-between px-4">
-        {/* Optional: Logo or Name on the left */}
-        <Link href="#header" className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-          Rohit K.
-        </Link>
+        {/* Logo or Name on the left */}
+        <Button variant="link" className="p-0 h-auto" onClick={() => scrollToSection('header')}>
+             <span className="text-xl font-bold text-foreground hover:text-primary transition-colors">
+               Rohit K.
+             </span>
+        </Button>
 
-        {/* Navigation Links centered or on the right */}
-        <ul className="flex space-x-1 sm:space-x-2 md:space-x-4">
-          {navItems.map((item) => (
-            <motion.li
-              key={item.id}
-              className="relative group"
-              whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Link
-                href={`#${item.id}`}
-                 onClick={(e) => {
-                   e.preventDefault();
-                   setActiveLink(item.id);
-                   const element = document.getElementById(item.id);
-                   if (element) {
-                       const yOffset = -80; // Adjust offset for fixed navbar height
-                       const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-                       window.scrollTo({top: y, behavior: 'smooth'});
-                   }
-                 }}
-                className={cn(
-                  "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors duration-200",
-                  "hover:text-primary",
-                  activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80" // Simple active style
-                )}
-              >
-                <item.icon className="h-4 w-4 flex-shrink-0" />
-                <span className="hidden md:inline whitespace-nowrap">{item.label}</span>
-                {/* Keep short label for small screens if needed */}
-                 {/* <span className="sm:hidden md:hidden whitespace-nowrap text-[10px]">{item.label.substring(0,4)}</span> */}
-              </Link>
-              {/* Removed layoutId animation for active item background */}
-               {/* Keep simple underline on hover */}
-               <motion.span
-                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-center" // Center origin
-                 style={{ scaleX: activeLink === item.id ? 1 : 0 }} // Show if active
-                 animate={{ scaleX: activeLink === item.id ? 1 : 0 }}
-                 transition={{ duration: 0.3, ease: "easeOut" }}
-                 // whileHover={{ scaleX: 1 }} // Optionally add back hover underline
-                 initial={false}
-               />
-            </motion.li>
-          ))}
-        </ul>
+        {/* Desktop Navigation Links */}
+        <div className="hidden md:flex">
+           <NavLinks />
+        </div>
+
+        {/* Mobile Hamburger Menu */}
+        <div className="md:hidden">
+           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[250px] p-0 bg-background/95 border-l border-border/50">
+               <SheetHeader className="p-4 border-b border-border/30">
+                <SheetTitle className="text-primary text-lg font-heading">Menu</SheetTitle>
+                 <SheetClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Close</span>
+                  </SheetClose>
+              </SheetHeader>
+              <NavLinks isMobile={true} />
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </motion.nav>
   );
