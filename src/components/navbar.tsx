@@ -86,7 +86,7 @@ const Navbar: React.FC = () => {
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
      <ul className={cn(
         "flex",
-        isMobile ? "flex-col space-y-4 p-4" : "space-x-1 sm:space-x-2 md:space-x-4 items-center"
+        isMobile ? "flex-col space-y-4 p-4" : "space-x-1 sm:space-x-2 md:space-x-3 items-center" // Reduced desktop spacing slightly
       )}>
         {navItems.map((item) => (
           <motion.li
@@ -99,13 +99,14 @@ const Navbar: React.FC = () => {
               variant="ghost"
               onClick={() => scrollToSection(item.id)}
               className={cn(
-                "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start",
+                "flex items-center gap-1.5 px-2 py-1.5 md:px-2.5 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start", // Adjusted padding for smaller screens
                 "hover:text-primary hover:bg-primary/10", // Consistent hover style
                 activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80"
               )}
             >
               <item.icon className="h-4 w-4 flex-shrink-0" />
-              <span className={cn(isMobile ? "" : "hidden md:inline whitespace-nowrap")}>{item.label}</span>
+              {/* Show label on medium screens and up */}
+              <span className={cn("hidden lg:inline whitespace-nowrap")}>{item.label}</span>
             </Button>
              {/* Active indicator for desktop */}
             {!isMobile && (
@@ -129,10 +130,11 @@ const Navbar: React.FC = () => {
       transition={{ duration: 0.5, ease: 'easeOut' }}
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading",
-        isScrolled ? "py-2 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent" // ChaiCode style: background appears on scroll
+        // Increased vertical padding slightly when scrolled
+        isScrolled ? "py-3 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent"
       )}
     >
-      <div className="container mx-auto flex items-center justify-between px-4">
+      <div className="container mx-auto flex items-center justify-between px-4 sm:px-6">
         {/* Logo or Name on the left */}
         <Button variant="link" className="p-0 h-auto" onClick={() => scrollToSection('header')}>
              <span className="text-xl font-bold text-foreground hover:text-primary transition-colors">
