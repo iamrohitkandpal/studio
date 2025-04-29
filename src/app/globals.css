@@ -4,87 +4,84 @@
 
 @layer base {
   :root {
-    /* ChaiCode Inspired Dark Theme */
-    --background: 230 15% 8%; /* Very dark blue/black */
+    /* ChaiCode Inspired Dark Theme - Updated with Teal Accent */
+    --background: 220 20% 8%; /* Very dark blue/black - Adjusted */
     --foreground: 0 0% 98%; /* White */
 
-    --card: 230 15% 12%; /* Slightly lighter dark blue/black for cards */
+    --card: 220 20% 12%; /* Slightly lighter dark blue/black */
     --card-foreground: 0 0% 98%;
 
-    --popover: 230 15% 8%;
+    --popover: 220 20% 8%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 25 95% 55%; /* Vibrant Orange */
-    --primary-foreground: 230 15% 8%; /* Dark text on orange */
+    /* --primary: 25 95% 55%;  Orange */
+    --primary: 180 100% 25%; /* Teal */
+    --primary-foreground: 0 0% 98%; /* White text on teal */
 
-    --secondary: 230 10% 25%; /* Dark muted blue/gray */
+    --secondary: 220 15% 25%; /* Dark muted blue/gray */
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 230 10% 25%;
+    --muted: 220 15% 25%;
     --muted-foreground: 0 0% 63.9%; /* Lighter gray */
 
-    --accent: 25 95% 55% / 0.1; /* Orange accent with low opacity */
-    --accent-foreground: 25 95% 65%; /* Lighter Orange */
+    /* --accent: 25 95% 55% / 0.1; Orange accent with low opacity */
+    --accent: 180 100% 25% / 0.1; /* Teal accent with low opacity */
+    /* --accent-foreground: 25 95% 65%; Lighter Orange */
+    --accent-foreground: 180 100% 35%; /* Slightly lighter Teal */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 230 10% 30%; /* Muted border color */
-    --input: 230 10% 25%;
-    --ring: 25 95% 60%; /* Orange for rings */
+    --border: 220 15% 30%; /* Muted border color */
+    --input: 220 15% 25%;
+    /* --ring: 25 95% 60%; Orange for rings */
+    --ring: 180 100% 30%; /* Teal for rings */
+
 
     --radius: 0.5rem;
 
     /* Chart colors (adjust if needed, using primary/secondary palette) */
-    --chart-1: 25 95% 55%; /* Orange */
+    /* --chart-1: 25 95% 55%; Orange */
+    --chart-1: 180 100% 25%; /* Teal */
     --chart-2: 210 80% 60%; /* Blue */
-    --chart-3: 180 70% 50%; /* Teal */
-    --chart-4: 45 90% 55%; /* Yellow */
-    --chart-5: 300 75% 60%; /* Purple */
+    --chart-3: 30 90% 55%; /* Yellow */
+    --chart-4: 300 75% 60%; /* Purple */
+    --chart-5: 15 85% 60%; /* Salmon/Orange */
 
-    /* Font Variables - Use Google Fonts */
-    --font-heading: "Outfit", sans-serif;
-    --font-body: "Inter", sans-serif;
-    --font-caption: "Manrope", sans-serif;
+    /* Font Variables - Using Google Fonts */
+    --font-heading: "Outfit", sans-serif; /* Headings */
+    --font-subheading: "Neue Montreal", sans-serif; /* Subheadings */
+    --font-body: "Inter", sans-serif; /* Body Text */
+    --font-caption: "Manrope", sans-serif; /* Captions */
   }
 
   /* Ensure dark mode is the default */
   .dark {
      /* Keep the same variables as :root for default dark mode */
-    --background: 230 15% 8%;
+    --background: 220 20% 8%;
     --foreground: 0 0% 98%;
-    --card: 230 15% 12%;
+    --card: 220 20% 12%;
     --card-foreground: 0 0% 98%;
-    --popover: 230 15% 8%;
+    --popover: 220 20% 8%;
     --popover-foreground: 0 0% 98%;
-    --primary: 25 95% 55%;
-    --primary-foreground: 230 15% 8%;
-    --secondary: 230 10% 25%;
+    --primary: 180 100% 25%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 220 15% 25%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 230 10% 25%;
+    --muted: 220 15% 25%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: 25 95% 55% / 0.1;
-    --accent-foreground: 25 95% 65%;
+    --accent: 180 100% 25% / 0.1;
+    --accent-foreground: 180 100% 35%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 230 10% 30%;
-    --input: 230 10% 25%;
-    --ring: 25 95% 60%;
-    --chart-1: 25 95% 55%;
+    --border: 220 15% 30%;
+    --input: 220 15% 25%;
+    --ring: 180 100% 30%;
+    --chart-1: 180 100% 25%;
     --chart-2: 210 80% 60%;
-    --chart-3: 180 70% 50%;
-    --chart-4: 45 90% 55%;
-    --chart-5: 300 75% 60%;
-
-     /* Sidebar colors (Keep for ShadCN compatibility, adjust if sidebar used) */
-    --sidebar-background: 230 15% 10%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 25 90% 50%; /* Orange for sidebar */
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 25 95% 55% / 0.2;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 230 10% 35%;
-    --sidebar-ring: 25 95% 65%;
+    --chart-3: 30 90% 55%;
+    --chart-4: 300 75% 60%;
+    --chart-5: 15 85% 60%;
   }
 }
 
@@ -93,61 +90,33 @@
     @apply border-border;
   }
   html {
-      scroll-behavior: smooth !important; /* Ensure smooth scrolling */
-      /* For Firefox - Apply scrollbar styles here */
-      scrollbar-width: thin; /* "auto" or "thin" */
-      /* Set scrollbar color: thumb and track */
-      /* scrollbar-color: hsl(var(--border) / 0.6) hsl(var(--background)); */ /* Original, potentially problematic */
-      scrollbar-color: hsla(var(--border), 0.6) hsl(var(--background)); /* Use hsla for better compatibility */
+      scroll-behavior: smooth !important;
+      /* For Firefox - Hide scrollbar */
+      scrollbar-width: none;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body; /* Default to Inter */
+    /* For Webkit browsers - Hide scrollbar */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
   }
 
-  /* Apply heading font to h1, h2, h3, h4, h5, h6 by default */
  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold; /* Use font-heading variable (Outfit) */
+    @apply font-heading font-semibold; /* Outfit */
   }
 
-   /* Define subheading style using font-body (Inter) with specific weight */
   .subheading {
-     @apply font-body font-semibold; /* Use font-body (Inter), make it semibold (weight 600) */
+     @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
   }
 }
 
-/* Aesthetic Scrollbar Styles */
-@layer utilities {
-  /* For Webkit browsers (Chrome, Safari, newer Edge) - Global styles */
-  ::-webkit-scrollbar {
-    width: 8px; /* Adjust width */
-    height: 8px; /* For horizontal scrollbars */
-  }
 
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--background)); /* Match background */
-    border-radius: 10px;
-  }
+/* Remove the previous scrollbar utility layer */
+/* @layer utilities { ... } */
 
-  ::-webkit-scrollbar-thumb {
-    background-color: hsla(var(--border), 0.6); /* Use hsla for border color with transparency */
-    border-radius: 10px;
-    border: 2px solid hsl(var(--background)); /* Creates padding around thumb */
-    transition: background-color 0.2s ease-in-out;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: hsla(var(--primary), 0.7); /* Use hsla for primary color on hover */
-  }
-
-  /* Utility class to apply custom scrollbar styles */
-  .custom-scrollbar {
-    /* Only apply Firefox-specific styles here */
-    scrollbar-width: thin;
-    /* Set scrollbar color: thumb and track - Defined in html selector */
-    scrollbar-color: hsla(var(--border), 0.6) hsl(var(--background));
-    /* Webkit styles are handled globally above */
-  }
-}
 
 /* Canvas styles */
 #starfield-canvas {
@@ -160,7 +129,21 @@
     pointer-events: none; /* Allow interactions with elements below */
 }
 
-/* Ensure project modal content scrolls nicely */
+/* Ensure project modal content scrolls nicely AND hides scrollbar */
 .project-modal-content > div:nth-child(2) { /* Target the scrollable div */
-   @apply custom-scrollbar; /* Apply custom scrollbar styling */
+   /* Hide scrollbar */
+   -ms-overflow-style: none;  /* IE and Edge */
+   scrollbar-width: none;  /* Firefox */
+   &::-webkit-scrollbar {
+        display: none; /* Webkit */
+   }
+}
+
+/* Glassmorphism Card Style */
+.glassmorphism-card {
+  background: hsla(var(--card), 0.5); /* Semi-transparent card background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  border: 1px solid hsla(var(--border), 0.2); /* Subtle border */
+  box-shadow: 0 8px 32px 0 hsla(var(--background), 0.1); /* Subtle shadow */
 }
