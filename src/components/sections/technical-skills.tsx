@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { motion } from 'framer-motion'; // Import motion
 import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react'; // Simplified imports
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Use Card for structure
@@ -72,10 +73,36 @@ interface SkillItemProps {
   level?: string;
 }
 
+// Animation variants for skill items
+const skillItemVariants = {
+  hidden: { opacity: 0, scale: 0.8, y: 10 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      type: "spring", // Use spring for a bouncier feel
+      stiffness: 300,
+      damping: 20,
+      duration: 0.3,
+    },
+  },
+  hover: {
+    scale: 1.1,
+    transition: { duration: 0.2, ease: "easeOut" },
+  },
+};
+
 const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
   return (
-    // Simpler div structure, no motion, more compact padding
-    <div className="group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 transition-colors duration-200 hover:bg-accent/50 text-center aspect-square">
+    <motion.div
+      className="group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 transition-colors duration-200 hover:bg-accent/50 text-center aspect-square"
+      variants={skillItemVariants}
+      initial="hidden"
+      whileInView="visible"
+      whileHover="hover"
+      viewport={{ once: true, amount: 0.3 }} // Trigger when 30% is visible
+    >
       {/* Icon Container */}
       <div className="w-6 h-6 mb-1.5 text-foreground/70 group-hover:text-primary transition-colors duration-200">
          <Icon className="w-full h-full" />
@@ -84,7 +111,7 @@ const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
       <span className="text-[10px] sm:text-xs font-body leading-tight text-foreground/90 group-hover:text-primary/90 transition-colors duration-200">{name}</span>
       {/* Skill Level (Optional) */}
       {level && <span className="text-[9px] font-caption text-foreground/60 mt-0.5">({level})</span>}
-    </div>
+    </motion.div>
   );
 };
 

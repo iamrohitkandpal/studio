@@ -31,8 +31,8 @@ const Header: React.FC = () => {
 
 
   return (
-    // Reduced min-height and top padding (pt)
-    <div className="min-h-[calc(80vh)] flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-8 md:gap-12 py-16 px-4 sm:px-6 lg:px-8 pt-16 md:pt-24">
+    // Reduced top padding (pt-12 md:pt-16)
+    <div className="min-h-[calc(80vh)] flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-8 md:gap-12 py-16 px-4 sm:px-6 lg:px-8 pt-12 md:pt-16">
 
        {/* Left Column (Image & Socials) - Order adjusted for mobile */}
       <motion.div

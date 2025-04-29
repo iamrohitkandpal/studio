@@ -7,7 +7,8 @@ import { Inter, Manrope, Outfit } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
-// import CustomCursor from '@/components/custom-cursor'; // Custom cursor removed as requested
+import LenisWrapper from '@/components/lenis-wrapper'; // Import LenisWrapper
+// import CustomCursor from '@/components/custom-cursor'; // Custom cursor removed
 
 // Define fonts with specific weights and subsets available via Google Fonts
 const fontOutfit = Outfit({ // Heading font (alternative to Satoshi)
@@ -45,8 +46,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   return (
-    // Apply dark mode directly to HTML tag and enable smooth scrolling
-    <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
+    // Apply dark mode directly to HTML tag and remove scroll-smooth
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head />
       {/* Apply font variables to the body */}
       <body
@@ -60,7 +61,9 @@ export default function RootLayout({
         )}
        >
         {/* <CustomCursor /> */} {/* Custom cursor removed */}
-        {children}
+        <LenisWrapper> {/* Wrap children with Lenis */}
+           {children}
+        </LenisWrapper>
         <Toaster />
       </body>
     </html>

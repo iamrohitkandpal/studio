@@ -85,13 +85,13 @@ const Navbar: React.FC = () => {
 
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
      <ul className={cn(
-        "flex",
-        isMobile ? "flex-col space-y-4 p-4" : "space-x-1 sm:space-x-2 md:space-x-3 items-center" // Reduced desktop spacing slightly
+        "flex overflow-x-auto sm:overflow-x-visible", // Allow horizontal scroll on very small screens
+        isMobile ? "flex-col space-y-4 p-4" : "space-x-1 sm:space-x-1 md:space-x-2 lg:space-x-3 items-center" // Adjusted spacing for different breakpoints
       )}>
         {navItems.map((item) => (
           <motion.li
             key={item.id}
-            className={cn("relative group", isMobile ? "w-full" : "")}
+            className={cn("relative group flex-shrink-0", isMobile ? "w-full" : "")} // Prevent shrinking on desktop
             whileHover={!isMobile ? { y: -2 } : {}}
             transition={{ duration: 0.2 }}
           >
@@ -99,14 +99,14 @@ const Navbar: React.FC = () => {
               variant="ghost"
               onClick={() => scrollToSection(item.id)}
               className={cn(
-                "flex items-center gap-1.5 px-2 py-1.5 md:px-2.5 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start", // Adjusted padding for smaller screens
+                "flex items-center gap-1.5 px-1.5 py-1.5 sm:px-2 md:px-2.5 rounded-md text-sm font-medium transition-colors duration-200 w-full justify-start sm:justify-center", // Adjusted padding and justification
                 "hover:text-primary hover:bg-primary/10", // Consistent hover style
                 activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80"
               )}
             >
               <item.icon className="h-4 w-4 flex-shrink-0" />
               {/* Show label on medium screens and up */}
-              <span className={cn("hidden lg:inline whitespace-nowrap")}>{item.label}</span>
+              <span className={cn("hidden md:inline whitespace-nowrap")}>{item.label}</span>
             </Button>
              {/* Active indicator for desktop */}
             {!isMobile && (
@@ -134,7 +134,7 @@ const Navbar: React.FC = () => {
         isScrolled ? "py-3 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent"
       )}
     >
-      <div className="container mx-auto flex items-center justify-between px-4 sm:px-6">
+      <div className="container mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8"> {/* Added lg:px-8 */}
         {/* Logo or Name on the left */}
         <Button variant="link" className="p-0 h-auto" onClick={() => scrollToSection('header')}>
              <span className="text-xl font-bold text-foreground hover:text-primary transition-colors">
@@ -143,7 +143,7 @@ const Navbar: React.FC = () => {
         </Button>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex">
+        <div className="hidden md:flex items-center"> {/* Center items vertically */}
            <NavLinks />
         </div>
 
