@@ -30,14 +30,16 @@ const sections = [
   { id: 'contact', component: ContactMe, title: 'Contact' },
 ];
 
+// Smoother animation variants
 const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
+  hidden: { opacity: 0, y: 40 }, // Slightly reduced initial Y offset
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      ease: "easeOut",
+      duration: 0.8, // Increased duration for smoother feel
+      ease: [0.6, 0.01, 0.05, 0.95], // Custom cubic bezier for smoother ease-out
+      staggerChildren: 0.1, // Stagger children slightly if needed
     },
   },
 };
@@ -63,7 +65,6 @@ export default function Home() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.1 }} // Trigger when 10% is visible
             variants={sectionVariants}
-            // Using standard layout flow, not explicit cards for sections anymore
             className={cn(
               "w-full relative z-10", // Ensure content is above canvas
             )}
@@ -79,7 +80,6 @@ export default function Home() {
         ))}
       </main>
       <Footer />
-       {/* No custom scrollbar needed */}
     </div>
   );
 }
