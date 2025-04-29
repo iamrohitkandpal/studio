@@ -16,6 +16,7 @@ import Navbar from '@/components/navbar';
 import StarfieldCanvas from '@/components/starfield-canvas'; // Import the StarfieldCanvas
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
+// import LenisWrapper from '@/components/lenis-wrapper'; // Lenis removed
 
 // Define section data
 const sections = [
@@ -49,9 +50,16 @@ export default function Home() {
   useEffect(() => {
     // Force dark mode - remove if theme toggle is added later
     document.documentElement.classList.add('dark');
+
+    // Enable native smooth scrolling
+    document.documentElement.style.scrollBehavior = 'smooth';
+    return () => {
+        document.documentElement.style.scrollBehavior = ''; // Cleanup on unmount
+    };
   }, []);
 
   return (
+    // <LenisWrapper> {/* Re-add Lenis wrapper if using Lenis */}
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <StarfieldCanvas /> {/* Add the Starfield Canvas here */}
       <Navbar />
@@ -81,5 +89,6 @@ export default function Home() {
       </main>
       <Footer />
     </div>
+    // </LenisWrapper>
   );
 }

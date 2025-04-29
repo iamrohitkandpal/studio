@@ -17,6 +17,7 @@
     /* Adjusted primary orange for slightly better contrast/vibrancy if needed */
     --primary: 25 95% 55%; /* Vibrant Orange - kept same */
     --primary-foreground: 230 15% 8%; /* Dark text on orange */
+    --primary-hsl: 25 95% 55%; /* HSL values for primary color */
 
     --secondary: 230 10% 25%; /* Dark muted blue/gray */
     --secondary-foreground: 0 0% 98%;
@@ -24,10 +25,10 @@
     --muted: 230 10% 25%;
     --muted-foreground: 0 0% 63.9%; /* Lighter gray */
 
-    /* Adjusted accent for subtle effect */
-    --accent: hsl(25 95% 55% / 0.1); /* Use hsla for accent background */
-    --accent-foreground: hsl(25 95% 65%); /* Lighter Orange for foreground on accent */
-    --accent-hsl: 25 95% 55%; /* HSL values for accent color */
+    /* Adjusted accent using primary color */
+    --accent: hsla(var(--primary-hsl), 0.1); /* Use primary HSL with alpha */
+    --accent-foreground: hsl(var(--primary-hsl)); /* Use primary HSL directly */
+    --accent-hsl: var(--primary-hsl); /* HSL values for accent color derived from primary */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -63,13 +64,14 @@
     --popover-foreground: 0 0% 98%;
     --primary: 25 95% 55%;
     --primary-foreground: 230 15% 8%;
+    --primary-hsl: 25 95% 55%;
     --secondary: 230 10% 25%;
     --secondary-foreground: 0 0% 98%;
     --muted: 230 10% 25%;
     --muted-foreground: 0 0% 63.9%;
-    --accent: hsl(25 95% 55% / 0.1);
-    --accent-foreground: hsl(25 95% 65%);
-    --accent-hsl: 25 95% 55%;
+    --accent: hsla(var(--primary-hsl), 0.1);
+    --accent-foreground: hsl(var(--primary-hsl));
+    --accent-hsl: var(--primary-hsl);
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 230 10% 30%;
@@ -86,49 +88,59 @@
 @layer base {
   * {
     @apply border-border;
+    /* box-sizing: border-box; Ensure box-sizing is consistent */
   }
   html {
-      scroll-behavior: smooth !important; /* Force native smooth scrolling */
-      /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
-      &::-webkit-scrollbar {
-          width: 6px; /* Make scrollbar thinner */
-          height: 6px;
-      }
-      &::-webkit-scrollbar-track {
-          background: hsl(var(--background)); /* Match background */
-      }
-      &::-webkit-scrollbar-thumb {
-          background-color: hsl(var(--border) / 0.5); /* Use border color with transparency */
-          border-radius: 10px;
-          border: 1px solid hsl(var(--background)); /* Add padding around thumb */
-      }
-      &::-webkit-scrollbar-thumb:hover {
-         background-color: hsl(var(--border) / 0.7); /* Slightly more opaque on hover */
-      }
-       /* Hide scrollbar for Firefox */
-      scrollbar-width: thin; /* "auto" or "thin" */
-      /* Set scrollbar color: thumb and track */
-      scrollbar-color: hsla(var(--accent-hsl), 0.5) hsl(var(--background));
+    /* Native smooth scrolling - remove !important if possible */
+    scroll-behavior: smooth;
+    /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+    &::-webkit-scrollbar {
+        width: 6px; /* Make scrollbar thinner */
+        height: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: hsl(var(--background)); /* Match background */
+    }
+    &::-webkit-scrollbar-thumb {
+        /* Use primary color for thumb */
+        background-color: hsla(var(--primary-hsl), 0.5);
+        border-radius: 10px;
+        border: 1px solid hsl(var(--background)); /* Add padding around thumb */
+    }
+    &::-webkit-scrollbar-thumb:hover {
+       /* Slightly more opaque primary on hover */
+       background-color: hsla(var(--primary-hsl), 0.7);
+    }
+     /* Hide scrollbar for Firefox */
+    scrollbar-width: thin; /* "auto" or "thin" */
+    /* Set scrollbar color: thumb and track */
+    scrollbar-color: hsla(var(--primary-hsl), 0.5) hsl(var(--background));
   }
 
   body {
     @apply bg-background text-foreground;
     min-height: 100vh; /* Ensure body takes full viewport height */
     overscroll-behavior: none; /* Prevent scrolling bounce */
+    font-family: var(--font-body); /* Apply default body font */
   }
 
- h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-semibold;
   }
 
   /* Define subheading style using font-subheading (Neue Montreal) */
   .subheading {
      @apply font-medium; /* Weight 500 */
-     font-family: var(--font-subheading), sans-serif; /* Apply directly */
+     font-family: var(--font-subheading); /* Apply directly */
+  }
+
+  /* Ensure captions use the Manrope font */
+  .caption {
+     font-family: var(--font-caption);
   }
 }
 
-/* Utility to hide scrollbar */
+/* Utility to hide scrollbar if specifically needed */
 @layer utilities {
   .hide-scrollbar::-webkit-scrollbar {
     display: none; /* For Chrome, Safari, and Opera */
@@ -139,8 +151,7 @@
   }
 }
 
-
-/* Styles for the starfield canvas */
+/* Ensure canvas is behind everything */
 #starfield-canvas {
   position: fixed;
   top: 0;
