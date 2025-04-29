@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    /* ChaiCode Inspired Dark Theme - Updated with Teal Accent */
-    --background: 220 20% 8%; /* Very dark blue/black - Adjusted */
+    /* Dark Theme - Orange Accent */
+    --background: 220 20% 8%; /* Very dark blue/black */
     --foreground: 0 0% 98%; /* White */
 
     --card: 220 20% 12%; /* Slightly lighter dark blue/black */
@@ -14,11 +14,8 @@
     --popover: 220 20% 8%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 25 95% 55%;  /* Orange */
-    /* --primary: 180 100% 25%; Teal */
-    --primary-foreground: 25 95% 15%; /* Darker Orange for text on primary */
-    /* --primary-foreground: 0 0% 98%; White text on teal */
-
+    --primary: 25 95% 55%; /* Orange HSL */
+    --primary-foreground: 220 20% 10%; /* Dark text on orange */
 
     --secondary: 220 15% 25%; /* Dark muted blue/gray */
     --secondary-foreground: 0 0% 98%;
@@ -26,12 +23,10 @@
     --muted: 220 15% 25%;
     --muted-foreground: 0 0% 63.9%; /* Lighter gray */
 
-    /* Using explicit hsla for the accent background */
-    --accent-hsl: 25 95% 55%;
-    --accent: hsla(var(--accent-hsl), 0.1);
-    /* --accent: 180 100% 25% / 0.1; Teal accent with low opacity */
-    --accent-foreground: 25 95% 65%; /* Lighter Orange */
-    /* --accent-foreground: 180 100% 35%; Slightly lighter Teal */
+    /* Use static HSLA for accent */
+    --accent-hsl: 25 95% 55%; /* Orange HSL for reference */
+    --accent: hsla(25, 95%, 55%, 0.1); /* Static HSLA - Orange */
+    --accent-foreground: 25 95% 65%; /* Slightly lighter Orange */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -39,18 +34,15 @@
     --border: 220 15% 30%; /* Muted border color */
     --input: 220 15% 25%;
     --ring: 25 95% 60%; /* Orange for rings */
-    /* --ring: 180 100% 30%; Teal for rings */
-
 
     --radius: 0.5rem;
 
-    /* Chart colors (adjust if needed, using primary/secondary palette) */
+    /* Chart colors (adjust if needed) */
     --chart-1: 25 95% 55%; /* Orange */
-    /* --chart-1: 180 100% 25%; Teal */
     --chart-2: 210 80% 60%; /* Blue */
-    --chart-3: 30 90% 55%; /* Yellow */
+    --chart-3: 120 70% 45%; /* Green */
     --chart-4: 300 75% 60%; /* Purple */
-    --chart-5: 15 85% 60%; /* Salmon/Orange */
+    --chart-5: 60 85% 50%; /* Yellow */
 
     /* Font Variables - Using Google Fonts */
     --font-heading: "Outfit", sans-serif; /* Headings */
@@ -68,60 +60,45 @@
     --card-foreground: 0 0% 98%;
     --popover: 220 20% 8%;
     --popover-foreground: 0 0% 98%;
-    --primary: 25 95% 55%;
-    --primary-foreground: 25 95% 15%;
+    --primary: 25 95% 55%; /* Orange */
+    --primary-foreground: 220 20% 10%;
     --secondary: 220 15% 25%;
     --secondary-foreground: 0 0% 98%;
     --muted: 220 15% 25%;
     --muted-foreground: 0 0% 63.9%;
-    --accent-hsl: 25 95% 55%;
-    --accent: hsla(var(--accent-hsl), 0.1);
+    --accent-hsl: 25 95% 55%; /* Kept for reference */
+    --accent: hsla(25, 95%, 55%, 0.1); /* Static HSLA - Orange */
     --accent-foreground: 25 95% 65%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 220 15% 30%;
     --input: 220 15% 25%;
-    --ring: 25 95% 60%;
+    --ring: 25 95% 60%; /* Orange for rings */
     --chart-1: 25 95% 55%;
     --chart-2: 210 80% 60%;
-    --chart-3: 30 90% 55%;
+    --chart-3: 120 70% 45%;
     --chart-4: 300 75% 60%;
-    --chart-5: 15 85% 60%;
+    --chart-5: 60 85% 50%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border box-border; /* Added box-sizing */
+    /* Removed custom scrollbar styles to fix potential parsing error */
   }
   html {
+    /* Ensure smooth scrolling is handled by CSS if JS fails */
     scroll-behavior: smooth !important;
-    /* For Firefox - aesthetic scrollbar */
-    scrollbar-width: thin;
-    /* Set scrollbar color: thumb and track - using hsla for thumb alpha */
-    scrollbar-color: hsla(var(--primary), 0.5) transparent;
+    /* Remove custom scrollbar width/height styles */
+    /* overflow: overlay; /* Consider if needed, might cause layout shifts */
   }
   body {
     @apply bg-background text-foreground font-body; /* Default to Inter */
-    /* IE and Edge - Hide scrollbar */
-    -ms-overflow-style: none;
+    min-height: 100vh; /* Ensure body takes full height */
+    /* Remove custom scrollbar styles */
+    /* overflow-x: hidden; Prevent horizontal scroll */
   }
-
-  /* For Webkit browsers - aesthetic scrollbar - using hsla for thumb alpha */
-  body::-webkit-scrollbar {
-    width: 6px; /* Width of the scrollbar */
-  }
-
-  body::-webkit-scrollbar-track {
-    background: transparent; /* Make track transparent */
-  }
-
-  body::-webkit-scrollbar-thumb {
-    background-color: hsla(var(--primary), 0.5); /* Color of the thumb (primary orange, semi-transparent) */
-    border-radius: 10px; /* Roundness of the thumb */
-    /* border: 1px solid hsl(var(--background)); Creates padding around thumb */
-  }
-
 
  h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-semibold; /* Outfit */
@@ -130,6 +107,35 @@
   .subheading {
      @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
   }
+
+ /* Commenting out custom scrollbar styles to fix parsing error */
+ /* ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+     background: transparent;
+     border-radius: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: hsla(var(--primary), 0.5);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+     background-color: hsla(var(--primary), 0.8);
+  }
+
+  /* Firefox Scrollbar */
+  /* html {
+      scrollbar-width: thin;
+       /* Use static color to test parsing issue */
+      /* scrollbar-color: hsla(25, 95%, 55%, 0.5) transparent; /* thumb track */
+  /* } */
 }
 
 
@@ -144,24 +150,4 @@
     pointer-events: none; /* Allow interactions with elements below */
 }
 
-/* Ensure project modal content scrolls nicely - Using hsla */
-/* Target the scrollable div inside the modal content */
-.project-modal-content > div:nth-child(2) {
-   /* Firefox */
-   scrollbar-width: thin;
-   scrollbar-color: hsla(var(--primary), 0.7) hsla(var(--card), 0.5);
-}
-
-.project-modal-content > div:nth-child(2)::-webkit-scrollbar {
-    width: 6px;
-}
-
-.project-modal-content > div:nth-child(2)::-webkit-scrollbar-track {
-    background: hsla(var(--card), 0.5);
-}
-
-.project-modal-content > div:nth-child(2)::-webkit-scrollbar-thumb {
-    background-color: hsla(var(--primary), 0.7);
-    border-radius: 8px;
-    border: 1px solid hsla(var(--card), 0.5);
-}
+/* Removed Project modal scrollbar styles */

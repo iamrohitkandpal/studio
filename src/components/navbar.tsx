@@ -76,7 +76,8 @@ const Navbar: React.FC = () => {
       transition={{ duration: 0.6, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother animation
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading",
-        isScrolled ? "py-2 bg-background/90 backdrop-blur-lg shadow-md border-b border-border/50" : "py-4 bg-transparent" // ChaiCode style: background appears on scroll
+        // Apply glassmorphism class when scrolled, otherwise transparent background
+        isScrolled ? "py-2 navbar-glass shadow-md" : "py-4 bg-transparent"
       )}
     >
       <div className="container mx-auto flex items-center justify-between px-4">
@@ -136,4 +137,3 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-```
