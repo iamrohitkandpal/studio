@@ -31,8 +31,8 @@ const Header: React.FC = () => {
 
 
   return (
-    // Center the entire container and its items
-    <div className="min-h-[calc(70vh)] flex flex-col items-center justify-center text-center md:text-left gap-8 md:gap-12 py-12 px-4 sm:px-6 lg:px-8">
+    // Center the entire container and its items, reduce top padding further
+    <div className="min-h-[calc(60vh)] flex flex-col items-center justify-center text-center md:text-left gap-8 md:gap-12 pt-8 pb-12 px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12"> {/* Wrapper div for columns */}
           {/* Left Column (Image & Socials) - Order adjusted for mobile */}
           <motion.div
@@ -49,7 +49,7 @@ const Header: React.FC = () => {
                 width={160} // Adjusted size
                 height={160} // Adjusted size
                 className="rounded-full border-4 border-primary/60 shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-primary/30" // Enhanced shadow
-                priority
+                priority // Prioritize loading this image (LCP)
               />
             </div>
             {/* Socials centered */}

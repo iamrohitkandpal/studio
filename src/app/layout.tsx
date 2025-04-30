@@ -1,27 +1,24 @@
 
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
 // Use Google Fonts that match the suggestions
-import { Inter, Manrope, Outfit } from 'next/font/google';
-// Neue Montreal is not available via next/font/google.
-// Assuming it's loaded via @font-face or similar.
+import { Inter, Manrope, Outfit, Source_Code_Pro } from 'next/font/google';
+// Assuming Neue Montreal is loaded via @font-face or similar, just define the variable
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
-// import LenisWrapper from '@/components/lenis-wrapper'; // Lenis removed
 
 // Define fonts with specific weights and subsets available via Google Fonts
-const fontOutfit = Outfit({ // Heading font (alternative to Satoshi)
+const fontOutfit = Outfit({ // Heading font
   subsets: ['latin'],
   weight: ['600', '700'], // Semi-bold, Bold
   variable: '--font-heading', // CSS variable for headings
 });
 
-// Neue Montreal is not available via next/font/google.
-// Define CSS variable for it, assuming it's loaded via @font-face in globals.css or similar.
-// If not available, Tailwind will fall back to sans-serif.
+// Define CSS variable for Neue Montreal, assuming it's loaded elsewhere
+// If not loaded, Tailwind will fall back to sans-serif.
 const fontNeueMontrealVariable = { variable: '--font-subheading' }; // Placeholder variable definition
 
-const fontInter = Inter({ // Body font (alternative to General Sans)
+const fontInter = Inter({ // Body font
   subsets: ['latin'],
   weight: ['400', '500'], // Regular, Medium
   variable: '--font-body', // CSS variable for body text
@@ -31,6 +28,13 @@ const fontManrope = Manrope({ // Caption font
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-caption', // CSS variable for captions
+});
+
+// Example mono font (optional, if needed for code blocks etc.)
+const fontSourceCodePro = Source_Code_Pro({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-mono',
 });
 
 
@@ -45,21 +49,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   return (
-    // Apply dark mode directly to HTML tag and remove scroll-smooth
+    // Apply dark mode directly to HTML tag and remove scroll-smooth (using CSS instead)
     <html lang="en" className="dark" suppressHydrationWarning>
-      <head />
-      {/* Apply font variables to the body */}
+      <head>
+         {/* Preconnect to Google Fonts for faster loading */}
+         <link rel="preconnect" href="https://fonts.googleapis.com" />
+         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+         {/* Preconnect to placeholder image domain if known and different */}
+         <link rel="preconnect" href="https://picsum.photos" />
+      </head>
+      {/* Apply font variables directly to the body using cn */}
       <body
        className={cn(
-          "antialiased relative",
+          "antialiased relative font-body", // Set default font-body
           fontOutfit.variable,
-          fontNeueMontrealVariable.variable, // Apply subheading variable (might need fallback)
+          fontNeueMontrealVariable.variable, // Apply subheading variable
           fontInter.variable,
           fontManrope.variable,
-          "font-body" // Set Inter as the default body font via Tailwind class
+          fontSourceCodePro.variable // Add mono font variable if used
         )}
        >
-         {/* Removed LenisWrapper */}
          {children}
         <Toaster />
       </body>

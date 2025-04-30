@@ -33,26 +33,35 @@ const Navbar: React.FC = () => {
 
     let currentSection = 'header';
     const sections = document.querySelectorAll<HTMLElement>('div[id]');
-    const offset = window.innerHeight * 0.4;
+    // Increased offset slightly for earlier activation when scrolling up/down
+    const offset = window.innerHeight * 0.3;
 
     sections.forEach(section => {
       const rect = section.getBoundingClientRect();
-      if (rect.top <= offset && rect.bottom >= offset) {
-           currentSection = section.id;
+      const sectionTop = rect.top + window.scrollY;
+      const sectionBottom = sectionTop + rect.height;
+
+       // More robust check: section is sufficiently visible in the viewport
+      if (sectionTop <= window.scrollY + offset && sectionBottom >= window.scrollY + offset) {
+        currentSection = section.id;
       }
     });
 
+    // Ensure last section is active if scrolled to the bottom
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
       const lastSection = sections[sections.length - 1];
       if (lastSection) {
           currentSection = lastSection.id;
       }
-    } else if (window.scrollY < offset / 2) {
+    }
+    // Ensure header is active if scrolled near the top
+    else if (window.scrollY < offset / 2) { // Use smaller threshold for top
        currentSection = 'header';
     }
 
     setActiveLink(currentSection);
   };
+
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -64,26 +73,28 @@ const Navbar: React.FC = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      const yOffset = -80;
+      // Consistent offset for all sections
+      const yOffset = isScrolled ? -80 : -100; // Adjust offset based on navbar height when scrolled
       const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
     }
-    setIsMobileMenuOpen(false);
+    setIsMobileMenuOpen(false); // Close mobile menu on link click
   };
+
 
   const NavLinks = ({ isMobile = false }: { isMobile?: boolean }) => (
     <ul className={cn(
       "flex overflow-x-auto sm:overflow-x-visible hide-scrollbar",
-      isMobile ? "flex-col space-y-4 p-4" : "space-x-1 md:space-x-1 lg:space-x-2 items-center" // Removed wrapping and justify-center for desktop
+      isMobile ? "flex-col space-y-4 p-4" : "space-x-1 md:space-x-1 lg:space-x-2 items-center"
     )}>
       {navItems.map((item) => (
         <motion.li
           key={item.id}
           className={cn("relative group", isMobile ? "w-full" : "flex-shrink-0")} // flex-shrink-0 to prevent shrinking
-          whileHover={!isMobile ? { y: -2 } : {}}
+          whileHover={!isMobile ? { y: -2 } : {}} // Only apply hover animation on desktop
           transition={{ duration: 0.2 }}
         >
-          <Tooltip>
+           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
@@ -94,23 +105,26 @@ const Navbar: React.FC = () => {
                   "hover:text-primary hover:bg-primary/10",
                   activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80"
                 )}
-                aria-label={item.label} // Add aria-label for accessibility on desktop
+                aria-label={isMobile ? item.label : undefined} // Label on mobile, tooltip provides label on desktop
               >
-                <item.icon className={cn("h-5 w-5 flex-shrink-0")} /> {/* Consistent icon size */}
-                <span className={cn(isMobile ? "inline" : "hidden")}>{item.label}</span> {/* Label only on mobile */}
+                <item.icon className={cn("h-5 w-5 flex-shrink-0")} aria-hidden="true"/> {/* Consistent icon size, hide from screen readers if label/tooltip is present */}
+                 {/* Show label only on mobile */}
+                 <span className={cn(isMobile ? "inline" : "sr-only")}>{item.label}</span>
               </Button>
             </TooltipTrigger>
             {/* Tooltip Content - only shown on desktop */}
-            {!isMobile && (
-              <TooltipContent side="bottom" align="center">
-                <p>{item.label}</p>
-              </TooltipContent>
-            )}
-          </Tooltip>
+             {!isMobile && (
+               <TooltipContent side="bottom" align="center" className="bg-popover text-popover-foreground text-xs px-2 py-1 rounded">
+                  <p>{item.label}</p>
+               </TooltipContent>
+             )}
+           </Tooltip>
+
           {/* Active indicator for desktop */}
           {!isMobile && (
             <motion.span
               className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-center"
+              layoutId="active-nav-indicator" // Ensure unique layoutId if needed elsewhere
               animate={{ scaleX: activeLink === item.id ? 1 : 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
               initial={false}
@@ -149,7 +163,7 @@ const Navbar: React.FC = () => {
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" aria-label="Open menu">
                   <Menu className="h-6 w-6" />
                   <span className="sr-only">Open menu</span>
                 </Button>
@@ -157,7 +171,7 @@ const Navbar: React.FC = () => {
               <SheetContent side="right" className="w-[250px] p-0 bg-background/95 border-l border-border/50">
                 <SheetHeader className="p-4 border-b border-border/30">
                   <SheetTitle className="text-primary text-lg font-heading">Menu</SheetTitle>
-                  {/* Default SheetClose is provided and positioned */}
+                   {/* Default SheetClose is provided and positioned top-right */}
                 </SheetHeader>
                 <NavLinks isMobile={true} />
               </SheetContent>

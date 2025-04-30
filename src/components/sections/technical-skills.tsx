@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion'; // Import motion
-import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react'; // Simplified imports
+import { motion } from 'framer-motion';
+import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Use Card for structure
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 // Keep existing icons, they seem mostly appropriate
 // Simplified icon components (inline for brevity)
@@ -73,22 +73,21 @@ interface SkillItemProps {
   level?: string;
 }
 
-// Animation variants for skill items
+// Animation variants for skill items - Simplified for performance
 const skillItemVariants = {
-  hidden: { opacity: 0, scale: 0.8, y: 10 },
+  hidden: { opacity: 0, y: 15 }, // Slightly more initial offset
   visible: {
     opacity: 1,
-    scale: 1,
     y: 0,
     transition: {
-      type: "spring", // Use spring for a bouncier feel
-      stiffness: 300,
-      damping: 20,
-      duration: 0.3,
+      duration: 0.5, // Slightly faster fade-in
+      ease: [0.6, 0.01, 0.05, 0.95], // Keep smooth ease
     },
   },
   hover: {
-    scale: 1.1,
+    // Simpler hover: lift and subtle scale
+    y: -3,
+    scale: 1.05,
     transition: { duration: 0.2, ease: "easeOut" },
   },
 };
@@ -99,7 +98,7 @@ const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
       className="group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 transition-colors duration-200 hover:bg-accent/50 text-center aspect-square"
       variants={skillItemVariants}
       initial="hidden"
-      whileInView="visible"
+      whileInView="visible" // Trigger animation when item comes into view
       whileHover="hover"
       viewport={{ once: true, amount: 0.3 }} // Trigger when 30% is visible
     >

@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // Keep main import if used widely
+// Or import specific components if usage is limited:
+// import { motion } from 'framer-motion/dist/framer-motion';
 import Header from '@/components/sections/header';
 import Education from '@/components/sections/education';
 import Experience from '@/components/sections/experience';
@@ -13,14 +15,13 @@ import Extracurricular from '@/components/sections/extracurricular';
 import ContactMe from '@/components/sections/contact-me';
 import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
-import StarfieldCanvas from '@/components/starfield-canvas'; // Import the StarfieldCanvas
+import StarfieldCanvas from '@/components/starfield-canvas';
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
-// import LenisWrapper from '@/components/lenis-wrapper'; // Lenis removed
 
 // Define section data
 const sections = [
-  { id: 'header', component: Header, title: 'Hero' },
+  { id: 'header', component: Header, title: 'Hero' }, // Keep Hero at the top
   { id: 'skills', component: TechnicalSkills, title: 'Skills' },
   { id: 'projects', component: Projects, title: 'Projects' },
   { id: 'experience', component: Experience, title: 'Experience' },
@@ -31,16 +32,16 @@ const sections = [
   { id: 'contact', component: ContactMe, title: 'Contact' },
 ];
 
-// Smoother animation variants
+// Smoother animation variants - consider reducing complexity if needed
 const sectionVariants = {
-  hidden: { opacity: 0, y: 40 }, // Slightly reduced initial Y offset
+  hidden: { opacity: 0, y: 30 }, // Slightly adjusted Y offset
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.8, // Increased duration for smoother feel
-      ease: [0.6, 0.01, 0.05, 0.95], // Custom cubic bezier for smoother ease-out
-      staggerChildren: 0.1, // Stagger children slightly if needed
+      duration: 0.7, // Adjusted duration
+      ease: [0.6, 0.01, 0.05, 0.95], // Keep smooth ease
+      // staggerChildren: 0.1, // Remove if not needed for children within section
     },
   },
 };
@@ -51,17 +52,13 @@ export default function Home() {
     // Force dark mode - remove if theme toggle is added later
     document.documentElement.classList.add('dark');
 
-    // Enable native smooth scrolling
-    document.documentElement.style.scrollBehavior = 'smooth';
-    return () => {
-        document.documentElement.style.scrollBehavior = ''; // Cleanup on unmount
-    };
+    // Ensure native smooth scrolling is enabled via CSS in globals.css
+    // No need for JS manipulation here if CSS `scroll-behavior: smooth;` is set on <html>
   }, []);
 
   return (
-    // <LenisWrapper> {/* Re-add Lenis wrapper if using Lenis */}
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      <StarfieldCanvas /> {/* Add the Starfield Canvas here */}
+      <StarfieldCanvas /> {/* Keep Starfield Canvas */}
       <Navbar />
       {/* Main content area with vertical sections */}
       <main className="container mx-auto px-4 py-24 pt-32 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
@@ -71,7 +68,9 @@ export default function Home() {
             id={section.id} // Keep ID for navigation
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }} // Trigger when 10% is visible
+            // Adjust viewport settings: amount: 0.1 means trigger when 10% is visible
+            // Might need adjustment based on section height for better perceived performance
+            viewport={{ once: true, amount: 0.1 }}
             variants={sectionVariants}
             className={cn(
               "w-full relative z-10", // Ensure content is above canvas
@@ -89,6 +88,5 @@ export default function Home() {
       </main>
       <Footer />
     </div>
-    // </LenisWrapper>
   );
 }
