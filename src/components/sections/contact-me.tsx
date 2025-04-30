@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -105,7 +106,9 @@ const ContactMe: React.FC = () => {
       </h2>
 
       {/* Form Container */}
-      <Card className="max-w-2xl mx-auto bg-card/50 border-border/30 shadow-lg">
+      <Card className={cn(
+          "max-w-2xl mx-auto bg-card/50 border-border/30 shadow-lg transition-all duration-300 hover:shadow-elegant-lg hover:border-primary/30" // Use elegant shadow on hover
+          )}>
          <CardHeader className="text-center">
             <CardTitle className="text-2xl font-body font-semibold">Contact Form</CardTitle>
             <CardDescription className="text-foreground/70 pt-1">
@@ -179,7 +182,10 @@ const ContactMe: React.FC = () => {
                   type="submit"
                   size="lg" // Larger button
                   disabled={status === 'loading' || status === 'success'}
-                  className="min-w-[150px] bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 shadow-lg hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1"
+                  className={cn(
+                      "min-w-[150px] bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 shadow-lg",
+                      "hover:shadow-elegant-sm transition-all duration-300 transform hover:-translate-y-1" // Use elegant shadow
+                      )}
                 >
                   {status === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                   {status === 'success' && 'Sent!'}

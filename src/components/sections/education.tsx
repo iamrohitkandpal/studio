@@ -1,8 +1,10 @@
+
 'use client';
 
 import React from 'react';
 import { GraduationCap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils'; // Import cn
 
 const Education: React.FC = () => {
   return (
@@ -13,7 +15,10 @@ const Education: React.FC = () => {
       </h2>
 
       {/* Education Details */}
-      <Card className="bg-card/50 border-border/30 shadow-md w-full max-w-2xl mx-auto"> {/* Centered card */}
+      <Card className={cn(
+        "bg-card/50 border-border/30 shadow-md w-full max-w-2xl mx-auto",
+        "transition-all duration-300 hover:shadow-elegant-md hover:border-primary/30" // Use elegant shadow on hover
+        )}>
         <CardHeader className="pb-2">
            <CardTitle className="text-xl md:text-2xl font-body font-semibold text-primary mb-1">
               Bachelor of Technology, CSE (Cyber Security)

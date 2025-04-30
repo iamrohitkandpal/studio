@@ -1,9 +1,11 @@
+
 'use client';
 
 import React from 'react';
 import { Award, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
+import { cn } from '@/lib/utils'; // Import cn
 
 interface CertificationItemProps {
   title: string;
@@ -13,7 +15,10 @@ interface CertificationItemProps {
 }
 
 const CertificationItem: React.FC<CertificationItemProps> = ({ title, issuer, description, link }) => (
-   <Card className="bg-card/50 border-border/30 shadow-sm transition-shadow hover:shadow-md hover:border-primary/30">
+   <Card className={cn(
+     "bg-card/50 border-border/30 shadow-sm",
+     "transition-all duration-300 hover:shadow-elegant-sm hover:border-primary/30" // Use elegant shadow on hover
+     )}>
      <CardHeader className="flex flex-row items-start justify-between pb-2">
        <div>
           <CardTitle className="text-lg font-body font-semibold text-primary">{title}</CardTitle>

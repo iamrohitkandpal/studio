@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { FolderGit2, ExternalLink, Github, X, Maximize2 } from 'lucide-react';
+import { FolderGit2, ExternalLink, Github, Maximize2 } from 'lucide-react'; // Removed X
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -34,7 +34,7 @@ interface ProjectItemProps {
 
 // Project Card Component
 const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
-  title, duration, type, techStack, description, onExpand, imageUrl, githubLink, liveLink, comingSoon
+  title, duration, type, techStack, description, onExpand, imageUrl, comingSoon
 }) => (
   <motion.div
     layout
@@ -43,7 +43,10 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
     transition={{ duration: 0.5 }}
     className="group flex flex-col h-full" // Ensure card takes full height if needed in grid
   >
-    <Card className="bg-card/50 border-border/30 shadow-md hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col flex-grow h-full overflow-hidden">
+    <Card className={cn(
+      "bg-card/50 border-border/30 shadow-md flex flex-col flex-grow h-full overflow-hidden",
+      "transition-all duration-300 hover:shadow-elegant-md hover:border-primary/40" // Use elegant shadow on hover
+      )}>
       {/* Optional Image Header */}
        {imageUrl && (
         <div className="relative w-full h-48 overflow-hidden border-b border-border/20"> {/* Added border */}
@@ -53,6 +56,7 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
             fill // Use fill for responsive image sizing within container
             style={{ objectFit: 'cover' }} // Cover maintains aspect ratio
             className="transition-transform duration-300 group-hover:scale-105"
+            unoptimized // Disable Next.js optimization for placeholder
           />
            {/* Subtle overlay on hover */}
            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
@@ -76,12 +80,15 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
            {description.join(' ')}
         </p>
          {/* Tech stack badges */}
-        <div className="flex flex-wrap gap-2"> {/* Increased gap */}
+        <div className="flex flex-wrap gap-1.5"> {/* Refined gap */}
           {techStack.slice(0, 4).map((tech, index) => ( // Show 4 initially
               <Badge
                  key={index}
                  variant="outline" // Use outline variant
-                 className="font-body text-xs px-2.5 py-0.5 border-primary/30 text-primary/80 hover:bg-primary/10 transition-colors cursor-default" // Improved styling
+                 className={cn(
+                   "font-mono text-[10px] px-2 py-0.5 border-primary/30 text-primary/80",
+                   "hover:bg-primary/10 transition-colors cursor-default shadow-sm" // Subtle shadow and improved hover
+                 )}
               >
                  {tech}
               </Badge>
@@ -89,9 +96,12 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
           {techStack.length > 4 && ( // Adjust threshold
              <Badge
                  variant="outline"
-                 className="font-body text-xs px-2.5 py-0.5 border-border/50 text-foreground/60 hover:bg-accent/50 transition-colors cursor-default" // Different style for "+more"
+                 className={cn(
+                   "font-mono text-[10px] px-2 py-0.5 border-border/50 text-foreground/60",
+                   "hover:bg-accent/50 transition-colors cursor-default shadow-sm" // Style for "+more"
+                   )}
              >
-                +{techStack.length - 4}
+                +{techStack.length - 4} more
              </Badge>
           )}
         </div>
@@ -210,6 +220,7 @@ const Projects: React.FC = () => {
                         fill // Use fill layout
                         style={{ objectFit: 'cover' }} // Ensure image covers the area
                         className="transition-transform duration-300"
+                        unoptimized
                     />
                   </div>
                  )}
@@ -217,12 +228,15 @@ const Projects: React.FC = () => {
                  {/* Tech Stack */}
                   <div>
                     <h4 className="text-lg font-body font-semibold mb-3 text-foreground/90">Technologies Used:</h4> {/* Adjusted margin */}
-                    <div className="flex flex-wrap gap-2"> {/* Use consistent gap */}
+                    <div className="flex flex-wrap gap-1.5"> {/* Use consistent gap */}
                         {selectedProject.techStack.map((tech, index) => (
                              <Badge
                                 key={index}
                                 variant="outline" // Use outline variant
-                                className="font-body text-xs px-2.5 py-0.5 border-primary/30 text-primary/80 hover:bg-primary/10 transition-colors cursor-default" // Consistent styling
+                                className={cn(
+                                  "font-mono text-[10px] px-2 py-0.5 border-primary/30 text-primary/80",
+                                  "hover:bg-primary/10 transition-colors cursor-default shadow-sm" // Subtle shadow
+                                )}
                              >
                                 {tech}
                              </Badge>
@@ -272,22 +286,23 @@ const Projects: React.FC = () => {
        {/* Add custom scrollbar styles locally if needed */}
        <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+          width: 6px; /* Adjusted width */
         }
         .custom-scrollbar::-webkit-scrollbar-track {
           background: hsl(var(--card)); /* Match modal background */
+          border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: hsla(var(--primary-hsl), 0.5); /* Use primary color with transparency */
+          background-color: hsla(var(--primary-hsl), 0.4); /* Use primary color with less opacity */
           border-radius: 10px;
-          border: 2px solid hsl(var(--card)); /* Add padding */
+          border: 1px solid hsl(var(--card)); /* Add padding */
         }
          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-           background-color: hsla(var(--primary-hsl), 0.7); /* More opaque on hover */
+           background-color: hsla(var(--primary-hsl), 0.6); /* More opaque on hover */
         }
          .custom-scrollbar {
             scrollbar-width: thin;
-            scrollbar-color: hsla(var(--primary-hsl), 0.5) hsl(var(--card)); /* thumb color track color */
+            scrollbar-color: hsla(var(--primary-hsl), 0.4) hsl(var(--card)); /* thumb color track color */
          }
       `}</style>
 
@@ -296,4 +311,3 @@ const Projects: React.FC = () => {
 };
 
 export default Projects;
-

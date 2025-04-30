@@ -1,8 +1,10 @@
+
 'use client';
 
 import React from 'react';
 import { Users } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
+import { cn } from '@/lib/utils'; // Import cn
 
 const Extracurricular: React.FC = () => {
   const activities = [
@@ -30,7 +32,10 @@ const Extracurricular: React.FC = () => {
        {/* Activities Grid */}
        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
          {activities.map((activity, index) => (
-          <Card key={index} className="bg-card/50 border-border/30 shadow-sm hover:shadow-md hover:border-primary/30 transition-all">
+          <Card key={index} className={cn(
+            "bg-card/50 border-border/30 shadow-sm",
+            "transition-all duration-300 hover:shadow-elegant-sm hover:border-primary/30" // Use elegant shadow on hover
+          )}>
             <CardHeader className="pb-2">
                <CardTitle className="text-lg font-body font-semibold text-primary">{activity.role}</CardTitle>
                <CardDescription className="text-sm font-body font-medium text-foreground/80 pt-1">

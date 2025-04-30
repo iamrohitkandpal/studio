@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -6,40 +7,31 @@ import { Github, Linkedin, Mail, Phone, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link'; // Import Link
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils'; // Import cn
 
 const Header: React.FC = () => {
 
-   const scrollToContact = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, sectionId: string) => {
      e.preventDefault();
-     const contactSection = document.getElementById('contact');
-     if (contactSection) {
+     const section = document.getElementById(sectionId);
+     if (section) {
        const yOffset = -80; // Adjust offset for fixed navbar height
-       const y = contactSection.getBoundingClientRect().top + window.scrollY + yOffset;
+       const y = section.getBoundingClientRect().top + window.scrollY + yOffset;
        window.scrollTo({ top: y, behavior: 'smooth' });
      }
    };
-
-    const scrollToProjects = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-      e.preventDefault();
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        const yOffset = -80; // Adjust offset for fixed navbar height
-        const y = projectsSection.getBoundingClientRect().top + window.scrollY + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
-      }
-    };
 
 
   return (
     // Center the entire container and its items, reduce top padding further
     <div className="min-h-[calc(60vh)] flex flex-col items-center justify-center text-center md:text-left gap-8 md:gap-12 pt-8 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12"> {/* Wrapper div for columns */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full max-w-5xl"> {/* Wrapper div for columns, added width control */}
           {/* Left Column (Image & Socials) - Order adjusted for mobile */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }} // Subtle scale and Y animation
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.6, 0.01, 0.05, 0.95] }}
-            className="flex flex-col items-center md:items-center order-1 md:order-none" // Center items within this column
+            className="flex flex-col items-center md:items-center order-1 md:order-none flex-shrink-0" // Center items within this column
           >
             {/* Image centered within its div */}
             <div className="mb-6 flex justify-center">
@@ -48,8 +40,9 @@ const Header: React.FC = () => {
                 alt="Rohit Kandpal"
                 width={160} // Adjusted size
                 height={160} // Adjusted size
-                className="rounded-full border-4 border-primary/60 shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-primary/30" // Enhanced shadow
+                className="rounded-full border-4 border-primary/60 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-elegant-md" // Enhanced shadow with custom hover
                 priority // Prioritize loading this image (LCP)
+                unoptimized // Disable Next.js image optimization if using external URLs heavily
               />
             </div>
             {/* Socials centered */}
@@ -98,14 +91,29 @@ const Header: React.FC = () => {
             </p>
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto items-center justify-center md:justify-start"> {/* Adjusted gap and width */}
-              <Button size="lg" asChild className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base shadow-lg hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1">
+              <Button
+                size="lg"
+                asChild
+                className={cn(
+                    "w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base",
+                    "shadow-lg hover:shadow-elegant-sm transition-all duration-300 transform hover:-translate-y-1" // Use elegant shadow on hover
+                )}
+              >
                  {/* Use onClick for smooth scrolling */}
-                <a href="#projects" onClick={scrollToProjects}>
+                <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')}>
                   View Projects <ArrowDown size={16} className="ml-1.5 rotate-[-90deg]" /> {/* Right Arrow */}
                 </a>
               </Button>
-               <Button variant="outline" size="lg" asChild className="w-full sm:w-auto rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base border-primary/50 hover:bg-accent hover:text-accent-foreground transition-all duration-300">
-                <a href="#contact" onClick={scrollToContact}>
+               <Button
+                variant="outline"
+                size="lg"
+                asChild
+                className={cn(
+                    "w-full sm:w-auto rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base border-primary/50 hover:bg-accent hover:text-accent-foreground transition-all duration-300",
+                    "hover:shadow-elegant-sm" // Add subtle elegant shadow on hover
+                )}
+               >
+                <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>
                    Get In Touch
                 </a>
               </Button>

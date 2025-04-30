@@ -1,8 +1,10 @@
+
 'use client';
 
 import React from 'react';
 import { Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Use Card
+import { cn } from '@/lib/utils'; // Import cn
 
 const Achievements: React.FC = () => {
   const achievements = [
@@ -18,7 +20,10 @@ const Achievements: React.FC = () => {
       </h2>
 
       {/* Achievements List within a Card */}
-      <Card className="bg-card/50 border-border/30 shadow-md max-w-3xl mx-auto">
+      <Card className={cn(
+        "bg-card/50 border-border/30 shadow-md max-w-3xl mx-auto",
+        "transition-all duration-300 hover:shadow-elegant-md hover:border-primary/30" // Use elegant shadow on hover
+      )}>
         <CardHeader>
            <CardTitle className="text-xl font-body font-semibold text-foreground/90">Key Accomplishments</CardTitle>
         </CardHeader>

@@ -1,8 +1,10 @@
+
 'use client';
 
 import React from 'react';
 import { Briefcase } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card components
+import { cn } from '@/lib/utils'; // Import cn
 
 interface ExperienceItemProps {
   company: string;
@@ -13,7 +15,10 @@ interface ExperienceItemProps {
 }
 
 const ExperienceItem: React.FC<ExperienceItemProps> = ({ company, role, duration, location, description }) => (
-  <Card className="bg-card/50 border-border/30 shadow-md transition-shadow hover:shadow-lg hover:border-primary/40">
+  <Card className={cn(
+    "bg-card/50 border-border/30 shadow-md",
+    "transition-all duration-300 hover:shadow-elegant-md hover:border-primary/40" // Use elegant shadow on hover
+    )}>
     <CardHeader className="pb-3">
       <CardTitle className="text-xl font-body font-semibold text-primary">{company}</CardTitle>
       <CardDescription className="text-sm font-caption text-foreground/70 pt-1">
