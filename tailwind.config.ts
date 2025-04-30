@@ -81,7 +81,7 @@ export default {
   				to: { height: '0' }
   			},
         'fade-in': {
-          from: { opacity: '0', transform: 'scale(0.98)' },
+          from: { opacity: '0', transform: 'scale(0.98)' }, // Added subtle scale
           to: { opacity: '1', transform: 'scale(1)' },
         },
         'slide-up': {
@@ -102,5 +102,6 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")], // Keep animate plugin for ShadCN components
 } satisfies Config;
+```

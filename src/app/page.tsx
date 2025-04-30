@@ -2,6 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Header from '@/components/sections/header';
 import Education from '@/components/sections/education';
 import Experience from '@/components/sections/experience';
@@ -13,12 +14,13 @@ import Extracurricular from '@/components/sections/extracurricular';
 import ContactMe from '@/components/sections/contact-me';
 import Footer from '@/components/footer';
 import Navbar from '@/components/navbar';
-import StarfieldCanvas from '@/components/starfield-canvas';
+import StarfieldCanvas from '@/components/starfield-canvas'; // Import the StarfieldCanvas
 import { cn } from '@/lib/utils';
 import { Separator } from '@/components/ui/separator';
 
 // Define section data
 const sections = [
+  { id: 'header', component: Header, title: 'Hero' },
   { id: 'header', component: Header, title: 'Hero' },
   { id: 'skills', component: TechnicalSkills, title: 'Skills' },
   { id: 'projects', component: Projects, title: 'Projects' },
@@ -68,6 +70,7 @@ export default function Home() {
             // Adjust viewport for earlier trigger: trigger when 20% is visible
             viewport={{ once: true, amount: 0.2 }}
             variants={sectionVariants}
+            // Using standard layout flow, not explicit cards for sections anymore
             className={cn(
               "w-full relative z-10", // Ensure content is above canvas and cursor effect
             )}
@@ -85,3 +88,4 @@ export default function Home() {
     </div>
   );
 }
+```

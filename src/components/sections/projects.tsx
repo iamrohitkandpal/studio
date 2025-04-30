@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -13,7 +12,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  // DialogClose removed as it's handled by default X button in DialogContent
+  DialogClose
 } from '@/components/ui/dialog';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
 import { motion, AnimatePresence } from 'framer-motion';
@@ -37,10 +36,11 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
   title, duration, type, techStack, description, onExpand, imageUrl, comingSoon
 }) => (
   <motion.div
-    layout
-    initial={{ opacity: 0, y: 20 }}
+    layout // Enable layout animation
+    initial={{ opacity: 0, y: 30 }} // Slightly increased distance
     animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.5 }}
+    exit={{ opacity: 0, y: -20 }} // Add exit animation
+    transition={{ duration: 0.5, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother ease
     className="group flex flex-col h-full" // Ensure card takes full height if needed in grid
   >
     <Card className={cn(
@@ -49,7 +49,7 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
       )}>
       {/* Optional Image Header */}
        {imageUrl && (
-        <div className="relative w-full h-48 overflow-hidden border-b border-border/20"> {/* Added border */}
+        <div className="relative w-full h-48 overflow-hidden">
           <Image
             src={imageUrl}
             alt={`${title} preview`}
@@ -58,12 +58,10 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
             className="transition-transform duration-300 group-hover:scale-105"
             unoptimized // Disable Next.js optimization for placeholder
           />
-           {/* Subtle overlay on hover */}
-           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
         </div>
       )}
 
-      <CardHeader className="pb-3 pt-4 px-5"> {/* Adjusted padding */}
+      <CardHeader className="pb-3">
         <CardTitle className="text-xl font-heading text-primary flex justify-between items-center">
            <span>{title}</span>
            {/* Subtle Expand Icon */}
@@ -74,7 +72,7 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex-grow mb-4 px-5 pt-0"> {/* Adjusted padding */}
+      <CardContent className="flex-grow mb-4 px-6 pt-0">
         {/* Short description */}
         <p className="text-sm font-body text-foreground/80 mb-3 line-clamp-3">
            {description.join(' ')}
@@ -107,9 +105,12 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
         </div>
       </CardContent>
 
-      <CardFooter className="px-5 pb-5 pt-0 mt-auto flex justify-end gap-2"> {/* Adjusted padding */}
+      <CardFooter className="px-6 pb-5 pt-0 mt-auto flex justify-end gap-2">
          {/* Links (optional here, main in modal) */}
-          <Button variant="link" size="sm" className="text-primary hover:text-primary/80 px-0" onClick={onExpand}>
+         {/* {githubLink && ( ... )} */}
+         {/* {liveLink && ( ... )} */}
+         {/* {comingSoon && ( ... )} */}
+          <Button variant="link" size="sm" className="text-primary hover:text-primary/80" onClick={onExpand}>
              Learn More <ExternalLink size={14} className="ml-1" />
           </Button>
       </CardFooter>
@@ -198,19 +199,27 @@ const Projects: React.FC = () => {
       <AnimatePresence>
         {selectedProject && (
           <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-             {/* Standard Dialog Content, adjusted padding */}
-            <DialogContent className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden bg-card border-border/50">
+             {/* Adjusted Dialog Content for better scroll and padding */}
+            <DialogContent
+              className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden bg-card border-border/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%]" // Use standard animation
+            >
                {/* Header */}
                <DialogHeader className="p-6 pb-4 border-b border-border/30 flex-shrink-0 bg-card sticky top-0 z-10">
                  <DialogTitle className="text-2xl font-heading text-primary">{selectedProject.title}</DialogTitle>
                  <DialogDescription className="text-sm font-caption text-foreground/70">
                    {selectedProject.duration} • {selectedProject.type}
                  </DialogDescription>
-                  {/* Default Close button provided by DialogContent is in the top-right */}
+                  {/* Close button inside header */}
+                  <DialogClose asChild>
+                       <Button type="button" variant="ghost" size="icon" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                           <X size={18} />
+                           <span className="sr-only">Close</span>
+                       </Button>
+                   </DialogClose>
                </DialogHeader>
 
-               {/* Scrollable Content */}
-               <div className="flex-grow overflow-y-auto px-6 py-4 space-y-6 custom-scrollbar">
+               {/* Scrollable Content Area */}
+               <div className="flex-grow overflow-y-auto px-6 py-4 space-y-6 custom-scrollbar"> {/* Apply custom scrollbar class */}
                  {/* Image */}
                  {selectedProject.imageUrl && (
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border/50 shadow-md mb-4">
@@ -276,7 +285,7 @@ const Projects: React.FC = () => {
                         </Button>
                     )}
                   </div>
-                  {/* Explicit DialogClose button removed from footer */}
+                  {/* Removed explicit close button from footer, using header one */}
                </DialogFooter>
             </DialogContent>
           </Dialog>

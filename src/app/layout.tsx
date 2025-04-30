@@ -6,11 +6,12 @@ import { Inter, Manrope, Outfit, Source_Code_Pro } from 'next/font/google';
 // If using Google Fonts, replace 'General Sans' path as needed
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+// import CustomCursor from '@/components/custom-cursor'; // Removed
 import { cn } from '@/lib/utils';
 import CustomCursor from '@/components/custom-cursor'; // Import CustomCursor
 
 // Define fonts with specific weights and subsets available via Google Fonts
-const fontOutfit = Outfit({ // Heading font
+const fontOutfit = Outfit({ // Use Outfit for headings (alternative to Satoshi)
   subsets: ['latin'],
   weight: ['600', '700'], // Semi-bold, Bold
   variable: '--font-heading', // CSS variable for headings
@@ -23,11 +24,11 @@ const fontGeneralSansVariable = { variable: '--font-subheading' };
 
 const fontInter = Inter({ // Body font
   subsets: ['latin'],
-  weight: ['400', '500'], // Regular, Medium
+  weight: ['400', '500', '600'], // Regular, Medium, Semi-bold (covers Subheadings too)
   variable: '--font-body', // CSS variable for body text
 });
 
-const fontManrope = Manrope({ // Caption font
+const fontManrope = Manrope({ // Keep Manrope for captions
   subsets: ['latin'],
   weight: ['400'],
   variable: '--font-caption', // CSS variable for captions
@@ -79,7 +80,7 @@ export default function RootLayout({
       </head>
       <body
        className={cn(
-          "antialiased relative font-body", // Set default font-body
+          "antialiased relative",
           fontOutfit.variable,
           fontGeneralSansVariable.variable, // Apply subheading variable
           fontInter.variable,

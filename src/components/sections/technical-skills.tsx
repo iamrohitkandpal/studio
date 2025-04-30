@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react';
+import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react'; // Simplified imports
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AwsIcon, BootstrapIcon, CppIcon, CssIcon, DartIcon, ExpressIcon, FigmaIcon, FlutterIcon, GitIcon, GitHubIcon, HtmlIcon, JsIcon, MatlabIcon, MongoIcon, MySqlIcon, NextIcon, NginxIcon, NodeIcon, PythonIcon, ReactIcon, SocketIOIcon, TailwindIcon } from '@/components/skill-icons';
@@ -38,6 +38,7 @@ const skillItemVariants = {
 
 const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
   return (
+    // Subtle hover effect with motion
     <motion.div
       className={cn(
         "group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 text-center aspect-square",
@@ -79,8 +80,16 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({ title, icon: CategoryIcon
     <CardContent>
       {/* Grid for skills within the category */}
       <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3">
-        {skills.map((skill) => (
-          <SkillItem key={skill.name} {...skill} />
+        {skills.map((skill, index) => (
+          // Add delay to stagger animation entry
+          <motion.div
+             key={skill.name}
+             initial={{ opacity: 0, y: 15 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.4, delay: index * 0.05, ease: 'easeOut' }}
+          >
+             <SkillItem {...skill} />
+          </motion.div>
         ))}
       </div>
     </CardContent>
@@ -152,3 +161,4 @@ const TechnicalSkills: React.FC = () => {
 };
 
 export default TechnicalSkills;
+```
