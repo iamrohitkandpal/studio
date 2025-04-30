@@ -5,9 +5,9 @@ import React from 'react';
 import Image from 'next/image';
 import { Github, Linkedin, Mail, Phone, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link'; // Import Link
+// Link is not needed if using direct anchor with onClick for smooth scroll
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils'; // Import cn
+import { cn } from '@/lib/utils';
 
 const Header: React.FC = () => {
 
@@ -21,106 +21,146 @@ const Header: React.FC = () => {
      }
    };
 
+   // Animation variants for staggered children
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15, // Stagger children animation
+                delayChildren: 0.2,
+            },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: [0.6, 0.01, 0.05, 0.95] },
+        },
+    };
 
   return (
-    // Center the entire container and its items, reduce top padding further
-    <div className="min-h-[calc(60vh)] flex flex-col items-center justify-center text-center md:text-left gap-8 md:gap-12 pt-8 pb-12 px-4 sm:px-6 lg:px-8">
-      <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full max-w-5xl"> {/* Wrapper div for columns, added width control */}
-          {/* Left Column (Image & Socials) - Order adjusted for mobile */}
+    <motion.div
+        className="min-h-[calc(60vh)] flex flex-col items-center justify-center text-center md:text-left gap-8 md:gap-12 pt-8 pb-12 px-4 sm:px-6 lg:px-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible" // Animate container on mount
+    >
+      <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12 w-full max-w-5xl">
+          {/* Left Column (Image & Socials) */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 20 }} // Subtle scale and Y animation
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.6, 0.01, 0.05, 0.95] }}
-            className="flex flex-col items-center md:items-center order-1 md:order-none flex-shrink-0" // Center items within this column
+            variants={itemVariants} // Apply item animation
+            className="flex flex-col items-center md:items-center order-1 md:order-none flex-shrink-0"
           >
-            {/* Image centered within its div */}
-            <div className="mb-6 flex justify-center">
+            {/* Image with subtle scale animation on hover */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 15 }}
+              className="mb-6 flex justify-center"
+            >
               <Image
-                src="https://picsum.photos/seed/profile/160/160" // Slightly smaller image for mobile first
+                src="https://picsum.photos/seed/profile/160/160"
                 alt="Rohit Kandpal"
-                width={160} // Adjusted size
-                height={160} // Adjusted size
-                className="rounded-full border-4 border-primary/60 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-elegant-md" // Enhanced shadow with custom hover
-                priority // Prioritize loading this image (LCP)
-                unoptimized // Disable Next.js image optimization if using external URLs heavily
+                width={160}
+                height={160}
+                className="rounded-full border-4 border-primary/60 shadow-xl transition-shadow duration-300 hover:shadow-elegant-md"
+                priority
+                unoptimized
               />
-            </div>
-            {/* Socials centered */}
-             <div className="flex justify-center md:justify-center gap-3 sm:gap-4"> {/* Adjusted gap */}
-              <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full w-9 h-9 sm:w-10 sm:h-10">
-                <a href="https://github.com/iRohitKandpal" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
-                  <Github size={18} /> {/* Adjusted icon size */}
-                </a>
-              </Button>
-              <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full w-9 h-9 sm:w-10 sm:h-10">
-                <a href="https://linkedin.com/in/irohitkandpal" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
-                  <Linkedin size={18} />
-                </a>
-              </Button>
-               <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full w-9 h-9 sm:w-10 sm:h-10">
-                <a href="mailto:iamrohitkandpal@gmail.com" aria-label="Email">
-                  <Mail size={18} />
-                </a>
-              </Button>
-               <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full w-9 h-9 sm:w-10 sm:h-10">
-                <a href="tel:+917567054535" aria-label="Phone">
-                  <Phone size={18} />
-                </a>
-              </Button>
-            </div>
+            </motion.div>
+            {/* Socials with individual hover effects */}
+             <motion.div
+                variants={itemVariants} // Apply item animation to the social icons container
+                className="flex justify-center md:justify-center gap-3 sm:gap-4"
+             >
+                {[
+                    { href: "https://github.com/iRohitKandpal", label: "GitHub Profile", icon: Github },
+                    { href: "https://linkedin.com/in/irohitkandpal", label: "LinkedIn Profile", icon: Linkedin },
+                    { href: "mailto:iamrohitkandpal@gmail.com", label: "Email", icon: Mail },
+                    { href: "tel:+917567054535", label: "Phone", icon: Phone }
+                ].map((social, index) => (
+                   <motion.div
+                     key={index}
+                     whileHover={{ y: -3, scale: 1.1 }} // Bounce and scale effect
+                     transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+                   >
+                      <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full w-9 h-9 sm:w-10 sm:h-10">
+                        <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={social.label}>
+                          <social.icon size={18} />
+                        </a>
+                      </Button>
+                   </motion.div>
+                ))}
+            </motion.div>
           </motion.div>
 
           {/* Right Column (Text & CTA) */}
           <motion.div
-             initial={{ opacity: 0, y: 50 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.7, delay: 0.3, ease: [0.6, 0.01, 0.05, 0.95] }} // Slightly delayed
-            className="flex flex-col items-center md:items-start max-w-xl order-2 md:order-none text-center md:text-left" // Ensure text alignment matches overall alignment
+            variants={itemVariants} // Apply item animation
+            className="flex flex-col items-center md:items-start max-w-xl order-2 md:order-none text-center md:text-left"
           >
             {/* Name */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-400 to-amber-500"> {/* Gradient text */}
+            <motion.h1
+              variants={itemVariants}
+              className="text-4xl sm:text-5xl lg:text-6xl font-heading font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-400 to-amber-500"
+             >
               Rohit Kandpal
-            </h1>
+            </motion.h1>
             {/* Title/Tagline */}
-            <p className="text-lg sm:text-xl md:text-2xl font-subheading text-foreground/80 mb-4"> {/* Use subheading font */}
+            <motion.p
+              variants={itemVariants}
+              className="text-lg sm:text-xl md:text-2xl font-subheading text-foreground/80 mb-4"
+            >
               Aspiring Full-Stack Developer & Cybersecurity Enthusiast
-            </p>
+            </motion.p>
             {/* Brief Intro */}
-            <p className="text-sm sm:text-base font-body text-foreground/70 mb-6 max-w-lg">
+            <motion.p
+              variants={itemVariants}
+              className="text-sm sm:text-base font-body text-foreground/70 mb-6 max-w-lg text-balance" // Use text-balance for better wrapping
+            >
                I'm a B.Tech Computer Science student specializing in Cyber Security, passionate about building secure and efficient web applications. Exploring the MERN stack, Next.js, and cloud technologies.
-            </p>
+            </motion.p>
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto items-center justify-center md:justify-start"> {/* Adjusted gap and width */}
-              <Button
-                size="lg"
-                asChild
-                className={cn(
-                    "w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base",
-                    "shadow-lg hover:shadow-elegant-sm transition-all duration-300 transform hover:-translate-y-1" // Use elegant shadow on hover
-                )}
-              >
-                 {/* Use onClick for smooth scrolling */}
-                <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')}>
-                  View Projects <ArrowDown size={16} className="ml-1.5 rotate-[-90deg]" /> {/* Right Arrow */}
-                </a>
-              </Button>
-               <Button
-                variant="outline"
-                size="lg"
-                asChild
-                className={cn(
-                    "w-full sm:w-auto rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base border-primary/50 hover:bg-accent hover:text-accent-foreground transition-all duration-300",
-                    "hover:shadow-elegant-sm" // Add subtle elegant shadow on hover
-                )}
-               >
-                <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>
-                   Get In Touch
-                </a>
-              </Button>
-            </div>
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto items-center justify-center md:justify-start"
+            >
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                  <Button
+                    size="lg"
+                    asChild
+                    className={cn(
+                        "w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base",
+                        "shadow-lg hover:shadow-elegant-sm transition-all duration-300 transform hover:-translate-y-0.5" // Slightly adjusted hover effect
+                    )}
+                  >
+                    <a href="#projects" onClick={(e) => scrollToSection(e, 'projects')}>
+                      View Projects <ArrowDown size={16} className="ml-1.5 rotate-[-90deg]" />
+                    </a>
+                  </Button>
+              </motion.div>
+               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    asChild
+                    className={cn(
+                        "w-full sm:w-auto rounded-full px-6 py-2.5 sm:px-8 sm:py-3 text-sm sm:text-base border-primary/50 hover:bg-accent hover:text-accent-foreground transition-all duration-300",
+                        "hover:shadow-elegant-sm hover:border-primary/80" // Enhanced hover state
+                    )}
+                   >
+                    <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>
+                       Get In Touch
+                    </a>
+                  </Button>
+               </motion.div>
+            </motion.div>
           </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

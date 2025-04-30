@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* ChaiCode Inspired Dark Theme */
+    /* ChaiCode Inspired Dark Theme - Orange Accent */
     --background: 230 15% 8%; /* Very dark blue/black */
     --foreground: 0 0% 98%; /* White */
 
@@ -14,8 +14,8 @@
     --popover: 230 15% 8%;
     --popover-foreground: 0 0% 98%;
 
-    /* Adjusted primary orange for slightly better contrast/vibrancy if needed */
-    --primary: 25 95% 55%; /* Vibrant Orange - kept same */
+    /* Primary orange */
+    --primary: 25 95% 55%; /* Vibrant Orange */
     --primary-foreground: 230 15% 8%; /* Dark text on orange */
     --primary-hsl: 25 95% 55%; /* HSL values for primary color */
 
@@ -25,10 +25,10 @@
     --muted: 230 10% 25%;
     --muted-foreground: 0 0% 63.9%; /* Lighter gray */
 
-    /* Adjusted accent using primary color */
-    --accent: hsla(var(--primary-hsl), 0.1); /* Use primary HSL with alpha */
-    --accent-foreground: hsl(var(--primary-hsl)); /* Use primary HSL directly */
-    --accent-hsl: var(--primary-hsl); /* HSL values for accent color derived from primary */
+    /* Accent uses primary color HSL with alpha */
+    --accent: hsla(var(--primary-hsl), 0.1);
+    --accent-foreground: hsl(var(--primary-hsl));
+    --accent-hsl: var(--primary-hsl);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -40,22 +40,26 @@
     --radius: 0.5rem;
 
     /* Chart colors */
-    --chart-1: 25 95% 55%; /* Orange */
-    --chart-2: 210 80% 60%; /* Blue */
-    --chart-3: 180 70% 50%; /* Teal */
-    --chart-4: 45 90% 55%; /* Yellow */
-    --chart-5: 300 75% 60%; /* Purple */
+    --chart-1: hsl(var(--primary-hsl));
+    --chart-2: 210 80% 60%;
+    --chart-3: 180 70% 50%;
+    --chart-4: 45 90% 55%;
+    --chart-5: 300 75% 60%;
 
     /* Font Variables */
     --font-heading: "Outfit", sans-serif;
-    --font-subheading: "Neue Montreal", sans-serif; /* Added */
+    --font-subheading: "General Sans", sans-serif; /* Changed to General Sans */
     --font-body: "Inter", sans-serif;
     --font-caption: "Manrope", sans-serif;
+    --font-mono: "Source Code Pro", monospace;
+
+    /* Cursor variables */
+    --cursor-x: 50%;
+    --cursor-y: 50%;
   }
 
-  /* Ensure dark mode is the default */
+  /* Explicit dark mode */
   .dark {
-     /* Keep the same variables as :root for default dark mode */
     --background: 230 15% 8%;
     --foreground: 0 0% 98%;
     --card: 230 15% 12%;
@@ -77,7 +81,7 @@
     --border: 230 10% 30%;
     --input: 230 10% 25%;
     --ring: 25 95% 60%;
-    --chart-1: 25 95% 55%;
+    --chart-1: hsl(var(--primary-hsl));
     --chart-2: 210 80% 60%;
     --chart-3: 180 70% 50%;
     --chart-4: 45 90% 55%;
@@ -88,76 +92,138 @@
 @layer base {
   * {
     @apply border-border;
-    /* box-sizing: border-box; Ensure box-sizing is consistent */
   }
+
   html {
-    /* Native smooth scrolling - remove !important if possible */
-    scroll-behavior: smooth;
-    /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+    /* Native smooth scrolling */
+    scroll-behavior: smooth !important; /* Force smooth scroll */
+
+    /* Minimalist Scrollbar for Webkit (Chrome, Safari) */
     &::-webkit-scrollbar {
-        width: 6px; /* Make scrollbar thinner */
-        height: 6px;
+        width: 5px; /* Very thin */
+        height: 5px;
     }
     &::-webkit-scrollbar-track {
-        background: hsl(var(--background)); /* Match background */
+        background: transparent; /* Invisible track */
     }
     &::-webkit-scrollbar-thumb {
-        /* Use primary color for thumb */
-        background-color: hsla(var(--primary-hsl), 0.5);
+        /* Subtle orange thumb, more transparent */
+        background-color: hsla(var(--primary-hsl), 0.4);
         border-radius: 10px;
-        border: 1px solid hsl(var(--background)); /* Add padding around thumb */
+        border: none; /* No border around thumb */
     }
     &::-webkit-scrollbar-thumb:hover {
-       /* Slightly more opaque primary on hover */
-       background-color: hsla(var(--primary-hsl), 0.7);
+       /* Slightly more opaque on hover */
+       background-color: hsla(var(--primary-hsl), 0.6);
     }
-     /* Hide scrollbar for Firefox */
-    scrollbar-width: thin; /* "auto" or "thin" */
-    /* Set scrollbar color: thumb and track */
-    scrollbar-color: hsla(var(--primary-hsl), 0.5) hsl(var(--background));
+
+    /* Minimalist Scrollbar for Firefox */
+    scrollbar-width: thin;
+    /* Subtle orange thumb, transparent track */
+    scrollbar-color: hsla(var(--primary-hsl), 0.4) transparent;
   }
+
 
   body {
     @apply bg-background text-foreground;
-    min-height: 100vh; /* Ensure body takes full viewport height */
-    overscroll-behavior: none; /* Prevent scrolling bounce */
-    font-family: var(--font-body); /* Apply default body font */
+    min-height: 100vh;
+    overscroll-behavior: none;
+    font-family: var(--font-body);
+
+    /* Subtle cursor glow effect */
+    position: relative; /* Needed for pseudo-element */
   }
+
+  /* Cursor Glow Pseudo-element */
+   body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* Allows clicking through */
+      background: radial-gradient(
+        circle at var(--cursor-x) var(--cursor-y),
+        hsla(var(--primary-hsl), 0.08) 0%, /* Soft orange glow */
+        transparent 20% /* Increase spread of the glow */
+      );
+      opacity: 0; /* Hidden by default, controlled by JS */
+      transition: opacity 0.3s ease-out; /* Smooth fade in/out */
+      z-index: 9999; /* Ensure it's above other content but below potential modals */
+   }
+
+   body.cursor-active::before {
+      opacity: 1; /* Show glow when active */
+   }
+
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading font-semibold;
   }
 
-  /* Define subheading style using font-subheading (Neue Montreal) */
   .subheading {
      @apply font-medium; /* Weight 500 */
-     font-family: var(--font-subheading); /* Apply directly */
+     font-family: var(--font-subheading); /* Apply General Sans */
   }
 
-  /* Ensure captions use the Manrope font */
   .caption {
      font-family: var(--font-caption);
   }
+
+  /* Ensure links have a smooth color transition */
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  /* Add slight transition to button hovers */
+  button {
+    @apply transition-all duration-200;
+  }
 }
 
-/* Utility to hide scrollbar if specifically needed */
 @layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* Hide scrollbar utility if absolutely needed, though default is now minimal */
   .hide-scrollbar::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
+    display: none;
   }
   .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
-/* Ensure canvas is behind everything */
+/* Ensure canvas is behind everything including cursor glow */
 #starfield-canvas {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -10; /* Place behind all other content */
-  pointer-events: none; /* Allow clicks to pass through */
+  z-index: -10;
+  pointer-events: none;
+}
+
+/* Custom scrollbar for specific elements like modal content */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(var(--card)); /* Match modal background */
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: hsla(var(--primary-hsl), 0.4);
+  border-radius: 10px;
+  border: 1px solid hsl(var(--card));
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: hsla(var(--primary-hsl), 0.6);
+}
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: hsla(var(--primary-hsl), 0.4) hsl(var(--card));
 }
