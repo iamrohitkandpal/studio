@@ -1,36 +1,31 @@
-import type { Metadata } from 'next';
+
+import type {Metadata} from 'next';
+// Use Google Fonts that are close to the suggestion
 import { Inter, Manrope, Outfit } from 'next/font/google';
-// Removed Geist Sans/Mono imports as they were causing errors and Inter/Manrope/Outfit are used.
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+// import CustomCursor from '@/components/custom-cursor'; // Removed
 import { cn } from '@/lib/utils';
 
 // Define fonts with specific weights and subsets available via Google Fonts
-const fontOutfit = Outfit({ // Heading font
+const fontOutfit = Outfit({ // Use Outfit for headings (alternative to Satoshi)
   subsets: ['latin'],
-  weight: ['600', '700'], // Use specific weights needed
-  display: 'swap', // Use swap for better performance
-  variable: '--font-heading',
+  weight: ['600', '700'], // Semi-bold, Bold
+  variable: '--font-heading', // CSS variable for headings
 });
 
-// Removed Neue Montreal variable - If needed, ensure it's loaded via @font-face
-// const fontNeueMontrealVariable = { variable: '--font-subheading' };
-
-const fontInter = Inter({ // Body font
+const fontInter = Inter({ // Keep Inter for body text (alternative to General Sans)
   subsets: ['latin'],
-  weight: ['400', '500'], // Use specific weights needed
-  display: 'swap',
-  variable: '--font-body',
+  weight: ['400', '500', '600'], // Regular, Medium, Semi-bold (covers Subheadings too)
+  variable: '--font-body', // CSS variable for body text
 });
 
-const fontManrope = Manrope({ // Caption font
+const fontManrope = Manrope({ // Keep Manrope for captions
   subsets: ['latin'],
-  weight: ['400'], // Use specific weights needed
-  display: 'swap',
-  variable: '--font-caption',
+  weight: ['400'],
+  variable: '--font-caption', // CSS variable for captions
 });
 
-// Removed Source Code Pro as it wasn't used.
 
 export const metadata: Metadata = {
   title: 'Rohit Kandpal | Portfolio',
@@ -43,25 +38,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   return (
+    // Apply dark mode directly to HTML tag
     <html lang="en" className="dark" suppressHydrationWarning>
-      <head>
-         {/* Preconnect to Google Fonts is handled automatically by next/font */}
-         {/* Preconnect to placeholder image domain */}
-         <link rel="preconnect" href="https://picsum.photos" />
-         {/* Add preload hints for fonts if needed, though next/font often handles this */}
-         {/* Example: <link rel="preload" href="/fonts/outfit-v11-latin-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" /> */}
-      </head>
+      <head />
+      {/* Apply font variables to the body */}
       <body
        className={cn(
-          "antialiased relative font-body",
+          "antialiased relative",
           fontOutfit.variable,
-          // fontNeueMontrealVariable.variable, // Removed if not loaded elsewhere
           fontInter.variable,
           fontManrope.variable,
-          // fontSourceCodePro.variable // Removed if not used
+          "font-body" // Set Inter as the default body font via Tailwind class
         )}
        >
-         {children}
+        {/* <CustomCursor /> */} {/* Removed */}
+        {children}
         <Toaster />
       </body>
     </html>

@@ -13,12 +13,9 @@ const StarfieldCanvas: React.FC = () => {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let stars: { x: number; y: number; radius: number; speed: number; opacity: number }[] = [];
-    // Reduced number of stars for better performance
-    const numStars = 100;
-    // Use HSL values directly for the primary color (orange)
-    const starColor = 'hsl(25 95% 55%)'; // HSL for vibrant orange
-
+    let stars: { x: number; y: number; radius: number; speed: number }[] = [];
+    const numStars = 150; // Adjust density as needed
+    const starColor = 'hsl(25, 95%, 55%)'; // Use primary orange color HSL value
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -28,51 +25,38 @@ const StarfieldCanvas: React.FC = () => {
         stars.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          // Slightly smaller stars for subtlety
-          radius: Math.random() * 1.0 + 0.2,
-          speed: Math.random() * 0.3 + 0.05, // Even slower speed
-          opacity: Math.random() * 0.5 + 0.1, // More subtle opacity
+          radius: Math.random() * 1.5 + 0.5, // Star size range
+          speed: Math.random() * 0.5 + 0.1, // Star speed range
         });
       }
     };
 
     const drawStars = () => {
-       // Clear only the area where stars were in the previous frame (potential optimization, but complex)
-      // For simplicity and stability, clear the whole canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Set fill style once outside the loop
       ctx.fillStyle = starColor;
 
       stars.forEach((star) => {
-        // Update star position
+        // Move stars vertically
         star.y += star.speed;
 
-        // Reset star position if it goes off screen
+        // Wrap stars around the screen
         if (star.y > canvas.height + star.radius) {
           star.y = -star.radius;
-          star.x = Math.random() * canvas.width;
-          // Optionally reset opacity/speed for variation
-          star.opacity = Math.random() * 0.5 + 0.1;
-          star.speed = Math.random() * 0.3 + 0.05;
+          star.x = Math.random() * canvas.width; // Reset horizontal position
         }
 
-        // Draw simple circle (less performance impact than gradients/shadows)
+        // Draw star
         ctx.beginPath();
-        ctx.globalAlpha = star.opacity; // Use globalAlpha for opacity
         ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
         ctx.fill();
       });
-
-      // Reset global alpha
-      ctx.globalAlpha = 1.0;
 
       animationFrameId = requestAnimationFrame(drawStars);
     };
 
     // Initial setup
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas, { passive: true }); // Use passive listener
+    window.addEventListener('resize', resizeCanvas);
 
     // Start animation
     drawStars();
@@ -84,8 +68,7 @@ const StarfieldCanvas: React.FC = () => {
     };
   }, []); // Empty dependency array ensures this runs only once on mount
 
-  // Ensure canvas is positioned correctly and doesn't interfere with layout
-  return <canvas id="starfield-canvas" ref={canvasRef} className="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none" />;
+  return <canvas id="starfield-canvas" ref={canvasRef} />;
 };
 
 export default StarfieldCanvas;

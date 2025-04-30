@@ -14,17 +14,10 @@
     --popover: 220 20% 8%;
     --popover-foreground: 0 0% 95%;
 
-<<<<<<< HEAD
-    /* Adjusted primary orange for slightly better contrast/vibrancy if needed */
-    --primary: 25 95% 55%; /* Vibrant Orange - kept same */
-    --primary-foreground: 230 15% 8%; /* Dark text on orange */
-    --primary-hsl: 25 95% 55%; /* HSL values for primary color */
-=======
     /* Use Orange (HSL: 25 95% 55%) for primary/accent */
     --primary-hsl: 25 95% 55%;
     --primary: hsl(var(--primary-hsl));
     --primary-foreground: 0 0% 10%; /* Dark text on Orange */
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
 
     --secondary: 220 10% 20%; /* Muted Blue-Gray */
     --secondary-foreground: 0 0% 90%;
@@ -32,17 +25,10 @@
     --muted: 220 10% 18%;
     --muted-foreground: 0 0% 60%; /* Lighter gray */
 
-<<<<<<< HEAD
-    /* Adjusted accent using primary color */
-    --accent: hsla(var(--primary-hsl), 0.1); /* Use primary HSL with alpha */
-    --accent-foreground: hsl(var(--primary-hsl)); /* Use primary HSL directly */
-    --accent-hsl: var(--primary-hsl); /* HSL values for accent color derived from primary */
-=======
     /* Accent color using the Orange HSL */
     --accent-hsl: 25 95% 55%;
     --accent: hsla(var(--accent-hsl) / 0.1); /* Orange with alpha */
     --accent-foreground: hsl(var(--accent-hsl)); /* Full Orange for foreground */
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
 
     --destructive: 0 70% 50%; /* Red */
     --destructive-foreground: 0 0% 98%;
@@ -53,30 +39,18 @@
 
     --radius: 0.75rem; /* Slightly more rounded */
 
-<<<<<<< HEAD
-    /* Chart colors */
-    --chart-1: 25 95% 55%; /* Orange */
-=======
     /* Chart colors (adjust if needed, using analogous/complementary) */
     --chart-1: var(--primary-hsl); /* Orange */
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
     --chart-2: 210 80% 60%; /* Blue */
     --chart-3: 45 90% 50%; /* Yellow-Orange */
     --chart-4: 300 75% 60%; /* Purple */
     --chart-5: 180 70% 45%; /* Teal */
 
     /* Font Variables */
-<<<<<<< HEAD
-    --font-heading: "Outfit", sans-serif;
-    --font-subheading: "Neue Montreal", sans-serif; /* Added */
-    --font-body: "Inter", sans-serif;
-    --font-caption: "Manrope", sans-serif;
-=======
     --font-heading: "Outfit", sans-serif; /* Headings (Satoshi fallback) */
     --font-subheading: "Neue Montreal", sans-serif; /* Subheadings */
     --font-body: "Inter", sans-serif; /* Body Text (General Sans fallback) */
     --font-caption: "Manrope", sans-serif; /* Captions */
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
   }
 
   /* Ensure dark mode is the default */
@@ -84,23 +58,6 @@
      /* Keep the same variables as :root for default dark mode */
     --background: 220 20% 5%;
     --foreground: 0 0% 98%;
-<<<<<<< HEAD
-    --card: 230 15% 12%;
-    --card-foreground: 0 0% 98%;
-    --popover: 230 15% 8%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 25 95% 55%;
-    --primary-foreground: 230 15% 8%;
-    --primary-hsl: 25 95% 55%;
-    --secondary: 230 10% 25%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 230 10% 25%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: hsla(var(--primary-hsl), 0.1);
-    --accent-foreground: hsl(var(--primary-hsl));
-    --accent-hsl: var(--primary-hsl);
-    --destructive: 0 62.8% 30.6%;
-=======
     --card: 220 15% 12%;
     --card-foreground: 0 0% 95%;
     --popover: 220 20% 8%;
@@ -114,57 +71,20 @@
     --accent: hsla(var(--accent-hsl) / 0.1); /* Orange with alpha */
     --accent-foreground: hsl(var(--accent-hsl));
     --destructive: 0 70% 50%;
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
     --destructive-foreground: 0 0% 98%;
     --border: 220 10% 25%;
     --input: 220 10% 18%;
     --ring: 25 80% 60%; /* Lighter Orange for rings */
     --chart-1: var(--primary-hsl);
     --chart-2: 210 80% 60%;
-<<<<<<< HEAD
-    --chart-3: 180 70% 50%;
-    --chart-4: 45 90% 55%;
-    --chart-5: 300 75% 60%;
-=======
     --chart-3: 45 90% 50%;
     --chart-4: 300 75% 60%;
     --chart-5: 180 70% 45%;
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
   }
 }
 
 @layer base {
   * {
-<<<<<<< HEAD
-    @apply border-border;
-    /* box-sizing: border-box; Ensure box-sizing is consistent */
-  }
-  html {
-    /* Native smooth scrolling - remove !important if possible */
-    scroll-behavior: smooth;
-    /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
-    &::-webkit-scrollbar {
-        width: 6px; /* Make scrollbar thinner */
-        height: 6px;
-    }
-    &::-webkit-scrollbar-track {
-        background: hsl(var(--background)); /* Match background */
-    }
-    &::-webkit-scrollbar-thumb {
-        /* Use primary color for thumb */
-        background-color: hsla(var(--primary-hsl), 0.5);
-        border-radius: 10px;
-        border: 1px solid hsl(var(--background)); /* Add padding around thumb */
-    }
-    &::-webkit-scrollbar-thumb:hover {
-       /* Slightly more opaque primary on hover */
-       background-color: hsla(var(--primary-hsl), 0.7);
-    }
-     /* Hide scrollbar for Firefox */
-    scrollbar-width: thin; /* "auto" or "thin" */
-    /* Set scrollbar color: thumb and track */
-    scrollbar-color: hsla(var(--primary-hsl), 0.5) hsl(var(--background));
-=======
     @apply border-border box-border; /* Added box-sizing */
     /* scroll-behavior: smooth; /* Apply smooth scrolling globally */
   }
@@ -178,31 +98,8 @@
        scrollbar-color: hsl(var(--border) / 0.6) hsl(var(--background)); /* thumb color track color */
        /* scrollbar-color: hsla(var(--primary), 0.5) transparent; */
        /* scrollbar-color: hsla(25, 95%, 55%, 0.5) transparent; /* Simplified static value */
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
   }
-
   body {
-<<<<<<< HEAD
-    @apply bg-background text-foreground;
-    min-height: 100vh; /* Ensure body takes full viewport height */
-    overscroll-behavior: none; /* Prevent scrolling bounce */
-    font-family: var(--font-body); /* Apply default body font */
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold;
-  }
-
-  /* Define subheading style using font-subheading (Neue Montreal) */
-  .subheading {
-     @apply font-medium; /* Weight 500 */
-     font-family: var(--font-subheading); /* Apply directly */
-  }
-
-  /* Ensure captions use the Manrope font */
-  .caption {
-     font-family: var(--font-caption);
-=======
     @apply bg-background text-foreground font-body; /* Default to Inter */
     min-height: 100vh; /* Ensure body takes full height */
     overflow-x: hidden; /* Prevent horizontal scroll */
@@ -214,7 +111,6 @@
 
   .subheading {
      @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
   }
 
   /* TEMPORARILY COMMENTED OUT SCROLLBAR STYLES TO FIX PARSING ERROR */
@@ -244,22 +140,7 @@
 
 }
 
-<<<<<<< HEAD
-/* Utility to hide scrollbar if specifically needed */
-@layer utilities {
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
-  }
-  .hide-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
-  }
-}
-
-/* Ensure canvas is behind everything */
-=======
 /* Canvas styles */
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
 #starfield-canvas {
     position: fixed;
     top: 0;
@@ -269,8 +150,6 @@
     z-index: -10; /* Ensure it's behind everything */
     pointer-events: none; /* Allow interactions with elements below */
 }
-<<<<<<< HEAD
-=======
 
 /* Glassmorphism for Navbar when scrolled */
 .navbar-glass {
@@ -327,4 +206,3 @@
 .chai-button {
   @apply bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-2 px-4 rounded-md transition-colors duration-300;
 }
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2

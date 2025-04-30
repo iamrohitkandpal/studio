@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from 'react';
@@ -13,7 +12,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  // DialogClose removed as it's handled by default X button in DialogContent
+  DialogClose
 } from '@/components/ui/dialog';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card
 import { motion, AnimatePresence } from 'framer-motion';
@@ -44,10 +43,10 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
     transition={{ duration: 0.5, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother ease
     className="group flex flex-col h-full" // Ensure card takes full height if needed in grid
   >
-    <Card className="bg-card/50 border-border/30 shadow-md hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col flex-grow h-full overflow-hidden">
+    <Card className="bg-card border-border/30 shadow-md hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col flex-grow h-full overflow-hidden">
       {/* Optional Image Header */}
        {imageUrl && (
-        <div className="relative w-full h-48 overflow-hidden border-b border-border/20"> {/* Added border */}
+        <div className="relative w-full h-48 overflow-hidden">
           <Image
             src={imageUrl}
             alt={`${title} preview`}
@@ -55,12 +54,10 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
             style={{ objectFit: 'cover' }} // Cover maintains aspect ratio
             className="transition-transform duration-300 group-hover:scale-105"
           />
-           {/* Subtle overlay on hover */}
-           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300"></div>
         </div>
       )}
 
-      <CardHeader className="pb-3 pt-4 px-5"> {/* Adjusted padding */}
+      <CardHeader className="pb-3">
         <CardTitle className="text-xl font-heading text-primary flex justify-between items-center">
            <span>{title}</span>
            {/* Subtle Expand Icon */}
@@ -71,36 +68,28 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="flex-grow mb-4 px-5 pt-0"> {/* Adjusted padding */}
+      <CardContent className="flex-grow mb-4 px-6 pt-0">
         {/* Short description */}
         <p className="text-sm font-body text-foreground/80 mb-3 line-clamp-3">
            {description.join(' ')}
         </p>
          {/* Tech stack badges */}
-        <div className="flex flex-wrap gap-2"> {/* Increased gap */}
-          {techStack.slice(0, 4).map((tech, index) => ( // Show 4 initially
-              <Badge
-                 key={index}
-                 variant="outline" // Use outline variant
-                 className="font-body text-xs px-2.5 py-0.5 border-primary/30 text-primary/80 hover:bg-primary/10 transition-colors cursor-default" // Improved styling
-              >
-                 {tech}
-              </Badge>
+        <div className="flex flex-wrap gap-1.5">
+          {techStack.slice(0, 5).map((tech, index) => (
+              <Badge key={index} variant="secondary" className="font-body text-[10px] px-2 py-0.5">{tech}</Badge>
           ))}
-          {techStack.length > 4 && ( // Adjust threshold
-             <Badge
-                 variant="outline"
-                 className="font-body text-xs px-2.5 py-0.5 border-border/50 text-foreground/60 hover:bg-accent/50 transition-colors cursor-default" // Different style for "+more"
-             >
-                +{techStack.length - 4}
-             </Badge>
+          {techStack.length > 5 && (
+             <Badge variant="outline" className="font-body text-[10px] px-2 py-0.5">+{techStack.length - 5}</Badge>
           )}
         </div>
       </CardContent>
 
-      <CardFooter className="px-5 pb-5 pt-0 mt-auto flex justify-end gap-2"> {/* Adjusted padding */}
+      <CardFooter className="px-6 pb-5 pt-0 mt-auto flex justify-end gap-2">
          {/* Links (optional here, main in modal) */}
-          <Button variant="link" size="sm" className="text-primary hover:text-primary/80 px-0" onClick={onExpand}>
+         {/* {githubLink && ( ... )} */}
+         {/* {liveLink && ( ... )} */}
+         {/* {comingSoon && ( ... )} */}
+          <Button variant="link" size="sm" className="text-primary hover:text-primary/80" onClick={onExpand}>
              Learn More <ExternalLink size={14} className="ml-1" />
           </Button>
       </CardFooter>
@@ -199,9 +188,6 @@ const Projects: React.FC = () => {
                  <DialogDescription className="text-sm font-caption text-foreground/70">
                    {selectedProject.duration} • {selectedProject.type}
                  </DialogDescription>
-<<<<<<< HEAD
-                  {/* Default Close button provided by DialogContent is in the top-right */}
-=======
                   {/* Close button inside header */}
                   <DialogClose asChild>
                        <Button type="button" variant="ghost" size="icon" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
@@ -209,7 +195,6 @@ const Projects: React.FC = () => {
                            <span className="sr-only">Close</span>
                        </Button>
                    </DialogClose>
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
                </DialogHeader>
 
                {/* Scrollable Content Area */}
@@ -229,16 +214,10 @@ const Projects: React.FC = () => {
 
                  {/* Tech Stack */}
                   <div>
-                    <h4 className="text-lg font-body font-semibold mb-3 text-foreground/90">Technologies Used:</h4> {/* Adjusted margin */}
-                    <div className="flex flex-wrap gap-2"> {/* Use consistent gap */}
+                    <h4 className="text-lg font-body font-semibold mb-2 text-foreground/90">Technologies Used:</h4>
+                    <div className="flex flex-wrap gap-2">
                         {selectedProject.techStack.map((tech, index) => (
-                             <Badge
-                                key={index}
-                                variant="outline" // Use outline variant
-                                className="font-body text-xs px-2.5 py-0.5 border-primary/30 text-primary/80 hover:bg-primary/10 transition-colors cursor-default" // Consistent styling
-                             >
-                                {tech}
-                             </Badge>
+                            <Badge key={index} variant="secondary" className="font-body text-xs">{tech}</Badge>
                         ))}
                     </div>
                   </div>
@@ -275,51 +254,19 @@ const Projects: React.FC = () => {
                         </Button>
                     )}
                   </div>
-<<<<<<< HEAD
-                  {/* Explicit DialogClose button removed from footer */}
-=======
                   {/* Removed explicit close button from footer, using header one */}
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
                </DialogFooter>
             </DialogContent>
           </Dialog>
         )}
       </AnimatePresence>
 
-<<<<<<< HEAD
-       {/* Add custom scrollbar styles locally if needed */}
-       <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: hsl(var(--card)); /* Match modal background */
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: hsla(var(--primary-hsl), 0.5); /* Use primary color with transparency */
-          border-radius: 10px;
-          border: 2px solid hsl(var(--card)); /* Add padding */
-        }
-         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-           background-color: hsla(var(--primary-hsl), 0.7); /* More opaque on hover */
-        }
-         .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: hsla(var(--primary-hsl), 0.5) hsl(var(--card)); /* thumb color track color */
-         }
-      `}</style>
-=======
        {/* Add custom scrollbar styles locally if needed (covered globally now) */}
        {/* <style jsx global>{` ... `}</style> */}
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
 
     </div>
   );
 };
 
 export default Projects;
-<<<<<<< HEAD
-
-=======
 ```
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2

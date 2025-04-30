@@ -10,10 +10,10 @@ export default {
   theme: {
   	extend: {
       fontFamily: {
-        heading: ['var(--font-heading)', 'sans-serif'],
-        subheading: ['var(--font-subheading)', 'sans-serif'], // Use variable
-        body: ['var(--font-body)', 'sans-serif'],
-        caption: ['var(--font-caption)', 'sans-serif'],
+        heading: ['var(--font-heading)', 'sans-serif'], // Updated: Outfit
+        // Subheading now uses font-body (Inter) - define via class in globals.css
+        body: ['var(--font-body)', 'sans-serif'], // Updated: Inter
+        caption: ['var(--font-caption)', 'sans-serif'], // Kept: Manrope
       },
   		colors: {
   			background: 'hsl(var(--background))',
@@ -55,8 +55,19 @@ export default {
   				'3': 'hsl(var(--chart-3))',
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
+  			},
+        // Keep sidebar colors defined even if not used in this specific app
+        // for potential future use or consistency with ShadCN themes.
+  			sidebar: {
+  				DEFAULT: 'hsl(var(--sidebar-background))',
+  				foreground: 'hsl(var(--sidebar-foreground))',
+  				primary: 'hsl(var(--sidebar-primary))',
+  				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+  				accent: 'hsl(var(--sidebar-accent))',
+  				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
+  				border: 'hsl(var(--sidebar-border))',
+  				ring: 'hsl(var(--sidebar-ring))'
   			}
-        // Sidebar colors removed for brevity as they are not used
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
@@ -73,24 +84,24 @@ export default {
   				to: { height: '0' }
   			},
         'fade-in': {
-          from: { opacity: '0', transform: 'scale(0.98)' },
+          from: { opacity: '0', transform: 'scale(0.98)' }, // Added subtle scale
           to: { opacity: '1', transform: 'scale(1)' },
         },
         'slide-up': {
-           from: { transform: 'translateY(40px)', opacity: '0'}, // Adjusted Y distance
+           from: { transform: 'translateY(30px)', opacity: '0'}, // Increased Y distance
            to: { transform: 'translateY(0)', opacity: '1'},
         },
-        'icon-bounce': {
-           '0%, 100%': { transform: 'translateY(0) rotate(0)' },
-           '50%': { transform: 'translateY(-5px) rotate(3deg)' }, // Adjusted bounce effect
+        'bounce-subtle': { // Renamed to icon-bounce
+           '0%, 100%': { transform: 'translateY(0) rotate(0)' }, // Added rotate reset
+           '50%': { transform: 'translateY(-6px) rotate(5deg)' }, // Increased Y and added slight rotate
          }
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in': 'fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards', // Smoother cubic-bezier
-        'slide-up': 'slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards', // Smoother cubic-bezier and longer duration
-        'icon-bounce': 'icon-bounce 0.6s ease-in-out'
+        'fade-in': 'fade-in 0.5s ease-out forwards',
+        'slide-up': 'slide-up 0.6s ease-out forwards',
+        'icon-bounce': 'bounce-subtle 0.5s ease-in-out' // Updated animation name and duration
   		}
   	}
   },

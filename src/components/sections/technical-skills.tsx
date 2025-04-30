@@ -2,13 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-<<<<<<< HEAD
-import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react';
-=======
 import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react'; // Simplified imports
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
 import { cn } from '@/lib/utils';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Use Card for structure
 
 // Keep existing icons, they seem mostly appropriate
 // Simplified icon components (inline for brevity)
@@ -77,44 +73,14 @@ interface SkillItemProps {
   level?: string;
 }
 
-// Animation variants for skill items - Simplified for performance
-const skillItemVariants = {
-  hidden: { opacity: 0, y: 15 }, // Slightly more initial offset
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5, // Slightly faster fade-in
-      ease: [0.6, 0.01, 0.05, 0.95], // Keep smooth ease
-    },
-  },
-  hover: {
-    // Simpler hover: lift and subtle scale
-    y: -3,
-    scale: 1.05,
-    transition: { duration: 0.2, ease: "easeOut" },
-  },
-};
-
 const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
   return (
-<<<<<<< HEAD
-    <motion.div
-      className="group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 transition-colors duration-200 hover:bg-accent/50 text-center aspect-square"
-      variants={skillItemVariants}
-      initial="hidden"
-      whileInView="visible" // Trigger animation when item comes into view
-      whileHover="hover"
-      viewport={{ once: true, amount: 0.3 }} // Trigger when 30% is visible
-    >
-=======
     // Subtle hover effect with motion
     <motion.div
        whileHover={{ scale: 1.05, y: -3 }} // Subtle scale and lift on hover
        transition={{ duration: 0.2, ease: 'easeOut' }} // Quick, smooth transition
       className="group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 transition-colors duration-200 hover:bg-accent/50 text-center aspect-square"
       >
->>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
       {/* Icon Container */}
       <div className="w-6 h-6 mb-1.5 text-foreground/70 group-hover:text-primary transition-colors duration-200">
          <Icon className="w-full h-full" />
