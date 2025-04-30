@@ -30,15 +30,27 @@ const sections = [
   { id: 'contact', component: ContactMe, title: 'Contact' },
 ];
 
+<<<<<<< HEAD
 // Smoother animation variants - Simplified transition
 const sectionVariants = {
   hidden: { opacity: 0, y: 30 },
+=======
+// Smoother animation variants
+const sectionVariants = {
+  hidden: { opacity: 0, y: 60 }, // Slightly increased initial distance
+>>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
   visible: {
     opacity: 1,
     y: 0,
     transition: {
+<<<<<<< HEAD
       duration: 0.6, // Slightly shorter duration
       ease: [0.6, 0.01, 0.05, 0.95], // Use optimized cubic-bezier
+=======
+      duration: 0.7, // Slightly longer duration
+      ease: [0.6, 0.01, -0.05, 0.95], // Custom cubic-bezier for smoother feel
+      staggerChildren: 0.1, // Add subtle stagger if section has animated children
+>>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
     },
   },
 };
@@ -57,6 +69,11 @@ export default function Home() {
     <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <StarfieldCanvas /> {/* Render canvas */}
       <Navbar />
+<<<<<<< HEAD
+=======
+      {/* Main content area with vertical sections */}
+      {/* Apply custom scrollbar styling via global CSS */}
+>>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
       <main className="container mx-auto px-4 py-24 pt-32 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
         {sections.map((section, index) => (
           <motion.div
@@ -64,8 +81,12 @@ export default function Home() {
             id={section.id}
             initial="hidden"
             whileInView="visible"
+<<<<<<< HEAD
              // Trigger animation when 15% of the section is visible
             viewport={{ once: true, amount: 0.15 }}
+=======
+            viewport={{ once: true, amount: 0.15 }} // Trigger when 15% is visible for smoother appearance
+>>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
             variants={sectionVariants}
             className={cn(
               "w-full relative z-10",
@@ -84,3 +105,4 @@ export default function Home() {
     </div>
   );
 }
+```

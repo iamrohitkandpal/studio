@@ -2,7 +2,11 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+<<<<<<< HEAD
 import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react';
+=======
+import { Wrench, Code, Database, Cloud, Cog, GitBranch, Github, Wind, MonitorSmartphone, DraftingCompass, Sigma } from 'lucide-react'; // Simplified imports
+>>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -94,6 +98,7 @@ const skillItemVariants = {
 
 const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
   return (
+<<<<<<< HEAD
     <motion.div
       className="group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 transition-colors duration-200 hover:bg-accent/50 text-center aspect-square"
       variants={skillItemVariants}
@@ -102,6 +107,14 @@ const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
       whileHover="hover"
       viewport={{ once: true, amount: 0.3 }} // Trigger when 30% is visible
     >
+=======
+    // Subtle hover effect with motion
+    <motion.div
+       whileHover={{ scale: 1.05, y: -3 }} // Subtle scale and lift on hover
+       transition={{ duration: 0.2, ease: 'easeOut' }} // Quick, smooth transition
+      className="group flex flex-col items-center justify-center p-2 bg-card rounded-lg border border-border/20 transition-colors duration-200 hover:bg-accent/50 text-center aspect-square"
+      >
+>>>>>>> 34cdbe24d6884502908d4f4a6b9c818d09c292c2
       {/* Icon Container */}
       <div className="w-6 h-6 mb-1.5 text-foreground/70 group-hover:text-primary transition-colors duration-200">
          <Icon className="w-full h-full" />
@@ -130,8 +143,16 @@ const SkillCategory: React.FC<SkillCategoryProps> = ({ title, icon: CategoryIcon
     <CardContent>
       {/* Grid for skills within the category */}
       <div className="grid grid-cols-3 xs:grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-3">
-        {skills.map((skill) => (
-          <SkillItem key={skill.name} {...skill} />
+        {skills.map((skill, index) => (
+          // Add delay to stagger animation entry
+          <motion.div
+             key={skill.name}
+             initial={{ opacity: 0, y: 15 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ duration: 0.4, delay: index * 0.05, ease: 'easeOut' }}
+          >
+             <SkillItem {...skill} />
+          </motion.div>
         ))}
       </div>
     </CardContent>
@@ -204,3 +225,4 @@ const TechnicalSkills: React.FC = () => {
 };
 
 export default TechnicalSkills;
+```
