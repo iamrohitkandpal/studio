@@ -1,8 +1,6 @@
-
 import type { Metadata } from 'next';
-// Use Google Fonts that match the suggestions
-import { Inter, Manrope, Outfit, Source_Code_Pro } from 'next/font/google';
-// Assuming Neue Montreal is loaded via @font-face or similar, just define the variable
+import { Inter, Manrope, Outfit } from 'next/font/google';
+// Removed Geist Sans/Mono imports as they were causing errors and Inter/Manrope/Outfit are used.
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
@@ -10,33 +8,29 @@ import { cn } from '@/lib/utils';
 // Define fonts with specific weights and subsets available via Google Fonts
 const fontOutfit = Outfit({ // Heading font
   subsets: ['latin'],
-  weight: ['600', '700'], // Semi-bold, Bold
-  variable: '--font-heading', // CSS variable for headings
+  weight: ['600', '700'], // Use specific weights needed
+  display: 'swap', // Use swap for better performance
+  variable: '--font-heading',
 });
 
-// Define CSS variable for Neue Montreal, assuming it's loaded elsewhere
-// If not loaded, Tailwind will fall back to sans-serif.
-const fontNeueMontrealVariable = { variable: '--font-subheading' }; // Placeholder variable definition
+// Removed Neue Montreal variable - If needed, ensure it's loaded via @font-face
+// const fontNeueMontrealVariable = { variable: '--font-subheading' };
 
 const fontInter = Inter({ // Body font
   subsets: ['latin'],
-  weight: ['400', '500'], // Regular, Medium
-  variable: '--font-body', // CSS variable for body text
+  weight: ['400', '500'], // Use specific weights needed
+  display: 'swap',
+  variable: '--font-body',
 });
 
 const fontManrope = Manrope({ // Caption font
   subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-caption', // CSS variable for captions
+  weight: ['400'], // Use specific weights needed
+  display: 'swap',
+  variable: '--font-caption',
 });
 
-// Example mono font (optional, if needed for code blocks etc.)
-const fontSourceCodePro = Source_Code_Pro({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-mono',
-});
-
+// Removed Source Code Pro as it wasn't used.
 
 export const metadata: Metadata = {
   title: 'Rohit Kandpal | Portfolio',
@@ -49,24 +43,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>): JSX.Element {
   return (
-    // Apply dark mode directly to HTML tag and remove scroll-smooth (using CSS instead)
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
-         {/* Preconnect to Google Fonts for faster loading */}
-         <link rel="preconnect" href="https://fonts.googleapis.com" />
-         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-         {/* Preconnect to placeholder image domain if known and different */}
+         {/* Preconnect to Google Fonts is handled automatically by next/font */}
+         {/* Preconnect to placeholder image domain */}
          <link rel="preconnect" href="https://picsum.photos" />
+         {/* Add preload hints for fonts if needed, though next/font often handles this */}
+         {/* Example: <link rel="preload" href="/fonts/outfit-v11-latin-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" /> */}
       </head>
-      {/* Apply font variables directly to the body using cn */}
       <body
        className={cn(
-          "antialiased relative font-body", // Set default font-body
+          "antialiased relative font-body",
           fontOutfit.variable,
-          fontNeueMontrealVariable.variable, // Apply subheading variable
+          // fontNeueMontrealVariable.variable, // Removed if not loaded elsewhere
           fontInter.variable,
           fontManrope.variable,
-          fontSourceCodePro.variable // Add mono font variable if used
+          // fontSourceCodePro.variable // Removed if not used
         )}
        >
          {children}
