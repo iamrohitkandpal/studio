@@ -83,21 +83,15 @@
   }
 }
 
-@layer base {
+@layer base { 
   * {
     @apply border-border box-border; /* Added box-sizing */
     /* scroll-behavior: smooth; /* Apply smooth scrolling globally */
+    scrollbar-color: hsla(var(--primary-hsl), 0.5) transparent; /* thumb color track color */
+    scrollbar-width: thin;
   }
   html {
     @apply scroll-smooth; /* Apply smooth scrolling using Tailwind */
-    /* overflow: overlay; /* Potential issue: removed */
-    /* scrollbar-gutter: stable; Prevent layout shift */
-
-    /* TEMPORARILY COMMENTED OUT SCROLLBAR STYLES TO FIX PARSING ERROR */
-    /* scrollbar-width: thin;
-       scrollbar-color: hsl(var(--border) / 0.6) hsl(var(--background)); /* thumb color track color */
-       /* scrollbar-color: hsla(var(--primary), 0.5) transparent; */
-       /* scrollbar-color: hsla(25, 95%, 55%, 0.5) transparent; /* Simplified static value */
   }
   body {
     @apply bg-background text-foreground font-body; /* Default to Inter */
@@ -110,34 +104,8 @@
   }
 
   .subheading {
-     @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
+    @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
   }
-
-  /* TEMPORARILY COMMENTED OUT SCROLLBAR STYLES TO FIX PARSING ERROR */
-  /* Custom Scrollbar Styles */
-  /* ::-webkit-scrollbar {
-     width: 8px;
-     height: 8px;
-   }
-
-   ::-webkit-scrollbar-track {
-     background: hsl(var(--background)); /* Use background color for track */
-     /* border-radius: 10px; */ /* Optional: round the track */
-  /* }
-
-   ::-webkit-scrollbar-thumb {
-     background-color: hsl(var(--primary) / 0.5); /* Use accent color with alpha */
-     /* background-color: hsla(25 95% 55% / 0.5); /* Simplified static value */
-     /* border-radius: 10px;
-     border: 2px solid hsl(var(--background)); /* Creates padding around thumb */
-     /* background-clip: padding-box; /* Ensures border color doesn't overlap thumb */
-  /* }
-
-   ::-webkit-scrollbar-thumb:hover {
-      background-color: hsl(var(--primary) / 0.7); /* Darken/lighten on hover */
-      /* background-color: hsla(25 95% 55% / 0.7); /* Simplified static value */
-  /* } */
-
 }
 
 /* Canvas styles */
@@ -173,28 +141,9 @@
 
 /* Project Modal specific scrollbar (if needed) */
 .project-modal-content .overflow-y-auto {
-  /* Add custom scrollbar styling here if default browser scrollbar is undesirable */
-  /* Example (using WebKit prefixes): */
-  /*
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: hsl(var(--primary-hsl) / 0.4);
-    border-radius: 6px;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(var(--primary-hsl) / 0.6);
-  }
-  */
-  /* Example (Firefox): */
-  /* scrollbar-width: thin; */
-  /* scrollbar-color: hsl(var(--primary-hsl) / 0.4) transparent; */
+  scrollbar-color: hsla(var(--primary-hsl), 0.5) transparent; /* thumb color track color */
+  scrollbar-width: thin;
 }
-
 
 /* Add smooth transition for layout changes if needed */
 .smooth-layout-transition {
