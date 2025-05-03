@@ -13,62 +13,100 @@ const StarfieldCanvas: React.FC = () => {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let stars: { x: number; y: number; radius: number; speed: number }[] = [];
-    const numStars = 150; // Adjust density as needed
-    const starColor = 'hsl(25, 95%, 55%)'; // Use primary orange color HSL value
-
-    const resizeCanvas = () => {
+    let particles: { x: number; y: number; radius: number; speed: number; color: string; twinkle: number; opacity: number }[] = [];
+    
+    // Resize handler to make canvas responsive
+    const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      stars = []; // Reinitialize stars on resize
-      for (let i = 0; i < numStars; i++) {
-        stars.push({
+      initParticles(); // Reinitialize particles when resizing
+    };
+
+    // Initialize particles with enhanced properties for snowflake effect
+    const initParticles = () => {
+      particles = [];
+      const particleCount = Math.floor((canvas.width * canvas.height) / 6000); // Slightly higher density
+      
+      for (let i = 0; i < particleCount; i++) {
+        const radius = Math.random() * 0.8 + 0.2; // Even smaller particles for snowflake effect
+        particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          radius: Math.random() * 1.5 + 0.5, // Star size range
-          speed: Math.random() * 0.5 + 0.1, // Star speed range
+          radius: radius,
+          speed: Math.random() * 0.5 + 0.2, // Slightly faster for snowfall effect
+          color: getParticleColor(),
+          twinkle: Math.random() * 0.03, // Reduced twinkling
+          opacity: Math.random() * 0.4 + 0.2 // Slightly higher opacity (0.2-0.6)
         });
       }
     };
 
-    const drawStars = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = starColor;
+    // Generate varied particle colors with our new accent color
+    const getParticleColor = () => {
+      const colors = [
+        'rgba(147, 51, 234, 0.4)', // Purple (primary)
+        'rgba(168, 85, 247, 0.35)', // Lighter purple
+        'rgba(192, 132, 252, 0.3)', // Even lighter purple
+        'rgba(216, 180, 254, 0.25)', // Very light purple
+        'rgba(255, 255, 255, 0.4)', // White
+        'rgba(233, 213, 255, 0.3)' // Lightest purple
+      ];
+      return colors[Math.floor(Math.random() * colors.length)];
+    };
 
-      stars.forEach((star) => {
-        // Move stars vertically
-        star.y += star.speed;
-
-        // Wrap stars around the screen
-        if (star.y > canvas.height + star.radius) {
-          star.y = -star.radius;
-          star.x = Math.random() * canvas.width; // Reset horizontal position
-        }
-
-        // Draw star
+    // Animation loop with minimal trail effect
+    const animate = () => {
+      // Almost completely clear the background each frame (minimal trails)
+      ctx.fillStyle = 'rgba(13, 17, 23, 0.2)'; // Higher opacity to reduce trails significantly
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      // Draw particles with minimal trail effect
+      particles.forEach(particle => {
+        // Core of the particle (no gradient glow to reduce trail effect)
         ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        
+        // Apply very subtle twinkling effect
+        const twinkle = 1 + Math.sin(Date.now() * particle.twinkle) * 0.1;
+        const radius = particle.radius * twinkle;
+        
+        // Simple circle with no gradient for cleaner snowflake look
+        ctx.fillStyle = particle.color;
+        ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
         ctx.fill();
+        
+        // Move particle downward with slight horizontal drift for snowfall effect
+        particle.y += particle.speed;
+        particle.x += Math.sin(Date.now() * 0.001 + particle.y * 0.01) * 0.15; // Gentle horizontal drift
+        
+        // Reset particle position when it goes off screen
+        if (particle.y > canvas.height) {
+          particle.y = -5; // Start slightly above viewport
+          particle.x = Math.random() * canvas.width;
+        }
       });
-
-      animationFrameId = requestAnimationFrame(drawStars);
+      
+      animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Initial setup
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    // Initialize and start animation
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    animate();
 
-    // Start animation
-    drawStars();
-
-    // Cleanup function
+    // Cleanup
     return () => {
+      window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', resizeCanvas);
     };
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, []);
 
-  return <canvas id="starfield-canvas" ref={canvasRef} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 w-full h-full -z-10"
+      style={{ pointerEvents: 'none' }}
+    />
+  );
 };
 
 export default StarfieldCanvas;

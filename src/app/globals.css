@@ -4,78 +4,30 @@
 
 @layer base {
   :root {
-    /* Theme: Dark Mode with Orange Accent */
-
-    --background: 220 20% 5%; /* Dark Blue-Gray */
-    --foreground: 0 0% 98%; /* White */
-
-    --card: 220 15% 12%; /* Slightly lighter Blue-Gray */
-    --card-foreground: 0 0% 95%;
-
-    --popover: 220 20% 8%;
-    --popover-foreground: 0 0% 95%;
-
-    /* Use Orange (HSL: 25 95% 55%) for primary/accent */
-    --primary-hsl: 25 95% 55%;
+    /* Theme: Modern Dark with Purple Accent */
+    --background: 240 25% 5%;
+    --foreground: 210 20% 98%;
+    --card: 240 20% 10%;
+    --card-foreground: 210 20% 98%;
+    --popover: 240 25% 8%;
+    --popover-foreground: 210 20% 98%;
+    --primary-hsl: 265 67% 56%;
+    --primary-rgb: 147, 51, 234;
     --primary: hsl(var(--primary-hsl));
-    --primary-foreground: 0 0% 10%; /* Dark text on Orange */
-
-    --secondary: 220 10% 20%; /* Muted Blue-Gray */
-    --secondary-foreground: 0 0% 90%;
-
-    --muted: 220 10% 18%;
-    --muted-foreground: 0 0% 60%; /* Lighter gray */
-
-    /* Accent color using the Orange HSL */
-    --accent-hsl: 25 95% 55%;
-    --accent: hsla(var(--accent-hsl) / 0.1); /* Orange with alpha */
-    --accent-foreground: hsl(var(--accent-hsl)); /* Full Orange for foreground */
-
-    --destructive: 0 70% 50%; /* Red */
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 220 10% 25%; /* Muted border color */
-    --input: 220 10% 18%;
-    --ring: 25 80% 60%; /* Lighter Orange for rings */
-
-    --radius: 0.75rem; /* Slightly more rounded */
-
-    /* Chart colors (adjust if needed, using analogous/complementary) */
-    --chart-1: var(--primary-hsl); /* Orange */
-    --chart-2: 210 80% 60%; /* Blue */
-    --chart-3: 45 90% 50%; /* Yellow-Orange */
-    --chart-4: 300 75% 60%; /* Purple */
-    --chart-5: 180 70% 45%; /* Teal */
-
-    /* Font Variables */
-    --font-heading: "Outfit", sans-serif; /* Headings (Satoshi fallback) */
-    --font-subheading: "Neue Montreal", sans-serif; /* Subheadings */
-    --font-body: "Inter", sans-serif; /* Body Text (General Sans fallback) */
-    --font-caption: "Manrope", sans-serif; /* Captions */
-  }
-
-  /* Ensure dark mode is the default */
-  .dark {
-     /* Keep the same variables as :root for default dark mode */
-    --background: 220 20% 5%;
-    --foreground: 0 0% 98%;
-    --card: 220 15% 12%;
-    --card-foreground: 0 0% 95%;
-    --popover: 220 20% 8%;
-    --popover-foreground: 0 0% 95%;
-    --primary: hsl(var(--primary-hsl)); /* Orange */
-    --primary-foreground: 0 0% 10%;
-    --secondary: 220 10% 20%;
-    --secondary-foreground: 0 0% 90%;
-    --muted: 220 10% 18%;
-    --muted-foreground: 0 0% 60%;
-    --accent: hsla(var(--accent-hsl) / 0.1); /* Orange with alpha */
-    --accent-foreground: hsl(var(--accent-hsl));
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 15% 15%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 240 15% 12%;
+    --muted-foreground: 240 15% 65%;
+    --accent-hsl: 270 76% 85%;
+    --accent: hsla(var(--accent-hsl), 0.2);
+    --accent-foreground: 265 67% 56%;
     --destructive: 0 70% 50%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 220 10% 25%;
-    --input: 220 10% 18%;
-    --ring: 25 80% 60%; /* Lighter Orange for rings */
+    --destructive-foreground: 210 20% 98%;
+    --border: 240 15% 20%;
+    --input: 240 15% 25%;
+    --ring: 265 67% 56%;
+    --radius: 0.5rem;
     --chart-1: var(--primary-hsl);
     --chart-2: 210 80% 60%;
     --chart-3: 45 90% 50%;
@@ -84,75 +36,155 @@
   }
 }
 
-@layer base { 
-  * {
-    @apply border-border box-border; /* Added box-sizing */
-    /* scroll-behavior: smooth; /* Apply smooth scrolling globally */
-    scrollbar-color: hsla(var(--primary-hsl), 0.5) transparent; /* thumb color track color */
-    scrollbar-width: thin;
-  }
-  html {
-    @apply scroll-smooth; /* Apply smooth scrolling using Tailwind */
-  }
-  body {
-    @apply bg-background text-foreground font-body; /* Default to Inter */
-    min-height: 100vh; /* Ensure body takes full height */
-    overflow-x: hidden; /* Prevent horizontal scroll */
+@layer components {
+  .glass-section {
+    @apply relative px-4 md:px-8 lg:px-12 py-16 md:py-20;
+    scroll-margin-top: 5rem;
+    background: transparent;
+    backdrop-filter: none;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-semibold; /* Outfit */
+  .glass-card {
+    @apply bg-card/30 backdrop-blur-sm border border-white/5 rounded-lg;
   }
 
-  .subheading {
-    @apply font-subheading font-medium; /* Neue Montreal, weight 500 */
+  .section-transition {
+    @apply transition-all duration-300;
+  }
+
+  .animated-accent-bg {
+    @apply relative inline-flex;
+  }
+
+  .animated-accent-bg::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-full h-[6px] bg-primary/20 rounded-full -z-10;
+    animation: pulse 3s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+  }
+
+  .hover-card-effect {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary-hsl), 0.5);
   }
 }
 
-/* Canvas styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+.dark {
+  --background: 240 25% 5%;
+  --foreground: 0 0% 98%;
+  --card: 240 15% 12%;
+  --card-foreground: 0 0% 95%;
+  --popover: 240 20% 8%;
+  --popover-foreground: 0 0% 95%;
+  --primary: hsl(var(--primary-hsl));
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 10% 20%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 240 10% 18%;
+  --muted-foreground: 0 0% 60%;
+  --accent: hsla(var(--accent-hsl), 0.2);
+  --accent-foreground: hsl(var(--accent-hsl));
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 10% 25%;
+  --input: 240 10% 18%;
+  --ring: 265 67% 56%;
+  --chart-1: var(--primary-hsl);
+  --chart-2: 210 80% 60%;
+  --chart-3: 45 90% 50%;
+  --chart-4: 300 75% 60%;
+  --chart-5: 180 70% 45%;
+}
+
+@layer base {
+  * {
+    @apply border-border box-border;
+    scrollbar-color: hsla(var(--primary-hsl), 0.5) transparent;
+    scrollbar-width: thin;
+  }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-body;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold;
+  }
+
+  .subheading {
+    @apply font-subheading font-medium;
+  }
+}
+
 #starfield-canvas {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -10; /* Ensure it's behind everything */
-    pointer-events: none; /* Allow interactions with elements below */
+    z-index: -10;
+    pointer-events: none;
 }
 
-/* Glassmorphism for Navbar when scrolled */
 .navbar-glass {
-    background: hsla(var(--background), 0.6); /* Use background color with alpha */
+    background: hsla(var(--background), 0.6);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid hsla(var(--border), 0.3);
 }
 
-/* Base card styles (can be applied with Tailwind or specific class) */
 .base-card {
-  @apply bg-card/80 border border-border/30 rounded-lg shadow-md backdrop-blur-sm;
-  /* Add transition for hover effects if needed */
-  @apply transition-all duration-300;
+  @apply bg-card/80 border border-border/30 rounded-lg shadow-md backdrop-blur-sm transition-all duration-300;
 }
 
-/* Style for section wrappers - can replace direct styling on motion.div */
 .section-wrapper {
-  @apply mb-16 md:mb-24 relative z-10; /* Spacing and positioning */
+  @apply mb-16 md:mb-24 relative z-10;
 }
 
-/* Project Modal specific scrollbar (if needed) */
 .project-modal-content .overflow-y-auto {
-  scrollbar-color: hsla(var(--primary-hsl), 0.5) transparent; /* thumb color track color */
+  scrollbar-color: hsla(var(--primary-hsl), 0.5) transparent;
   scrollbar-width: thin;
 }
 
-/* Add smooth transition for layout changes if needed */
-.smooth-layout-transition {
-  transition: all 0.3s ease-in-out;
+.button-hover-effect {
+  @apply transition-all duration-300 hover:shadow-md hover:shadow-primary/20 hover:-translate-y-0.5;
 }
 
-/* Additional chai code theme styles if necessary */
-/* Example: Specific button style */
-.chai-button {
-  @apply bg-primary text-primary-foreground hover:bg-primary/90 font-semibold py-2 px-4 rounded-md transition-colors duration-300;
+.nav-item-active {
+  box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.5);
 }

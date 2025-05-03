@@ -12,124 +12,79 @@ const navItems = [
   { id: 'projects', label: 'Projects', icon: FolderGit2 },
   { id: 'experience', label: 'Experience', icon: Briefcase },
   { id: 'education', label: 'Education', icon: GraduationCap },
-  // Optional sections (can be added back if desired)
-  // { id: 'certifications', label: 'Certs', icon: Award },
-  // { id: 'achievements', label: 'Achieve', icon: Star },
-  // { id: 'extracurricular', label: 'Extra', icon: Users },
-  { id: 'contact', label: 'Contact', icon: Mail },
+  { id: 'contact', label: 'Contact', icon: Mail }
 ];
 
 const Navbar: React.FC = () => {
-  const [activeLink, setActiveLink] = useState<string>('header');
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
-
+  const [activeSection, setActiveSection] = useState('header');
+  const [scrolled, setScrolled] = useState(false);
+  
+  // Handle scroll events to update active section and navbar appearance
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50); // Detect scroll past 50px
-
-      // Active section detection logic (simplified for vertical layout)
-      let currentSection = 'header';
-      const sections = document.querySelectorAll<HTMLElement>('div[id]'); // Target divs with IDs
-      let closestSectionDistance = Infinity;
-      const offset = 150; // Pixels from top to consider active
-
-      sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        const elementTop = rect.top + window.scrollY; // Absolute top position of the section
-        const viewTop = window.scrollY + offset; // Adjusted viewport top
-
-         // Check if the section is the closest one at or above the offset line
-        if (elementTop <= viewTop) {
-          const distance = viewTop - elementTop;
-          if (distance < closestSectionDistance) {
-             closestSectionDistance = distance;
-             currentSection = section.id;
-          }
+      // Update scrolled state for navbar styling
+      setScrolled(window.scrollY > 50);
+      
+      // Find the current active section based on scroll position
+      const sections = navItems.map(item => document.getElementById(item.id));
+      const scrollPosition = window.scrollY + 100; // Offset for better detection
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(navItems[i].id);
+          break;
         }
-      });
-
-       // Handle edge case: scrolled near the bottom of the page
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) { // 100px buffer from bottom
-         const lastSection = navItems[navItems.length - 1];
-         if (lastSection) {
-             currentSection = lastSection.id;
-         }
-      } else if (window.scrollY < offset) { // If very close to the top
-         currentSection = 'header';
       }
-
-      setActiveLink(currentSection);
     };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    window.addEventListener('scroll', handleScroll);
     handleScroll(); // Initial check
-
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-
+  
   return (
     <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.6, 0.01, 0.05, 0.95] }} // Fixed: all values between 0 and 1
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 font-heading",
-        isScrolled ? "py-2 navbar-glass shadow-md" : "py-4 bg-transparent"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+        scrolled ? "py-2 bg-background/90 backdrop-blur-md shadow-md" : "py-4 bg-transparent"
       )}
     >
-      <div className="container mx-auto flex items-center justify-between px-4">
-        {/* Optional: Logo or Name on the left */}
-        <Link href="#header" className="text-xl font-bold text-foreground hover:text-primary transition-colors">
-          Rohit K.
-        </Link>
-
-        {/* Navigation Links centered or on the right */}
-        <ul className="flex space-x-1 sm:space-x-2 md:space-x-4">
-          {navItems.map((item) => (
-            <motion.li
-              key={item.id}
-              className="relative group"
-              whileHover={{ y: -2 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }} // Slightly faster hover
-            >
-              <Link
-                href={`#${item.id}`}
-                 onClick={(e) => {
-                   e.preventDefault();
-                   setActiveLink(item.id);
-                   const element = document.getElementById(item.id);
-                   if (element) {
-                       const yOffset = -80; // Adjust offset for fixed navbar height
-                       const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
-                       window.scrollTo({top: y, behavior: 'smooth'});
-                   }
-                 }}
-                className={cn(
-                  "flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-sm font-medium transition-colors duration-200",
-                  "hover:text-primary",
-                  activeLink === item.id ? "text-primary bg-primary/10" : "text-foreground/80" // Simple active style
-                )}
-              >
-                <item.icon className="h-4 w-4 flex-shrink-0" />
-                <span className="hidden md:inline whitespace-nowrap">{item.label}</span>
-                {/* Keep short label for small screens if needed */}
-                 {/* <span className="sm:hidden md:hidden whitespace-nowrap text-[10px]">{item.label.substring(0,4)}</span> */}
-              </Link>
-              {/* Removed layoutId animation for active item background */}
-               {/* Keep simple underline on hover */}
-               <motion.span
-                 className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-center" // Center origin
-                 style={{ scaleX: activeLink === item.id ? 1 : 0 }} // Show if active
-                 animate={{ scaleX: activeLink === item.id ? 1 : 0 }}
-                 transition={{ duration: 0.35, ease: "easeOut" }} // Smoother underline transition
-                 // whileHover={{ scaleX: 1 }} // Optionally add back hover underline
-                 initial={false}
-               />
-            </motion.li>
-          ))}
-        </ul>
+      <div className="container mx-auto px-4">
+        <div className="flex justify-center md:justify-between items-center">
+          {/* Logo/Name - hidden on mobile to save space */}
+          <div className="hidden md:block">
+            <Link href="#header" className="text-lg font-heading font-bold text-primary hover:text-primary/80 transition-colors">
+              Rohit Kandpal
+            </Link>
+          </div>
+          
+          {/* Navigation Links */}
+          <ul className="flex items-center space-x-1 sm:space-x-2 p-1 bg-card/50 backdrop-blur-sm rounded-full border border-border/20 shadow-sm">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <Link
+                  href={`#${item.id}`}
+                  className={cn(
+                    "flex items-center justify-center rounded-full p-2 transition-all duration-300",
+                    activeSection === item.id
+                      ? "bg-primary text-primary-foreground shadow-md nav-item-active"
+                      : "text-foreground/70 hover:text-foreground hover:bg-accent/30"
+                  )}
+                  onClick={() => setActiveSection(item.id)}
+                  aria-label={item.label}
+                >
+                  <item.icon size={18} className={activeSection === item.id ? "animate-pulse" : ""} />
+                  <span className="ml-1.5 text-sm font-medium hidden sm:inline">{item.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </motion.nav>
   );
