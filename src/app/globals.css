@@ -5,6 +5,7 @@
 @layer base {
   :root {
     /* Theme: Dark Mode with Orange Accent */
+
     --background: 220 20% 5%; /* Dark Blue-Gray */
     --foreground: 0 0% 98%; /* White */
 

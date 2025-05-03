@@ -38,7 +38,7 @@ const sectionVariants = {
     y: 0,
     transition: {
       duration: 0.7, // Slightly longer duration
-      ease: [0.6, 0.01, -0.05, 0.95], // Custom cubic-bezier for smoother feel
+      ease: [0.6, 0.01, 0.05, 0.95], // Custom cubic-bezier for smoother feel
       staggerChildren: 0.1, // Add subtle stagger if section has animated children
     },
   },
@@ -85,4 +85,3 @@ export default function Home() {
     </div>
   );
 }
-```
