@@ -191,4 +191,3 @@ const TechnicalSkills: React.FC = () => {
 };
 
 export default TechnicalSkills;
-```

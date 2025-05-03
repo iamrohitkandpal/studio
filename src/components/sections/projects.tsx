@@ -40,7 +40,7 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
     initial={{ opacity: 0, y: 30 }} // Slightly increased distance
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }} // Add exit animation
-    transition={{ duration: 0.5, ease: [0.6, 0.01, -0.05, 0.95] }} // Smoother ease
+    transition={{ duration: 0.5, ease: [0.6, 0.01, 0.05, 0.95] }} // Smoother ease
     className="group flex flex-col h-full" // Ensure card takes full height if needed in grid
   >
     <Card className="bg-card border-border/30 shadow-md hover:shadow-lg hover:border-primary/40 transition-all duration-300 flex flex-col flex-grow h-full overflow-hidden">
@@ -269,4 +269,3 @@ const Projects: React.FC = () => {
 };
 
 export default Projects;
-```
