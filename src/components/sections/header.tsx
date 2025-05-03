@@ -9,42 +9,41 @@ import { motion } from 'framer-motion';
 
 const Header: React.FC = () => {
   return (
-    <div className="min-h-[calc(100vh-10rem)] flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-8 md:gap-12 py-16 md:py-24"> {/* Adjust height and padding */}
-
-       {/* Left Column (Image & Socials) */}
+    <div className="glass-section section-transition min-h-[calc(100vh-10rem)] flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-8 md:gap-12 py-16 md:py-24">
+      {/* Left Column (Image & Socials) */}
       <motion.div
-        initial={{ opacity: 0, x: -60 }} // Slightly increased distance
+        initial={{ opacity: 0, x: -60 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, ease: [0.6, 0.01, 0.05, 0.95] }} // Smoother animation
+        transition={{ duration: 0.8, ease: [0.6, 0.01, 0.05, 0.95] }}
         className="flex flex-col items-center md:items-start"
       >
         <div className="mb-6">
           <Image
-            src="https://picsum.photos/seed/profile/200/200" // Larger placeholder
+            src="https://picsum.photos/seed/profile/200/200"
             alt="Rohit Kandpal"
-            width={200} // Increased size
-            height={200} // Increased size
-            className="rounded-full border-4 border-primary/60 shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-primary/30" // Enhanced shadow
+            width={200}
+            height={200}
+            className="rounded-full border-4 border-primary/60 shadow-xl transition-transform duration-300 hover:scale-105 hover:shadow-primary/30"
             priority
           />
         </div>
-         <div className="flex justify-center md:justify-start gap-4">
-          <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full">
+        <div className="flex justify-center md:justify-start gap-4">
+          <Button variant="outline" size="icon" asChild className="hover:bg-primary/20 hover:text-primary transition-colors duration-200 rounded-full">
             <a href="https://github.com/iRohitKandpal" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
               <Github size={20} />
             </a>
           </Button>
-          <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full">
+          <Button variant="outline" size="icon" asChild className="hover:bg-primary/20 hover:text-primary transition-colors duration-200 rounded-full">
             <a href="https://linkedin.com/in/irohitkandpal" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
               <Linkedin size={20} />
             </a>
           </Button>
-           <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full">
+          <Button variant="outline" size="icon" asChild className="hover:bg-primary/20 hover:text-primary transition-colors duration-200 rounded-full">
             <a href="mailto:iamrohitkandpal@gmail.com" aria-label="Email">
               <Mail size={20} />
             </a>
           </Button>
-           <Button variant="outline" size="icon" asChild className="hover:bg-accent hover:text-accent-foreground transition-colors duration-200 rounded-full">
+          <Button variant="outline" size="icon" asChild className="hover:bg-primary/20 hover:text-primary transition-colors duration-200 rounded-full">
             <a href="tel:+917567054535" aria-label="Phone">
               <Phone size={20} />
             </a>
@@ -54,13 +53,13 @@ const Header: React.FC = () => {
 
       {/* Right Column (Text & CTA) */}
       <motion.div
-         initial={{ opacity: 0, y: 60 }} // Slightly increased distance
-         animate={{ opacity: 1, y: 0 }}
-         transition={{ duration: 0.8, delay: 0.2, ease: [0.6, 0.01, 0.05, 0.95] }} // Smoother animation
+        initial={{ opacity: 0, y: 60 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2, ease: [0.6, 0.01, 0.05, 0.95] }}
         className="flex flex-col items-center md:items-start max-w-2xl"
       >
         {/* Name */}
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-400 to-amber-500"> {/* Gradient text */}
+        <h1 className="animated-accent-bg text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-400 to-violet-500">
           Rohit Kandpal
         </h1>
         {/* Title/Tagline */}
@@ -69,19 +68,18 @@ const Header: React.FC = () => {
         </p>
         {/* Brief Intro */}
         <p className="text-md font-body text-foreground/70 mb-8 max-w-lg">
-           I'm a B.Tech Computer Science student specializing in Cyber Security, passionate about building secure and efficient web applications. Exploring the MERN stack, Next.js, and cloud technologies.
+          I'm a B.Tech Computer Science student specializing in Cyber Security, passionate about building secure and efficient web applications. Exploring the MERN stack, Next.js, and cloud technologies.
         </p>
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4">
           <Button size="lg" asChild className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 text-base shadow-lg hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1">
-             {/* Use Link component for smooth scrolling */}
             <Link href="#projects">
-              View Projects <ArrowDown size={18} className="ml-2 rotate-[-90deg]" /> {/* Right Arrow */}
+              View Projects <ArrowDown size={18} className="ml-2 rotate-[-90deg]" />
             </Link>
           </Button>
-           <Button variant="outline" size="lg" asChild className="rounded-full px-8 py-3 text-base border-primary/50 hover:bg-accent hover:text-accent-foreground transition-all duration-300">
+          <Button variant="outline" size="lg" asChild className="rounded-full px-8 py-3 text-base border-primary/50 hover:bg-primary/20 hover:text-primary transition-all duration-300">
             <Link href="#contact">
-               Get In Touch
+              Get In Touch
             </Link>
           </Button>
         </div>

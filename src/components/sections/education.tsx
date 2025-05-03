@@ -6,14 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Education: React.FC = () => {
   return (
-    <div className="space-y-8"> {/* Add spacing */}
+    <div className="glass-section section-transition space-y-8"> {/* Add spacing */}
       {/* Section Title */}
-      <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
+      <h2 className="animated-accent-bg text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
         <GraduationCap className="w-8 h-8" /> Education
       </h2>
 
       {/* Education Details */}
-      <Card className="bg-card/50 border-border/30 shadow-md w-full max-w-2xl mx-auto"> {/* Centered card */}
+      <Card className="glass-card shadow-md w-full max-w-2xl mx-auto"> {/* Use glass-card class */}
         <CardHeader className="pb-2">
            <CardTitle className="text-xl md:text-2xl font-body font-semibold text-primary mb-1">
               Bachelor of Technology, CSE (Cyber Security)

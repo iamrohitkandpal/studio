@@ -161,9 +161,9 @@ const Projects: React.FC = () => {
    });
 
   return (
-    <div className="space-y-12">
+    <div className="glass-section section-transition space-y-12">
       {/* Section Title */}
-      <h2 className="text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
+      <h2 className="animated-accent-bg text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary">
         <FolderGit2 className="w-8 h-8" /> Projects
       </h2>
 
