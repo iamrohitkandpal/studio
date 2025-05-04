@@ -2,6 +2,17 @@
 
 import React, { useRef, useEffect } from 'react';
 
+interface Particle {
+  x: number;
+  y: number;
+  radius: number;
+  speed: number;
+  color: string;
+  twinkle: number;
+  opacity: number;
+  tail: Array<{x: number; y: number; radius: number}>;
+}
+
 const StarfieldCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -13,7 +24,7 @@ const StarfieldCanvas: React.FC = () => {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let particles: { x: number; y: number; radius: number; speed: number; color: string; twinkle: number; opacity: number }[] = [];
+    let particles: Particle[] = [];
     
     // Resize handler to make canvas responsive
     const handleResize = () => {
@@ -22,78 +33,91 @@ const StarfieldCanvas: React.FC = () => {
       initParticles(); // Reinitialize particles when resizing
     };
 
-    // Initialize particles with enhanced properties for snowflake effect
+    // Initialize particles with enhanced properties for magical effect
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 6000); // Slightly higher density
+      const particleCount = Math.floor((canvas.width * canvas.height) / 8000); // Adjusted density
       
       for (let i = 0; i < particleCount; i++) {
-        const radius = Math.random() * 0.8 + 0.2; // Even smaller particles for snowflake effect
+        const radius = Math.random() * 0.7 + 0.2; // Smaller particles for elegant effect
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          radius: radius,
-          speed: Math.random() * 0.5 + 0.2, // Slightly faster for snowfall effect
+          radius,
+          speed: Math.random() * 0.4 + 0.1, // Slower for more elegant movement
           color: getParticleColor(),
-          twinkle: Math.random() * 0.03, // Reduced twinkling
-          opacity: Math.random() * 0.4 + 0.2 // Slightly higher opacity (0.2-0.6)
+          twinkle: Math.random() * 0.02, // Subtle twinkling
+          opacity: Math.random() * 0.5 + 0.3, // Slightly higher opacity (0.3-0.8)
+          tail: [] // Store previous positions for tail effect
         });
       }
     };
 
-    // Generate varied particle colors with our new accent color
+    // Generate varied particle colors with subtle palette
     const getParticleColor = () => {
       const colors = [
-        'rgba(147, 51, 234, 0.4)', // Purple (primary)
-        'rgba(168, 85, 247, 0.35)', // Lighter purple
-        'rgba(192, 132, 252, 0.3)', // Even lighter purple
-        'rgba(216, 180, 254, 0.25)', // Very light purple
-        'rgba(255, 255, 255, 0.4)', // White
-        'rgba(233, 213, 255, 0.3)' // Lightest purple
+        'rgba(147, 51, 234, 0.5)', // Purple (primary)
+        'rgba(168, 85, 247, 0.4)', // Lighter purple
+        'rgba(192, 132, 252, 0.35)', // Even lighter purple
+        'rgba(216, 180, 254, 0.3)', // Very light purple
+        'rgba(255, 255, 255, 0.5)', // White
+        'rgba(233, 213, 255, 0.35)' // Lightest purple
       ];
       return colors[Math.floor(Math.random() * colors.length)];
     };
 
-    // Animation loop with minimal trail effect
+    // Animation loop with subtle trail effect
     const animate = () => {
-      // Almost completely clear the background each frame (minimal trails)
-      ctx.fillStyle = 'rgba(13, 17, 23, 0.2)'; // Higher opacity to reduce trails significantly
+      ctx.fillStyle = 'rgba(13, 17, 23, 0.3)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Draw particles with minimal trail effect
       particles.forEach(particle => {
-        // Core of the particle (no gradient glow to reduce trail effect)
-        ctx.beginPath();
+        // Update tail
+        if (particle.tail.length > 3) {
+          particle.tail.shift();
+        }
+        particle.tail.push({x: particle.x, y: particle.y, radius: particle.radius});
         
-        // Apply very subtle twinkling effect
-        const twinkle = 1 + Math.sin(Date.now() * particle.twinkle) * 0.1;
+        // Draw tail
+        if (particle.tail.length > 1) {
+          particle.tail.slice(0, -1).forEach((pos, i) => {
+            const opacity = 0.1 * (i / particle.tail.length);
+            ctx.beginPath();
+            ctx.fillStyle = particle.color.replace(/[\d.]+\)$/g, `${opacity})`);
+            ctx.arc(pos.x, pos.y, pos.radius * 0.6, 0, Math.PI * 2);
+            ctx.fill();
+          });
+        }
+        
+        // Twinkle effect
+        const twinkle = 1 + Math.sin(Date.now() * particle.twinkle) * 0.15;
         const radius = particle.radius * twinkle;
         
-        // Simple circle with no gradient for cleaner snowflake look
+        // Draw particle
+        ctx.beginPath();
         ctx.fillStyle = particle.color;
         ctx.arc(particle.x, particle.y, radius, 0, Math.PI * 2);
         ctx.fill();
         
-        // Move particle downward with slight horizontal drift for snowfall effect
+        // Update position
         particle.y += particle.speed;
-        particle.x += Math.sin(Date.now() * 0.001 + particle.y * 0.01) * 0.15; // Gentle horizontal drift
+        particle.x += Math.sin(Date.now() * 0.0008 + particle.y * 0.005) * 0.12;
         
-        // Reset particle position when it goes off screen
+        // Reset position
         if (particle.y > canvas.height) {
-          particle.y = -5; // Start slightly above viewport
+          particle.y = -5;
           particle.x = Math.random() * canvas.width;
+          particle.tail = [];
         }
       });
       
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    // Initialize and start animation
     handleResize();
     window.addEventListener('resize', handleResize);
     animate();
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);

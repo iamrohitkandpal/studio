@@ -1,86 +1,72 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import Header from '@/components/sections/header';
-import Education from '@/components/sections/education';
-import Experience from '@/components/sections/experience';
-import Projects from '@/components/sections/projects';
 import TechnicalSkills from '@/components/sections/technical-skills';
+import Projects from '@/components/sections/projects';
+import Experience from '@/components/sections/experience';
+import Education from '@/components/sections/education';
 import Certifications from '@/components/sections/certifications';
 import Achievements from '@/components/sections/achievements';
 import Extracurricular from '@/components/sections/extracurricular';
 import ContactMe from '@/components/sections/contact-me';
-import Footer from '@/components/footer';
-import Navbar from '@/components/navbar';
 import StarfieldCanvas from '@/components/starfield-canvas';
-import { cn } from '@/lib/utils';
-import { Separator } from '@/components/ui/separator';
 
-// Define section data
-const sections = [
-  { id: 'header', component: Header, title: 'Hero' },
-  { id: 'skills', component: TechnicalSkills, title: 'Skills' },
-  { id: 'projects', component: Projects, title: 'Projects' },
-  { id: 'experience', component: Experience, title: 'Experience' },
-  { id: 'education', component: Education, title: 'Education' },
-  { id: 'certifications', component: Certifications, title: 'Certifications' },
-  { id: 'achievements', component: Achievements, title: 'Achievements' },
-  { id: 'extracurricular', component: Extracurricular, title: 'Extracurricular' },
-  { id: 'contact', component: ContactMe, title: 'Contact' },
+// Define language type for better type safety
+type Language = {
+  name: string;
+  proficiency: number;
+};
+
+// Define the languages array with proper typing
+const languages: Language[] = [
+  { name: 'JavaScript', proficiency: 90 },
+  { name: 'TypeScript', proficiency: 85 },
+  { name: 'Python', proficiency: 80 },
+  { name: 'Java', proficiency: 75 },
+  { name: 'C++', proficiency: 70 },
 ];
 
 export default function Home() {
-  // Ensure smooth scrolling behavior
-  useEffect(() => {
-    // Smooth scroll to section when URL has hash
-    if (window.location.hash) {
-      const id = window.location.hash.substring(1);
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, []);
-
   return (
-    <div className="relative min-h-screen">
-      {/* Starfield Background */}
+    <main className="flex min-h-screen flex-col items-center">
       <StarfieldCanvas />
       
-      {/* Fixed Navigation */}
-      <Navbar />
+      <section id="home" className="w-full pt-24 pb-12">
+        <Header />
+      </section>
       
-      {/* Main Content */}
-      <main className="pt-16"> {/* Add padding-top to account for fixed navbar */}
-        {sections.map((section, index) => {
-          const SectionComponent = section.component;
-          return (
-            <motion.section
-              key={section.id}
-              id={section.id}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className={cn(
-                "relative", // Make relative for proper stacking
-                index !== sections.length - 1 && "mb-8" // Add margin between sections except last
-              )}
-            >
-              <SectionComponent />
-              {index !== sections.length - 1 && (
-                <div className="container mx-auto px-4 md:px-6 lg:px-8">
-                  <Separator className="my-8 opacity-30" />
-                </div>
-              )}
-            </motion.section>
-          );
-        })}
-      </main>
+      <section id="skills" className="w-full py-16">
+        <TechnicalSkills languages={languages} />
+      </section>
       
-      {/* Footer */}
-      <Footer />
-    </div>
+      <section id="projects" className="w-full py-16">
+        <Projects />
+      </section>
+      
+      <section id="experience" className="w-full py-16">
+        <Experience />
+      </section>
+      
+      <section id="education" className="w-full py-16">
+        <Education />
+      </section>
+      
+      <section id="certifications" className="w-full py-16">
+        <Certifications />
+      </section>
+      
+      <section id="achievements" className="w-full py-16">
+        <Achievements />
+      </section>
+      
+      <section id="extracurricular" className="w-full py-16">
+        <Extracurricular />
+      </section>
+      
+      <section id="contact" className="w-full py-16">
+        <ContactMe />
+      </section>
+    </main>
   );
 }

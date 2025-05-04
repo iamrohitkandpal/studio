@@ -37,60 +37,87 @@
 }
 
 @layer components {
+  /* Section styling */
   .glass-section {
-    @apply relative px-4 md:px-8 lg:px-12 py-16 md:py-20;
-    scroll-margin-top: 5rem;
-    background: transparent;
-    backdrop-filter: none;
+    @apply relative px-4 py-12 md:py-16 overflow-hidden;
   }
-
-  .glass-card {
-    @apply bg-card/30 backdrop-blur-sm border border-white/5 rounded-lg;
-  }
-
+  
   .section-transition {
-    @apply transition-all duration-300;
+    @apply transition-all duration-500 ease-in-out;
   }
-
+  
+  /* Section title styling */
+  .section-title {
+    @apply animated-accent-bg text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary;
+  }
+  
+  /* Animated accent background for titles */
   .animated-accent-bg {
-    @apply relative inline-flex;
+    @apply relative;
   }
-
-  .animated-accent-bg::after {
+  
+  .animated-accent-bg::before {
     content: '';
-    @apply absolute bottom-0 left-0 w-full h-[6px] bg-primary/20 rounded-full -z-10;
-    animation: pulse 3s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.5; }
-  }
-
-  .hover-card-effect {
-    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
-  }
-
-  ::-webkit-scrollbar {
-    width: 10px;
+    @apply absolute -z-10 w-[120%] h-[120%] -left-[10%] -top-[10%] bg-accent rounded-full opacity-0 scale-0 transition-all duration-700 ease-out;
   }
   
-  ::-webkit-scrollbar-track {
-    background: hsl(var(--background));
+  .animated-accent-bg:hover::before {
+    @apply opacity-100 scale-100;
   }
   
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted));
-    border-radius: 5px;
+  /* Bento box styling for education section */
+  .bento-box {
+    @apply bg-card/50 border border-border/30 rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 hover:border-primary/30;
   }
   
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary-hsl), 0.5);
+  /* Navbar active item styling */
+  .nav-item-active {
+    @apply relative;
+  }
+  
+  .nav-item-active::after {
+    content: '';
+    @apply absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1.5 h-1.5 bg-primary rounded-full;
+  }
+  
+  /* Skill item hover effects */
+  .skill-item-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:-translate-y-1 hover:shadow-md hover:shadow-primary/20;
   }
 }
 
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scaleX(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary-hsl), 0.5);
+}
+
+/* Base HTML elements */
 html {
-  scroll-behavior: smooth;
+  @apply scroll-smooth;
 }
 
 body {
@@ -98,6 +125,7 @@ body {
   font-feature-settings: "rlig" 1, "calt" 1;
 }
 
+/* Dark theme */
 .dark {
   --background: 240 25% 5%;
   --foreground: 0 0% 98%;
@@ -151,21 +179,16 @@ body {
   }
 }
 
+/* Canvas and UI elements */
 #starfield-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -10;
-    pointer-events: none;
+  @apply fixed top-0 left-0 w-full h-full -z-10 pointer-events-none;
 }
 
 .navbar-glass {
-    background: hsla(var(--background), 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid hsla(var(--border), 0.3);
+  background: hsla(var(--background), 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid hsla(var(--border), 0.3);
 }
 
 .base-card {
