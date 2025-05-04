@@ -70,8 +70,8 @@ const Navbar: React.FC = () => {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
         scrolled 
-          ? "py-2 bg-background/95 backdrop-blur-md shadow-lg border-b border-border/30" 
-          : "py-4 bg-background/70 backdrop-blur-sm"
+          ? "py-2 bg-background/85 backdrop-blur-xl shadow-lg border-b border-border/20" 
+          : "py-4 bg-background/50 backdrop-blur-md"
       )}
     >
       <div className="container mx-auto px-4">
@@ -86,13 +86,13 @@ const Navbar: React.FC = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <ul className="flex items-center space-x-1 p-1.5 bg-card/50 backdrop-blur-sm rounded-full border border-border/20 shadow-md">
+            <ul className="flex items-center space-x-1 p-1.5 bg-card/30 backdrop-blur-lg rounded-full border border-border/20 shadow-md">
               {navItems.map((item) => (
                 <li key={item.id}>
                   <Link
                     href={`#${item.id}`}
                     className={cn(
-                      "flex items-center justify-center rounded-full px-3 py-2 transition-all duration-300",
+                      "flex items-center justify-center rounded-full px-3 py-2 transition-all duration-300 shine-effect",
                       activeSection === item.id
                         ? "bg-primary text-primary-foreground shadow-md"
                         : "text-foreground/70 hover:text-foreground hover:bg-accent/30"
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
           
           {/* Mobile Navigation - Compact Icons */}
           <div className="md:hidden flex items-center">
-            <ul className="flex items-center space-x-1 p-1 bg-card/50 backdrop-blur-sm rounded-full border border-border/20 shadow-sm">
+            <ul className="flex items-center space-x-1 p-1 bg-card/30 backdrop-blur-lg rounded-full border border-border/20 shadow-sm">
               {navItems.slice(0, 5).map((item) => (
                 <li key={item.id}>
                   <Link

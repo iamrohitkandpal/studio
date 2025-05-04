@@ -1,4 +1,3 @@
-
 import type {Metadata} from 'next';
 import { Inter, Manrope, Outfit } from 'next/font/google';
 import './globals.css';
@@ -6,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
+import CustomCursor from '@/components/custom-cursor';
 
 // Define fonts with specific weights and subsets available via Google Fonts
 const fontOutfit = Outfit({ // Use Outfit for headings
@@ -27,8 +27,8 @@ const fontInter = Inter({ // Use Inter for UI elements
 });
 
 export const metadata: Metadata = {
-  title: 'Rohit Kandpal | Portfolio',
-  description: 'Full-Stack Developer & Cybersecurity Enthusiast',
+  title: 'Rohit Kandpal - Portfolio',
+  description: 'Personal portfolio showcasing my skills, projects, and experience',
 };
 
 export default function RootLayout({
@@ -49,6 +49,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <Toaster />
+        <CustomCursor />
       </body>
     </html>
   );
