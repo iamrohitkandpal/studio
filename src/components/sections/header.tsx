@@ -29,12 +29,12 @@ const Header: React.FC = () => {
         </div>
         <div className="flex justify-center md:justify-start gap-4">
           <Button variant="outline" size="icon" asChild className="hover:bg-primary/20 hover:text-primary transition-colors duration-200 rounded-full">
-            <a href="https://github.com/iRohitKandpal" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+            <a href="https://github.com/iamrohitkandpal" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
               <Github size={20} />
             </a>
           </Button>
           <Button variant="outline" size="icon" asChild className="hover:bg-primary/20 hover:text-primary transition-colors duration-200 rounded-full">
-            <a href="https://linkedin.com/in/irohitkandpal" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+            <a href="https://linkedin.com/in/rohit-kandpal-" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
               <Linkedin size={20} />
             </a>
           </Button>

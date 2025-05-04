@@ -30,9 +30,9 @@ const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <motion.div
-            whileHover={{ scale: 1.05, y: -3 }}
+            whileHover={{ scale: 1.05, y: -5 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="group flex flex-col items-center justify-center p-3 bg-card/80 rounded-lg border border-border/30 shadow-sm transition-all duration-300 hover:bg-accent/30 hover:border-primary/40 hover:shadow-md text-center aspect-square"
+            className="group flex flex-col items-center justify-center p-3 bg-card/80 rounded-lg border border-border/30 shadow-sm transition-all duration-300 hover:bg-accent/30 hover:border-primary/40 hover:shadow-md text-center aspect-square shine-effect"
           >
             <div className="w-8 h-8 mb-2 text-primary/80 group-hover:text-primary transition-colors duration-200">
               <Icon className="w-full h-full" />

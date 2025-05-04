@@ -4,6 +4,8 @@ import { Inter, Manrope, Outfit } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
+import Navbar from '@/components/navbar';
+import Footer from '@/components/footer';
 
 // Define fonts with specific weights and subsets available via Google Fonts
 const fontOutfit = Outfit({ // Use Outfit for headings
@@ -43,7 +45,9 @@ export default function RootLayout({
         fontInter.variable, // Apply UI font
         "font-body" // Default to body font
       )}>
+        <Navbar />
         {children}
+        <Footer />
         <Toaster />
       </body>
     </html>
