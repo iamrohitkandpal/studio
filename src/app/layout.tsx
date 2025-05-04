@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import Navbar from '@/components/navbar';
 import Footer from '@/components/footer';
 import CustomCursor from '@/components/custom-cursor';
+import StarfieldCanvas from '@/components/starfield-canvas';
 
 // Define fonts with specific weights and subsets available via Google Fonts
 const fontOutfit = Outfit({ // Use Outfit for headings
@@ -26,9 +27,10 @@ const fontInter = Inter({ // Use Inter for UI elements
   variable: '--font-ui', // CSS variable for UI elements
 });
 
+// Metadata for SEO
 export const metadata: Metadata = {
-  title: 'Rohit Kandpal - Portfolio',
-  description: 'Personal portfolio showcasing my skills, projects, and experience',
+  title: 'Portfolio Studio',
+  description: 'A modern portfolio showcasing my skills and projects',
 };
 
 export default function RootLayout({
@@ -37,19 +39,21 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(
-        "min-h-screen antialiased",
-        fontOutfit.variable, // Apply heading font
-        fontManrope.variable, // Apply body font
-        fontInter.variable, // Apply UI font
-        "font-body" // Default to body font
+        'min-h-screen bg-background font-body antialiased',
+        fontOutfit.variable,
+        fontManrope.variable,
+        fontInter.variable
       )}>
+        <StarfieldCanvas />
+        <CustomCursor />
         <Navbar />
-        {children}
+        <main className="container mx-auto px-4 pt-20 pb-16">
+          {children}
+        </main>
         <Footer />
         <Toaster />
-        <CustomCursor />
       </body>
     </html>
   );

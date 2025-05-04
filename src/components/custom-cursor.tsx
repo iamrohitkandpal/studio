@@ -1,32 +1,60 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const CustomCursor: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const followerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Smoother position tracking with RAF
+    let mouseX = 0;
+    let mouseY = 0;
+    let rafId = 0;
+
     const updateMousePosition = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      // Cancel any existing animation frame
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      
+      // Schedule the position update
+      rafId = requestAnimationFrame(() => {
+        setPosition({ x: mouseX, y: mouseY });
+      });
     };
 
     const updateCursorType = () => {
-      const hoveredElement = document.elementFromPoint(position.x, position.y);
-      
-      if (hoveredElement) {
-        const computedStyle = window.getComputedStyle(hoveredElement);
-        setIsPointer(computedStyle.cursor === 'pointer');
+      try {
+        // Use document.elementsFromPoint for more reliable detection
+        const elements = document.elementsFromPoint(mouseX, mouseY);
         
-        // Check if hovering over an interactive element
-        const isInteractive = 
-          hoveredElement.tagName === 'BUTTON' || 
-          hoveredElement.tagName === 'A' || 
-          hoveredElement.hasAttribute('role') && hoveredElement.getAttribute('role') === 'button';
+        // Check if any of the elements under cursor are interactive
+        const isInteractive = elements.some(el => {
+          const tagName = el.tagName.toLowerCase();
+          return (
+            tagName === 'button' || 
+            tagName === 'a' || 
+            tagName === 'input' ||
+            tagName === 'select' ||
+            tagName === 'textarea' ||
+            (el.hasAttribute('role') && ['button', 'link'].includes(el.getAttribute('role') || '')) ||
+            window.getComputedStyle(el).cursor === 'pointer'
+          );
+        });
         
         setIsPointer(isInteractive);
+      } catch (error) {
+        console.error('Error in updateCursorType:', error);
       }
     };
 
@@ -38,8 +66,9 @@ const CustomCursor: React.FC = () => {
       setIsHidden(false);
     };
 
-    window.addEventListener('mousemove', updateMousePosition);
-    window.addEventListener('mousemove', updateCursorType);
+    // Add event listeners
+    window.addEventListener('mousemove', updateMousePosition, { passive: true });
+    window.addEventListener('mousemove', updateCursorType, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
 
@@ -48,8 +77,11 @@ const CustomCursor: React.FC = () => {
       window.removeEventListener('mousemove', updateCursorType);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
     };
-  }, [position.x, position.y]);
+  }, []);
 
   // Don't render custom cursor on mobile devices
   if (typeof window !== 'undefined' && window.innerWidth <= 768) {
@@ -59,6 +91,7 @@ const CustomCursor: React.FC = () => {
   return (
     <>
       <motion.div
+        ref={cursorRef}
         className="custom-cursor"
         animate={{
           x: position.x,
@@ -67,13 +100,13 @@ const CustomCursor: React.FC = () => {
           opacity: isHidden ? 0 : 1
         }}
         transition={{
-          type: "spring",
-          damping: 25,
-          stiffness: 300,
-          mass: 0.5
+          type: "tween", // Use tween instead of spring for more precise tracking
+          duration: 0.1,
+          ease: "linear"
         }}
       />
       <motion.div
+        ref={followerRef}
         className="custom-cursor-follower"
         animate={{
           x: position.x,
@@ -82,10 +115,9 @@ const CustomCursor: React.FC = () => {
           opacity: isHidden ? 0 : 1
         }}
         transition={{
-          type: "spring",
-          damping: 40,
-          stiffness: 150,
-          mass: 0.8
+          type: "tween",
+          duration: 0.2,
+          ease: "easeOut"
         }}
       />
     </>

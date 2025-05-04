@@ -32,7 +32,11 @@ const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <motion.div
-            whileHover={{ scale: 1.08, y: -5 }}
+            whileHover={{ 
+              scale: 1.08, 
+              y: -5,
+              boxShadow: "0 10px 25px -5px rgba(var(--primary-rgb), 0.3)"
+            }}
             whileTap={{ scale: 0.95 }}
             transition={{ 
               type: "spring", 
@@ -40,7 +44,7 @@ const SkillItem: React.FC<SkillItemProps> = ({ name, icon: Icon, level }) => {
               damping: 17,
               duration: 0.2
             }}
-            className="group flex flex-col items-center justify-center p-3 bg-card/80 rounded-lg border border-border/30 shadow-sm transition-all duration-300 hover:bg-accent/30 hover:border-primary/40 hover:shadow-md text-center aspect-square relative overflow-hidden"
+            className="group flex flex-col items-center justify-center p-3 bg-card/80 rounded-lg border border-border/30 shadow-sm transition-all duration-300 hover:bg-accent/30 hover:border-primary/40 hover:shadow-md text-center aspect-square relative overflow-hidden shimmer-animation"
           >
             {/* Background glow effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
@@ -107,7 +111,11 @@ const LanguageSkillItem: React.FC<{ language: Language; index: number }> = ({ la
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
-      className="flex flex-col space-y-2 bg-card/60 p-4 rounded-lg border border-border/30 hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-md relative overflow-hidden group"
+      whileHover={{ 
+        y: -5,
+        boxShadow: "0 10px 25px -5px rgba(var(--primary-rgb), 0.2)"
+      }}
+      className="flex flex-col space-y-2 bg-card/60 p-4 rounded-lg border border-border/30 hover:border-primary/30 transition-all duration-300 shadow-sm hover:shadow-md relative overflow-hidden group shimmer-animation"
     >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -122,14 +130,23 @@ const LanguageSkillItem: React.FC<{ language: Language; index: number }> = ({ la
         </Badge>
       </div>
       
-      {/* Animated progress bar */}
+      {/* Animated progress bar with improved animation */}
       <div className="h-2 w-full bg-secondary/50 rounded-full overflow-hidden">
         <motion.div 
           initial={{ width: 0 }}
           animate={{ width: `${language.proficiency}%` }}
-          transition={{ duration: 1, delay: 0.2 + index * 0.1, ease: "easeOut" }}
-          className="h-full bg-gradient-to-r from-primary/90 to-primary"
-        />
+          transition={{ 
+            duration: 1.2, 
+            delay: 0.2 + index * 0.1, 
+            ease: [0.34, 1.56, 0.64, 1] // Custom bezier curve for more dynamic feel
+          }}
+          className="h-full bg-gradient-to-r from-primary/90 to-primary relative"
+        >
+          {/* Shine effect on the progress bar */}
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer"></div>
+          </div>
+        </motion.div>
       </div>
     </motion.div>
   );

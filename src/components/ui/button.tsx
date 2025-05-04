@@ -9,13 +9,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg before:absolute before:inset-0 before:bg-gradient-to-r before:from-purple-400/30 before:via-pink-400/30 before:to-purple-400/30 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md hover:shadow-lg before:absolute before:inset-0 before:bg-gradient-to-r before:from-red-400/30 before:via-orange-400/30 before:to-red-400/30 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary/10 before:via-primary/20 before:to-primary/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md before:absolute before:inset-0 before:bg-gradient-to-r before:from-indigo-400/30 before:via-blue-400/30 before:to-indigo-400/30 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
-        ghost: "hover:bg-accent hover:text-accent-foreground before:absolute before:inset-0 before:bg-gradient-to-r before:from-primary/5 before:via-primary/10 before:to-primary/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg diagonal-shimmer",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md hover:shadow-lg diagonal-shimmer",
+        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground diagonal-shimmer",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-md diagonal-shimmer",
+        ghost: "hover:bg-accent hover:text-accent-foreground diagonal-shimmer",
         link: "text-primary underline-offset-4 hover:underline",
-        gradient: "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg hover:shadow-primary/20 before:absolute before:inset-0 before:bg-gradient-to-r before:from-violet-400/30 before:via-fuchsia-400/30 before:to-violet-400/30 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500",
+        gradient: "bg-gradient-to-r from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:to-primary/70 shadow-md hover:shadow-lg hover:shadow-primary/20 diagonal-shimmer",
       },
       size: {
         default: "h-10 px-4 py-2",
