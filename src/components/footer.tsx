@@ -32,17 +32,17 @@ const Footer: React.FC = () => {
 
         {/* Right Side: Social Links */}
         <div className="flex items-center gap-4">
-          <Link href="https://github.com" target="_blank" rel="noopener noreferrer" 
+          <Link href="https://github.com/iamrohitkandpal" target="_blank" rel="noopener noreferrer" 
             className="text-foreground/70 hover:text-primary transition-colors duration-300 hover:scale-110 transform">
             <Github className="w-5 h-5" />
             <span className="sr-only">GitHub</span>
           </Link>
-          <Link href="https://linkedin.com" target="_blank" rel="noopener noreferrer" 
+          <Link href="https://linkedin.com/in/rohit-kandpal--" target="_blank" rel="noopener noreferrer" 
             className="text-foreground/70 hover:text-primary transition-colors duration-300 hover:scale-110 transform">
             <Linkedin className="w-5 h-5" />
             <span className="sr-only">LinkedIn</span>
           </Link>
-          <Link href="mailto:contact@example.com" 
+          <Link href="mailto:iamrohitkandpal@gmail.com" 
             className="text-foreground/70 hover:text-primary transition-colors duration-300 hover:scale-110 transform">
             <Mail className="w-5 h-5" />
             <span className="sr-only">Email</span>

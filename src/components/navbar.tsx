@@ -92,7 +92,7 @@ const Navbar: React.FC = () => {
                   <Link
                     href={`#${item.id}`}
                     className={cn(
-                      "flex items-center justify-center rounded-full px-3 py-2 transition-all duration-300 shine-effect",
+                      "flex items-center justify-center rounded-full px-3 py-2 transition-all duration-300",
                       activeSection === item.id
                         ? "bg-primary text-primary-foreground shadow-md"
                         : "text-foreground/70 hover:text-foreground hover:bg-accent/30"
@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
                   >
                     <item.icon size={16} className={cn(
                       "transition-all duration-300",
-                      activeSection === item.id ? "animate-pulse" : ""
+                      activeSection === item.id ? "" : ""
                     )} />
                     <span className="ml-1.5 text-sm font-medium">{item.label}</span>
                   </Link>
@@ -127,7 +127,7 @@ const Navbar: React.FC = () => {
                     onClick={() => handleNavClick(item.id)}
                     aria-label={item.label}
                   >
-                    <item.icon size={18} className={activeSection === item.id ? "animate-pulse" : ""} />
+                    <item.icon size={18} className="" />
                   </Link>
                 </li>
               ))}
