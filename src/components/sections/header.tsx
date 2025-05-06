@@ -1,5 +1,5 @@
 'use client';
-
+``
 import React from 'react';
 import Image from 'next/image';
 import { Github, Linkedin, Mail, Phone, ArrowDown } from 'lucide-react';
@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 
 const Header: React.FC = () => {
   return (
-    <div className="glass-section section-transition min-h-[calc(100vh-10rem)] flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-8 md:gap-12 py-16 md:py-24">
+    <div className="glass-section section-transition min-h-[calc(100vh-20rem)] flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-8 md:gap-12 py-16 md:py-24">
       {/* Left Column (Image & Socials) */}
       <motion.div
         initial={{ opacity: 0, x: -60 }}

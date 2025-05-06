@@ -15,6 +15,16 @@ interface Particle {
   glow: number;
 }
 
+// New interface for background stars
+interface BackgroundStar {
+  x: number;
+  y: number;
+  radius: number;
+  opacity: number;
+  twinkle: number;
+  blur: number;
+}
+
 const StarfieldCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -27,6 +37,7 @@ const StarfieldCanvas: React.FC = () => {
 
     let animationFrameId: number;
     let particles: Particle[] = [];
+    let backgroundStars: BackgroundStar[] = []; // New array for background stars
     let mouseX = 0;
     let mouseY = 0;
     let isMouseActive = false;
@@ -50,12 +61,13 @@ const StarfieldCanvas: React.FC = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       initParticles(); // Reinitialize particles when resizing
+      initBackgroundStars(); // Initialize background stars
     };
 
     // Initialize particles with enhanced properties for magical effect
     const initParticles = () => {
       particles = [];
-      const particleCount = Math.floor((canvas.width * canvas.height) / 6000); // Increased density
+      const particleCount = Math.floor((canvas.width * canvas.height) / 8000); // Slightly reduced density
       
       for (let i = 0; i < particleCount; i++) {
         const radius = Math.random() * 1.2 + 0.2; // Varied particle sizes
@@ -77,6 +89,24 @@ const StarfieldCanvas: React.FC = () => {
       }
     };
 
+    // Initialize background stars with lower opacity
+    const initBackgroundStars = () => {
+      backgroundStars = [];
+      const starCount = Math.floor((canvas.width * canvas.height) / 2000); // More background stars
+      
+      for (let i = 0; i < starCount; i++) {
+        const radius = Math.random() * 0.8 + 0.1; // Smaller sizes for background stars
+        backgroundStars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius,
+          opacity: Math.random() * 0.2 + 0.05, // Much lower opacity
+          twinkle: Math.random() * 0.02, // Subtle twinkling
+          blur: Math.random() * 2 // Blur effect for depth
+        });
+      }
+    };
+
     // Generate varied particle colors with enhanced palette
     const getParticleColor = () => {
       const colors = [
@@ -94,9 +124,8 @@ const StarfieldCanvas: React.FC = () => {
 
     // Animation loop with enhanced effects
     const animate = () => {
-      // Semi-transparent background for trail effect
-      ctx.fillStyle = 'rgba(13, 17, 23, 0.2)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Clear canvas completely instead of semi-transparent fill
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Add subtle gradient background
       const gradient = ctx.createRadialGradient(
@@ -108,25 +137,49 @@ const StarfieldCanvas: React.FC = () => {
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
+      // Draw background stars first (for depth)
+      backgroundStars.forEach(star => {
+        // Apply twinkling effect
+        const time = Date.now() * 0.0005;
+        const twinkle = 1 + Math.sin(time * star.twinkle) * 0.3;
+        const radius = star.radius * twinkle;
+        
+        // Draw with blur for depth effect
+        ctx.beginPath();
+        ctx.shadowBlur = star.blur;
+        ctx.shadowColor = `rgba(255, 255, 255, ${star.opacity * 0.5})`;
+        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        ctx.arc(star.x, star.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+      
+      // Draw foreground particles with short tails
       particles.forEach(particle => {
-        // Update tail
-        if (particle.tail.length > 5) { // Longer tails
+        // Update tail - keep only a few positions for a short tail
+        if (particle.tail.length > 3) { // Shorter tails (was 5)
           particle.tail.shift();
         }
         particle.tail.push({x: particle.x, y: particle.y, radius: particle.radius});
         
-        // Draw tail with glow effect
+        // Draw tail with improved fading effect
         if (particle.tail.length > 1) {
           particle.tail.slice(0, -1).forEach((pos, i) => {
-            const opacity = 0.15 * (i / particle.tail.length);
+            const tailLength = particle.tail.length;
+            const opacityFactor = (i / tailLength) ** 3; // Cubic for even faster falloff
+            const opacity = 0.08 * opacityFactor; // Further reduced opacity
+            
             ctx.beginPath();
             ctx.fillStyle = particle.color.replace(/[\d.]+\)$/g, `${opacity})`);
             
-            // Add glow effect to tails
-            ctx.shadowBlur = particle.glow * (i / particle.tail.length);
-            ctx.shadowColor = particle.color.replace(/[\d.]+\)$/g, '0.3)');
+            // Minimal glow on tails
+            const reducedGlow = particle.glow * opacityFactor * 0.3;
+            ctx.shadowBlur = reducedGlow;
+            ctx.shadowColor = particle.color.replace(/[\d.]+\)$/g, '0.1)');
             
-            ctx.arc(pos.x, pos.y, pos.radius * 0.7, 0, Math.PI * 2);
+            // Smaller tail segments
+            const tailSizeFactor = 0.4 + (0.3 * opacityFactor);
+            ctx.arc(pos.x, pos.y, pos.radius * 0.5 * tailSizeFactor, 0, Math.PI * 2);
             ctx.fill();
             ctx.shadowBlur = 0;
           });
