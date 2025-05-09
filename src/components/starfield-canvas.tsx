@@ -13,6 +13,8 @@ interface Particle {
   tail: {x: number, y: number, radius: number}[];
   direction: {x: number, y: number};
   glow: number;
+  scatterVelocity: {x: number, y: number}; // New property for scatter velocity
+  originalDirection: {x: number, y: number}; // New property for original direction
 }
 
 // New interface for background stars
@@ -84,7 +86,10 @@ const StarfieldCanvas: React.FC = () => {
           opacity: Math.random() * 0.6 + 0.4, // Higher opacity
           tail: [], // Store previous positions for tail effect
           direction: { x: dirX, y: dirY }, // Random direction
-          glow: Math.random() * 5 + 2 // Glow effect intensity
+          glow: Math.random() * 5 + 2, // Glow effect intensity
+          // Add these new properties:
+          scatterVelocity: { x: 0, y: 0 },
+          originalDirection: { x: dirX, y: dirY } // Store original direction
         });
       }
     };
@@ -199,7 +204,7 @@ const StarfieldCanvas: React.FC = () => {
         ctx.fill();
         ctx.shadowBlur = 0;
         
-        // Interactive movement - particles react to mouse clicks instead of movement
+        // Interactive movement with gradual return to normal flow
         if (isMouseActive) {
           const dx = mouseX - particle.x;
           const dy = mouseY - particle.y;
@@ -207,15 +212,33 @@ const StarfieldCanvas: React.FC = () => {
           
           if (distance < 150) {
             const angle = Math.atan2(dy, dx);
-            const repelForce = (150 - distance) * 0.01;
-            particle.direction.x -= Math.cos(angle) * repelForce;
-            particle.direction.y -= Math.sin(angle) * repelForce;
+            const repelForce = (150 - distance) * 0.015; // Slightly increased for more dramatic effect
+            
+            // Store the scatter velocity separately instead of directly changing direction
+            particle.scatterVelocity.x -= Math.cos(angle) * repelForce;
+            particle.scatterVelocity.y -= Math.sin(angle) * repelForce;
           }
         }
         
-        // Update position with direction and gentle wave motion
-        particle.x += particle.direction.x + Math.sin(time + particle.y * 0.01) * 0.2;
-        particle.y += particle.direction.y + particle.speed;
+        // Apply damping to scatter velocity (gradual slowdown)
+        const dampingFactor = 0.95; // Adjust to control how quickly particles settle
+        particle.scatterVelocity.x *= dampingFactor;
+        particle.scatterVelocity.y *= dampingFactor;
+        
+        // Update position with direction, scatter velocity, and gentle wave motion
+        // Using the time variable already defined above
+        particle.x += particle.direction.x + particle.scatterVelocity.x + Math.sin(time + particle.y * 0.01) * 0.2;
+        particle.y += particle.direction.y + particle.speed + particle.scatterVelocity.y;
+        
+        // Reset scatter velocity when it becomes very small
+        if (Math.abs(particle.scatterVelocity.x) < 0.01 && Math.abs(particle.scatterVelocity.y) < 0.01) {
+          particle.scatterVelocity.x = 0;
+          particle.scatterVelocity.y = 0;
+          
+          // Gradually return to original direction
+          particle.direction.x = particle.direction.x * 0.95 + particle.originalDirection.x * 0.05;
+          particle.direction.y = particle.direction.y * 0.95 + particle.originalDirection.y * 0.05;
+        }
         
         // Boundary checks with wrap-around
         if (particle.x < -10) particle.x = canvas.width + 10;
