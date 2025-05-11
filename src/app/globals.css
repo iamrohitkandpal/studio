@@ -881,3 +881,18 @@ body {
     }
   }
 }
+
+/* Optimize animations with will-change */
+.animated-element {
+  will-change: transform, opacity;
+}
+
+/* Only use will-change when element is about to animate */
+.will-animate {
+  will-change: transform, opacity;
+}
+
+/* Remove will-change when animation completes */
+.animation-complete {
+  will-change: auto;
+}

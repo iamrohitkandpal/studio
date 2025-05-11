@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import { Inter, Manrope, Outfit } from 'next/font/google';
+import { Inter, Outfit, Manrope } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
@@ -8,11 +8,12 @@ import Footer from '@/components/footer';
 import CustomCursor from '@/components/custom-cursor';
 import StarfieldCanvas from '@/components/starfield-canvas';
 
-// Define fonts with specific weights and subsets available via Google Fonts
-const fontOutfit = Outfit({ // Use Outfit for headings
+// Optimize font loading
+const outfit = Outfit({ 
   subsets: ['latin'],
-  weight: ['600', '700'], // Semi-bold, Bold
-  variable: '--font-heading', // CSS variable for headings
+  display: 'swap',
+  variable: '--font-heading',
+  preload: true
 });
 
 const fontManrope = Manrope({ // Use Manrope for body text
@@ -40,9 +41,21 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Add preloads for critical resources */}
+        <link 
+          rel="preload" 
+          href="/fonts/inter.woff2" 
+          as="font" 
+          type="font/woff2" 
+          crossOrigin="anonymous" 
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      </head>
       <body className={cn(
         'min-h-screen bg-background font-body antialiased',
-        fontOutfit.variable,
+        outfit.variable,
         fontManrope.variable,
         fontInter.variable
       )}>

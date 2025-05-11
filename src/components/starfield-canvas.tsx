@@ -1,6 +1,7 @@
+// Add memoization to the starfield component
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, memo } from 'react';
 
 interface Particle {
   x: number;
@@ -27,7 +28,7 @@ interface BackgroundStar {
   blur: number;
 }
 
-const StarfieldCanvas: React.FC = () => {
+const StarfieldCanvas: React.FC = memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -272,6 +273,6 @@ const StarfieldCanvas: React.FC = () => {
       style={{ pointerEvents: 'auto' }} // Change to 'auto' to allow clicks
     />
   );
-};
+});
 
 export default StarfieldCanvas;
