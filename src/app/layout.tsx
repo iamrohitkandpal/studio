@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
         {/* Add preloads for critical resources */}
         <link 
@@ -59,10 +59,13 @@ export default function RootLayout({
         fontManrope.variable,
         fontInter.variable
       )}>
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground p-4 z-50 rounded">
+          Skip to main content
+        </a>
         <StarfieldCanvas />
         <CustomCursor />
         <Navbar />
-        <main className="container mx-auto px-4 pt-20 pb-16">
+        <main id="main-content" tabIndex={-1} className="container mx-auto px-4 pt-20 pb-16">
           {children}
         </main>
         <Footer />

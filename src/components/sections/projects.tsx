@@ -175,14 +175,19 @@ const Projects: React.FC = () => {
 
       <AnimatePresence>
         {selectedProject && (
-          <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+          <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
             <DialogContent
-              className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden bg-card border-border/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%]"
+              className="sm:max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden bg-card border-border/50"
+              aria-labelledby="project-dialog-title"
+              aria-describedby="project-dialog-description"
+              role="dialog"
             >
                <DialogHeader className="p-6 pb-4 border-b border-border/30 flex-shrink-0 bg-card sticky top-0 z-10">
-                 <DialogTitle className="text-2xl font-heading text-primary">{selectedProject.title}</DialogTitle>
-                 <DialogDescription className="text-sm font-caption text-foreground/70">
-                   {selectedProject.duration} • {selectedProject.type}
+                 <DialogTitle id="project-dialog-title" className="text-2xl font-heading text-primary">
+                   {selectedProject?.title}
+                 </DialogTitle>
+                 <DialogDescription id="project-dialog-description" className="text-sm font-caption text-foreground/70">
+                   {selectedProject?.duration} • {selectedProject?.type}
                  </DialogDescription>
                   <DialogClose asChild>
                        <Button type="button" variant="ghost" size="icon" className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">

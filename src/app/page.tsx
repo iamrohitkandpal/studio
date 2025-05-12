@@ -86,7 +86,14 @@ export default function Home() {
               <Header />
             </motion.section>
             
-            <motion.section id="skills" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="skills" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="skills-heading"
+              role="region"
+            >
+              <h2 id="skills-heading" className="sr-only">Technical Skills</h2>
               <TechnicalSkills languages={languages} />
             </motion.section>
             

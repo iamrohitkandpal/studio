@@ -271,6 +271,8 @@ const StarfieldCanvas: React.FC = memo(() => {
       id="starfield-canvas"
       className="fixed inset-0 w-full h-full -z-10"
       style={{ pointerEvents: 'auto' }} // Change to 'auto' to allow clicks
+      aria-hidden="true" // Hide from screen readers
+      tabIndex={-1} // Make it focusable for accessibility
     />
   );
 });

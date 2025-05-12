@@ -4,21 +4,21 @@
 
 @layer base {
   :root {
-    /* Theme: Modern Dark with Purple Accent */
+    /* Theme: Modern Dark with Purple Accent - High Contrast Version */
     --background: 240 25% 5%;
     --foreground: 210 20% 98%;
     --card: 240 20% 10%;
     --card-foreground: 210 20% 98%;
     --popover: 240 25% 8%;
     --popover-foreground: 210 20% 98%;
-    --primary-hsl: 265 67% 56%;
-    --primary-rgb: 147, 51, 234;
+    --primary-hsl: 265 67% 60%; /* Increased lightness for better contrast */
+    --primary-rgb: 156, 66, 245; /* Updated RGB equivalent */
     --primary: hsl(var(--primary-hsl));
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 15% 15%;
+    --secondary: 240 15% 20%; /* Slightly increased lightness */
     --secondary-foreground: 210 20% 98%;
-    --muted: 240 15% 12%;
-    --muted-foreground: 240 15% 65%;
+    --muted: 240 15% 15%; /* Increased lightness */
+    --muted-foreground: 240 15% 75%; /* Increased lightness for better contrast */
     --accent-hsl: 270 76% 85%;
     --accent: hsla(var(--accent-hsl), 0.2);
     --accent-foreground: 210 20% 98%;
@@ -895,4 +895,41 @@ body {
 /* Remove will-change when animation completes */
 .animation-complete {
   will-change: auto;
+}
+
+/* Add to globals.css */
+@layer base {
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary-hsl));
+    outline-offset: 2px;
+  }
+  
+  /* Remove outline for mouse users but keep it for keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .animate-float, .animate-pulse-glow, .animate-bounce-subtle, .animate-rotate-slow {
+    animation: none !important;
+  }
+  
+  #starfield-canvas {
+    display: none;
+  }
+  
+  .gradient-text {
+    background: hsl(var(--primary-hsl));
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: none;
+  }
 }
