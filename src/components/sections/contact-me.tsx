@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'; // Use Card for form container
+import { GlowingEffect } from '@/components/ui/glowing-effect'; // Import GlowingEffect
 
 // Simple email validation (keep as is)
 const isValidEmail = (email: string): boolean => {
@@ -175,17 +176,20 @@ const ContactMe: React.FC = () => {
 
               {/* Submit Button */}
               <div className="flex justify-center pt-2"> {/* Centered button */}
-                <Button
-                  type="submit"
-                  size="lg" // Larger button
-                  disabled={status === 'loading' || status === 'success'}
-                  className="min-w-[150px] bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 shadow-lg hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1"
-                >
-                  {status === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                  {status === 'success' && 'Sent!'}
-                  {status === 'idle' && <>Send Message <Send className="ml-2 h-4 w-4" /></>}
-                   {status === 'error' && 'Retry'}
-                </Button>
+                <GlowingEffect spread={80} proximity={120}>
+                  <Button
+                    type="submit"
+                    size="lg" // Larger button
+                    disabled={status === 'loading' || status === 'success'}
+                    className="min-w-[150px] bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 shadow-lg hover:shadow-primary/40 transition-all duration-300 transform hover:-translate-y-1 button-glow"
+                    aria-label="Send message"
+                  >
+                    {status === 'loading' && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                    {status === 'success' && 'Sent!'}
+                    {status === 'idle' && <>Send Message <Send className="ml-2 h-4 w-4" /></>}
+                    {status === 'error' && 'Retry'}
+                  </Button>
+                </GlowingEffect>
               </div>
             </motion.form>
          </CardContent>

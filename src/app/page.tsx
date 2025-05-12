@@ -82,7 +82,7 @@ export default function Home() {
             animate="visible"
             variants={containerVariants}
           >
-            <motion.section id="home" className="pt-24 pb-12" variants={sectionVariants}>
+            <motion.section id="header" className="pt-24 pb-12" variants={sectionVariants}>
               <Header />
             </motion.section>
             
@@ -97,31 +97,80 @@ export default function Home() {
               <TechnicalSkills languages={languages} />
             </motion.section>
             
-            <motion.section id="projects" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="projects" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="projects-heading"
+              role="region"
+            >
+              <h2 id="projects-heading" className="sr-only">Projects</h2>
               <Projects />
             </motion.section>
             
-            <motion.section id="experience" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="experience" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="experience-heading"
+              role="region"
+            >
+              <h2 id="experience-heading" className="sr-only">Experience</h2>
               <Experience />
             </motion.section>
             
-            <motion.section id="education" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="education" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="education-heading"
+              role="region"
+            >
+              <h2 id="education-heading" className="sr-only">Education</h2>
               <Education />
             </motion.section>
             
-            <motion.section id="certifications" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="certifications" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="certifications-heading"
+              role="region"
+            >
+              <h2 id="certifications-heading" className="sr-only">Certifications</h2>
               <Certifications />
             </motion.section>
             
-            <motion.section id="achievements" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="achievements" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="achievements-heading"
+              role="region"
+            >
+              <h2 id="achievements-heading" className="sr-only">Achievements</h2>
               <Achievements />
             </motion.section>
             
-            <motion.section id="extracurricular" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="extracurricular" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="extracurricular-heading"
+              role="region"
+            >
+              <h2 id="extracurricular-heading" className="sr-only">Extracurricular Activities</h2>
               <Extracurricular />
             </motion.section>
             
-            <motion.section id="contact" className="py-16" variants={sectionVariants}>
+            <motion.section 
+              id="contact" 
+              className="py-16" 
+              variants={sectionVariants}
+              aria-labelledby="contact-heading"
+              role="region"
+            >
+              <h2 id="contact-heading" className="sr-only">Contact</h2>
               <ContactMe />
             </motion.section>
           </motion.div>

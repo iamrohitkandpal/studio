@@ -83,131 +83,93 @@ button:hover ~ .custom-cursor-follower,
   border-color: rgba(147, 51, 234, 0.5);
 }
 
-/* Canva-inspired animations */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+/* Enhanced gradient text animation that ensures text visibility */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-@keyframes pulse-glow {
-  0% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.4); }
-  70% { box-shadow: 0 0 0 10px rgba(147, 51, 234, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(147, 51, 234, 0); }
+.animate-gradient-shift {
+  animation: gradient-shift 8s linear infinite;
+  background-size: 200% auto;
 }
 
-@keyframes shine {
-  0% { background-position: -100% 0; }
-  100% { background-position: 200% 0; }
+/* Improved custom cursor styles for better interaction */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  background-color: hsl(var(--primary));
+  transform: translate(-50%, -50%);
+  mix-blend-mode: exclusion;
+  filter: drop-shadow(0 0 4px rgba(147, 51, 234, 0.5));
 }
 
-@keyframes bounce-subtle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+.custom-cursor-follower {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  border: 1.5px solid rgba(147, 51, 234, 0.5);
+  transform: translate(-50%, -50%);
 }
 
-@keyframes rotate-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Animation utility classes */
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s infinite;
-}
-
-.animate-bounce-subtle {
-  animation: bounce-subtle 2s ease-in-out infinite;
-}
-
-.animate-rotate-slow {
-  animation: rotate-slow 12s linear infinite;
-}
-
-/* Shine effect for buttons and cards - MODIFIED to only work on hover */
-.shine-effect {
+/* Button hover animation for enhanced interactivity */
+.button-glow {
   position: relative;
   overflow: hidden;
 }
 
-.shine-effect::after {
+.button-glow::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  width: 200%;
+  left: -100%;
+  width: 100%;
   height: 100%;
   background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.1) 50%,
-    rgba(255, 255, 255, 0) 100%
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
   );
-  transform: translateX(-100%);
-  opacity: 0; /* Start with opacity 0 */
-  transition: none; /* Remove automatic transition */
+  transition: all 0.4s;
 }
 
-.shine-effect:hover::after {
-  opacity: 1; /* Show only on hover */
-  transform: translateX(100%);
-  transition: transform 1.2s, opacity 0.3s;
-}
- 
-/* An animated background for section titles */
-.animated-accent-bg {
-  position: relative;
-  z-index: 1;
+.button-glow:hover::before {
+  left: 100%;
+  transition: 0.7s;
 }
 
-.animated-accent-bg::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 120px;
-  height: 120px;
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.15) 0%, rgba(147, 51, 234, 0) 70%);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  animation: pulse-glow 3s ease-in-out infinite;
+/* Ensure proper gradient style for text elements */
+.gradient-text {
+  background: linear-gradient(90deg, hsl(var(--primary-hsl)), hsl(271, 81%, 85%), hsl(var(--primary-hsl)));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shift 8s linear infinite;
+  /* Add a subtle text shadow to improve visibility against dark backgrounds */
+  text-shadow: 0 0 20px rgba(147, 51, 234, 0.2);
 }
 
-/* Glass morphism and section transitions */
-.glass-section {
-  position: relative;
-  padding: 4rem 1rem;
-  overflow: hidden;
-}
-
-.section-transition {
-  position: relative;
-  transition: all 0.5s ease-in-out;
-}
-
-.section-transition::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 10%;
-  width: 80%;
-  height: 1px;
-  background: linear-gradient(to right, transparent, rgba(147, 51, 234, 0.3), transparent);
-}
-
-/* Bento box styling */
-.bento-box {
-  @apply bg-card/50 backdrop-blur-sm border border-border/30 rounded-lg p-4 shadow-md hover:shadow-lg transition-all duration-300 hover:border-primary/30;
-}
-
-/* Section title styling */
-.section-title {
-  @apply text-3xl md:text-4xl font-heading font-bold text-center mb-8 flex items-center justify-center gap-3 text-primary animated-accent-bg;
+/* Enhanced button hover styles that combine with glowing effect */
+button:hover,
+a[role="button"]:hover,
+.btn:hover,
+.button:hover {
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
 }
 
 /* Responsive adjustments */

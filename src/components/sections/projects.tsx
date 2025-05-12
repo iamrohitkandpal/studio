@@ -17,6 +17,7 @@ import {
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 interface ProjectItemProps {
   id?: string;
@@ -88,9 +89,17 @@ const ProjectCard: React.FC<ProjectItemProps & { onExpand: () => void }> = ({
       </CardContent>
 
       <CardFooter className="px-6 pb-5 pt-0 mt-auto flex justify-end gap-2">
-          <Button variant="link" size="sm" className="text-primary hover:text-primary/80" onClick={onExpand}>
-             Learn More <ExternalLink size={14} className="ml-1" />
-          </Button>
+          <GlowingEffect spread={60} proximity={100}>
+            <Button 
+              variant="link" 
+              size="sm" 
+              className="text-primary hover:text-primary/80 button-glow" 
+              onClick={onExpand} 
+              aria-label={`Learn more about ${title}`}
+            >
+              Learn More <ExternalLink size={14} className="ml-1" />
+            </Button>
+          </GlowingEffect>
       </CardFooter>
     </Card>
   </motion.div>
@@ -230,23 +239,44 @@ const Projects: React.FC = () => {
                <DialogFooter className="p-6 pt-4 border-t border-border/30 flex flex-col sm:flex-row justify-end items-center gap-3 flex-shrink-0 bg-card sticky bottom-0 z-10">
                   <div className="flex gap-3">
                     {selectedProject.githubLink && (
-                      <Button variant="outline" size="sm" asChild>
-                         <a href={selectedProject.githubLink} target="_blank" rel="noopener noreferrer">
-                           <Github size={16} className="mr-1.5" /> GitHub
-                         </a>
-                      </Button>
+                      <GlowingEffect spread={70} proximity={100}>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="button-glow"
+                          asChild
+                        >
+                          <a href={selectedProject.githubLink} target="_blank" rel="noopener noreferrer" aria-label="View project on GitHub">
+                            <Github size={16} className="mr-1.5" /> GitHub
+                          </a>
+                        </Button>
+                      </GlowingEffect>
                     )}
                     {selectedProject.liveLink && (
-                      <Button variant="default" size="sm" asChild>
-                         <a href={selectedProject.liveLink} target="_blank" rel="noopener noreferrer">
-                           <ExternalLink size={16} className="mr-1.5" /> Live Demo
-                         </a>
-                      </Button>
+                      <GlowingEffect spread={70} proximity={100}>
+                        <Button 
+                          variant="default" 
+                          size="sm" 
+                          className="button-glow"
+                          asChild
+                        >
+                          <a href={selectedProject.liveLink} target="_blank" rel="noopener noreferrer" aria-label="View live demo">
+                            <ExternalLink size={16} className="mr-1.5" /> Live Demo
+                          </a>
+                        </Button>
+                      </GlowingEffect>
                     )}
                     {selectedProject.comingSoon && !selectedProject.liveLink && (
-                        <Button variant="secondary" size="sm" disabled>
-                         <ExternalLink size={16} className="mr-1.5" /> Coming Soon
+                      <GlowingEffect spread={70} proximity={100}>
+                        <Button 
+                          variant="secondary" 
+                          size="sm" 
+                          disabled 
+                          aria-label="Demo coming soon"
+                        >
+                          <ExternalLink size={16} className="mr-1.5" /> Coming Soon
                         </Button>
+                      </GlowingEffect>
                     )}
                   </div>
                </DialogFooter>

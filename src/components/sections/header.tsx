@@ -1,11 +1,12 @@
 "use client";
-``;
+
 import React from "react";
 import Image from "next/image";
 import { Github, Linkedin, Mail, Phone, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 
 const Header: React.FC = () => {
   return (
@@ -78,13 +79,9 @@ const Header: React.FC = () => {
                 size="icon"
                 asChild
                 className="hover:bg-primary/20 hover:text-primary transition-colors duration-200 rounded-full hover-lift"
+                aria-label={social.label}
               >
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                >
+                <a href={social.href} target="_blank" rel="noopener noreferrer">
                   <social.icon size={20} />
                 </a>
               </Button>
@@ -104,9 +101,9 @@ const Header: React.FC = () => {
         }}
         className="flex flex-col items-center md:items-start max-w-2xl"
       >
-        {/* Name with gradient animation */}
+        {/* Name with gradient animation - Fixed visibility */}
         <motion.h1
-          className="gradient-text text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-3"
+          className="text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold mb-3 bg-gradient-to-r from-primary via-purple-400 to-primary bg-clip-text text-transparent animate-gradient-shift"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.6 }}
@@ -136,7 +133,7 @@ const Header: React.FC = () => {
           Exploring the MERN stack, Next.js, and cloud technologies.
         </motion.p>
 
-        {/* CTA Buttons with Canva-like effects */}
+        {/* CTA Buttons with Canva-like effects and new Glowing Effect */}
         <div className="flex flex-col sm:flex-row gap-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -145,16 +142,18 @@ const Header: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >
-            <Button
-              size="lg"
-              asChild
-              className="canva-button bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 text-base shadow-lg hover:shadow-primary/40 transition-all duration-300"
-            >
-              <Link href="#projects">
-                View Projects{" "}
-                <ArrowDown size={18} className="ml-2 rotate-[-90deg]" />
-              </Link>
-            </Button>
+            <GlowingEffect spread={80} proximity={120} color="rgba(147, 51, 234, 0.4)">
+              <Button
+                size="lg"
+                asChild
+                className="canva-button bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-3 text-base shadow-lg hover:shadow-primary/40 transition-all duration-300 button-glow"
+              >
+                <Link href="#projects">
+                  View Projects{" "}
+                  <ArrowDown size={18} className="ml-2 rotate-[-90deg]" />
+                </Link>
+              </Button>
+            </GlowingEffect>
           </motion.div>
 
           <motion.div
@@ -164,14 +163,16 @@ const Header: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
           >
-            <Button
-              variant="outline"
-              size="lg"
-              asChild
-              className="canva-button rounded-full px-8 py-3 text-base border-primary/50 hover:bg-primary/20 hover:text-primary transition-all duration-300"
-            >
-              <Link href="#contact">Get In Touch</Link>
-            </Button>
+            <GlowingEffect spread={80} proximity={120} color="rgba(147, 51, 234, 0.25)">
+              <Button
+                variant="outline"
+                size="lg"
+                asChild
+                className="canva-button rounded-full px-8 py-3 text-base border-primary/50 hover:bg-primary/20 hover:text-primary transition-all duration-300 button-glow"
+              >
+                <Link href="#contact">Get In Touch</Link>
+              </Button>
+            </GlowingEffect>
           </motion.div>
         </div>
       </motion.div>

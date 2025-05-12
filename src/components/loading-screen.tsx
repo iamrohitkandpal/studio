@@ -12,10 +12,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
   
   const loadingMessages = [
-    "Preparing the cave for you...",
-    "Gathering magical particles...",
-    "Polishing the crystals...",
-    "Welcome to this digital realm!"
+    "Preparing the canvas...",
+    "Loading portfolio elements...",
+    "Setting up animations...",
+    "Welcome to my digital space!"
   ];
   
   useEffect(() => {
@@ -61,43 +61,83 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Animated logo or icon */}
+        {/* Portfolio logo animation */}
         <motion.div
           className="mb-8 relative"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary/30 flex items-center justify-center shadow-lg shadow-primary/20">
+          {/* Logo container */}
+          <div className="w-28 h-28 flex items-center justify-center">
+            {/* Animated rings */}
             <motion.div 
-              className="w-16 h-16 rounded-full bg-background flex items-center justify-center text-3xl font-bold text-primary"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="absolute w-full h-full rounded-full border-2 border-primary/30"
+              animate={{ 
+                scale: [1, 1.05, 1],
+                opacity: [0.3, 0.5, 0.3],
+                rotate: 360
+              }}
+              transition={{
+                duration: 6,
+                ease: "linear",
+                repeat: Infinity,
+              }}
+            />
+            <motion.div 
+              className="absolute w-[85%] h-[85%] rounded-full border-2 border-primary/50"
+              animate={{ 
+                scale: [1, 1.1, 1],
+                opacity: [0.5, 0.7, 0.5],
+                rotate: -360
+              }}
+              transition={{
+                duration: 7,
+                ease: "linear",
+                repeat: Infinity,
+              }}
+            />
+            
+            {/* Center logo */}
+            <motion.div 
+              className="w-20 h-20 rounded-full bg-card border border-primary/50 flex items-center justify-center shadow-lg shadow-primary/20"
+              animate={{ 
+                boxShadow: [
+                  "0 0 10px 0px rgba(147, 51, 234, 0.3)", 
+                  "0 0 20px 3px rgba(147, 51, 234, 0.5)", 
+                  "0 0 10px 0px rgba(147, 51, 234, 0.3)"
+                ]
+              }}
+              transition={{ duration: 2, repeat: Infinity }}
             >
-              P
+              <h1 className="text-2xl font-heading font-bold bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
+                Portfolio
+              </h1>
             </motion.div>
           </div>
           
-          {/* Orbiting particles */}
-          {[...Array(8)].map((_, i) => (
+          {/* Animated particles */}
+          {[...Array(6)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-3 h-3 rounded-full bg-primary/80 shadow-md shadow-primary/20"
+              className="absolute size-2 rounded-full bg-primary/80"
               style={{ 
-                top: '50%', 
-                left: '50%',
-                boxShadow: '0 0 10px 2px rgba(147, 51, 234, 0.3)'
+                boxShadow: '0 0 8px 1px rgba(147, 51, 234, 0.4)'
+              }}
+              initial={{ 
+                x: 0, 
+                y: 0,
+                opacity: 0 
               }}
               animate={{
-                x: Math.cos(i * (Math.PI / 4)) * 60 - 6,
-                y: Math.sin(i * (Math.PI / 4)) * 60 - 6,
-                opacity: [0.4, 1, 0.4],
-                scale: [0.8, 1.2, 0.8]
+                x: [0, Math.cos(i * Math.PI/3) * 70],
+                y: [0, Math.sin(i * Math.PI/3) * 70],
+                opacity: [0, 0.8, 0]
               }}
               transition={{
                 duration: 3,
                 repeat: Infinity,
-                delay: i * 0.2,
+                delay: i * 0.3,
                 ease: "easeInOut"
               }}
             />
@@ -124,18 +164,23 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
             </motion.h2>
           </AnimatePresence>
           
-          <p className="text-sm text-muted-foreground">Please wait while we set things up...</p>
+          <p className="text-sm text-muted-foreground">Please wait while we prepare an immersive experience...</p>
         </motion.div>
         
         {/* Progress bar */}
-        <div className="w-64 h-2 bg-muted rounded-full overflow-hidden">
+        <motion.div 
+          className="w-64 h-1.5 bg-card rounded-full overflow-hidden"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           <motion.div
-            className="h-full bg-gradient-to-r from-primary to-primary/60"
+            className="h-full bg-gradient-to-r from-primary via-purple-500 to-primary/80"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ ease: "easeInOut" }}
           />
-        </div>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );
